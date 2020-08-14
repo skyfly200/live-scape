@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <h1>Welcome to My Awesome App</h1>
-
+    <h1>Welcome to LiveScape</h1>
+    <p>Login or register below</p>
     <!-- The surrounding HTML is left untouched by FirebaseUI.
      Your app may use that space for branding, controls and other customizations.-->
     <div id="firebaseui-auth-container"></div>
