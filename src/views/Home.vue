@@ -1,12 +1,10 @@
-<template>
-  <div class="home">
-    <h1>Welcome to LiveScape</h1>
-    <p>Login or register below</p>
-    <!-- The surrounding HTML is left untouched by FirebaseUI.
-     Your app may use that space for branding, controls and other customizations.-->
-    <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>
-  </div>
+<template lang="pug">
+  .home
+    v-card
+      v-card-title Welcome to LiveScape
+      v-card-text
+        p Login or register below
+        #firebaseui-auth-container
 </template>
 
 <script>
@@ -38,7 +36,7 @@ export default {
         uiShown: function() {
           // The widget is rendered.
           // Hide the loader.
-          document.getElementById("loader").style.display = "none";
+          //document.getElementById("loader").style.display = "none";
         },
       },
       // Will use popup for IDP Providers sign-in flow instead of the default, redirect.

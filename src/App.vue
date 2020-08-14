@@ -1,12 +1,18 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <h1>LiveScape</h1>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+<template lang="pug">
+  v-app#app
+    v-navigation-drawer(app)
+    v-app-bar(app)#nav
+      v-app-bar-nav-icon
+      v-toolbar-title LiveScape
+      v-btn(to="/") Home
+      v-btn(to="/about") About
+      v-btn(icon)
+        v-icon mdi-help
+    v-main
+      v-container(fluid)
+        router-view
+    v-footer(app)
+      p Copyright Polytope Solutions 2020
 </template>
 
 <style lang="scss">
