@@ -24,7 +24,7 @@
         hide-details
         v-model="query"
         label="Search"
-        prepend-inner-icon="search")
+        prepend-inner-icon="mdi-magnify")
       .largeMenu
         v-spacer
         v-btn(to="/" text) Home
