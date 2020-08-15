@@ -1,9 +1,8 @@
 <template lang="pug">
-  .login
-    v-card
-      v-card-title Login or Register below
-      v-card-text
-        #firebaseui-auth-container
+  v-card.login
+    v-card-title Login or Register below
+    v-card-text
+      #firebaseui-auth-container
 </template>
 
 <script>
