@@ -19,10 +19,18 @@
       v-app-bar-nav-icon(@click="drawer = true")
       v-toolbar-title LiveScape
       v-spacer
-      v-btn(to="/" text) Home
-      v-btn(@click.stop="loginDialog = true" text) Login
-      v-btn(icon)
-        v-icon mdi-help
+      v-text-field(solo-inverted
+        flat
+        hide-details
+        v-model="query"
+        label="Search"
+        prepend-inner-icon="search")
+      .largeMenu
+        v-spacer
+        v-btn(to="/" text) Home
+        v-btn(@click.stop="loginDialog = true" text) Login
+        v-btn(icon)
+          v-icon mdi-help
     v-main
       v-container(fluid)
         router-view
@@ -44,6 +52,7 @@ export default Vue.extend({
   data: () => ({
     loginDialog: false,
     drawer: false,
+    query: "",
   }),
 });
 </script>
