@@ -1,12 +1,9 @@
 <template lang="pug">
   .login
     v-card
-      v-card-title Welcome to LiveScape
+      v-card-title Login or Register below
       v-card-text
-        p Login or Register below
         #firebaseui-auth-container
-      v-card-actions
-        v-btn(to="/login") Login
 </template>
 
 <script>

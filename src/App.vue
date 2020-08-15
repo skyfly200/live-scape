@@ -6,13 +6,15 @@
       v-toolbar-title LiveScape
       v-spacer
       v-btn(to="/" text) Home
-      v-btn(to="/login" text) Login
+      v-dialog(v-model="loginDialog" width="500")
+          template(v-slot:activator="{ on, attrs }")
+            v-btn(v-bind="attrs" v-on="on" text) Login
+          Login
       v-btn(icon)
         v-icon mdi-help
     v-main
       v-container(fluid)
         router-view
-        Login
     v-footer(app)
       p Copyright Polytope Solutions 2020
 </template>
@@ -29,7 +31,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    //
+    loginDialog: false,
   }),
 });
 </script>
