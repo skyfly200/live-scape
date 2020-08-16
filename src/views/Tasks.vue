@@ -65,8 +65,8 @@ export default {
     ],
     locations: [
       {
-        customerName: "Libby Fly",
-        address: "2644 Mapleton Ave. Boulder, CO",
+        customerName: "Dan Brown",
+        address: "1203 Spruce St. Boulder, CO",
         notes: "Close the gate",
       },
       {
