@@ -15,11 +15,6 @@ v-app#app
         v-icon mdi-home
       v-list-item-content
         v-list-item-title Home
-    v-list-item(link, to="/clock", text)
-      v-list-item-icon
-        v-icon mdi-clock
-      v-list-item-content
-        v-list-item-title Timeclock
     v-list-item(link, to="/dash", text)
       v-list-item-icon
         v-icon mdi-desk
@@ -29,12 +24,17 @@ v-app#app
       v-list-item-icon
         v-icon mdi-notebook
       v-list-item-content
-        v-list-item-title jobs
+        v-list-item-title Jobs
     v-list-item(link, to="/tasks", text)
       v-list-item-icon
         v-icon mdi-clipboard-check
       v-list-item-content
         v-list-item-title Tasks
+    v-list-item(link, to="/clock", text)
+      v-list-item-icon
+        v-icon mdi-clock
+      v-list-item-content
+        v-list-item-title Timeclock
   v-app-bar#nav(app)
     v-toolbar-title LiveScape
     v-spacer
@@ -54,8 +54,19 @@ v-app#app
   v-main
     v-container(fluid)
       router-view
-  v-footer(app)
-    p Copyright Polytope Solutions 2020
+  v-bottom-navigation(app)
+    v-btn(to="dash")
+      span Dash
+      v-icon mdi-desk
+    v-btn(to="jobs")
+      span Jobs
+      v-icon mdi-notebook
+    v-btn(to="tasks")
+      span Tasks
+      v-icon mdi-clipboard-check
+    v-btn(to="clock")
+      span Clock
+      v-icon mdi-clock
 </template>
 
 <script lang="ts">
