@@ -6,18 +6,30 @@ v-container.tasks(fluid)
     v-card-subtitle {{ task.description }}
     v-divider
     v-card-text
-      h4 Customer: {{ locations[task.location].customerName }}
-      h4 Address: {{ locations[task.location].address }}
-      p {{ task.notes }}
-      h3 Tools
-      v-list(avatar, dense)
-        v-list-item(v-for="t in task.tools", two-line)
-          v-list-item-avatar(v-if="tools[t].image")
-            v-img(:src="tools[t].image")
-          v-list-item-content
-            v-list-item-title {{ tools[t].name }}
-            v-list-item-subtitle {{ tools[t].description }}
-      v-img(v-for="i in task.images", width="50", src="i")
+      v-expansion-panels
+        v-expansion-panel
+          v-expansion-panel-header Customer
+          v-expansion-panel-content
+            h4 Name
+            p {{ locations[task.location].customerName }}
+            h4 Address
+            p {{ locations[task.location].address }}
+            h4 Notes
+            p {{ task.notes }}
+        v-expansion-panel
+          v-expansion-panel-header Tools
+          v-expansion-panel-content
+            v-list(avatar, dense)
+              v-list-item(v-for="t in task.tools", two-line)
+                v-list-item-avatar(v-if="tools[t].image")
+                  v-img(:src="tools[t].image")
+                v-list-item-content
+                  v-list-item-title {{ tools[t].name }}
+                  v-list-item-subtitle {{ tools[t].description }}
+        v-expansion-panel
+          v-expansion-panel-header Images
+          v-expansion-panel-content
+            v-img(v-for="i in task.images", width="50", src="i")
     v-card-actions
       v-spacer
       v-btn Start
@@ -46,7 +58,9 @@ export default {
         description: "Plant the suculants in the garden",
         notes: "",
         tools: [0, 1, 2],
-        images: [],
+        images: [
+          "https://lh3.googleusercontent.com/pzU8OZXCX7jflHPy7ciwXDT_jbL2z3eyDvyckQ12mpKHjoJ7_wry0z0W_-fmF7pxKtlUzA8Q5L909qNZOr15FrS_DDPxjIDcQmUCwmYqzUjd4he6Ho9L_MREDtt-Do8zR4f9f20a8cL0dvLq_BbSsil6d-P7ZKgtkmi7mPatSVRwWecaLG_xECrGeheGuaHK3HOt7sM5bQChkFuohHbptebiRPx1n10bJ-fTN9Rlw1UJVMy_Cz0eenrZlGxzLI7fRpEuPSA6_DUXxvle-fsK0tBjftpTQEHTJrwNF9zBpN55os6SUOiW59f3UeU63GUIwSV5CzSh082R1RTg2ZqgEl-XoXKlR4b_AX42MoivLq0jaTVVZCD2ixY7qLhFtcermXnm-s5a-5X9o93149FbSPmPqgBm74_1suc0zJqBlb6592fpC6BY7URSRrz8FU_j5bUlIS2BKuh6JNgLe6_zR9EroyWK5PS6ggxVn_Ksr9o9uDmrwA2Ri9erywTZYz5OKypeggkI3OJKUE8QbcyJIZTjT-SZUbiuqwpcMUnBM2JcAxSRh8DMmI_wo-bUAeHZRF0eRDO4s1e9hcdRc0oq9HG5Etukri2FYTJK00KMXTgnqAljeGCNLfft9djbMhqP82C4-QLZhMDC63TKerIv_FwvznZlgyCxkJ_0e76u_uvQG0QOE4KkVqismKN9IRM=w2455-h1843-no?authuser=0",
+        ],
       },
     ],
     locations: [
