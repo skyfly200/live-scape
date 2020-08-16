@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app#app
-  v-navigation-drawer(app, two-line, v-model="drawer")
+  v-navigation-drawer(app, right, two-line, v-model="drawer")
     v-list-item(link)
       v-dialog(v-model="loginDialog", width="500")
         template(v-slot:activator="{ on, attrs }")
@@ -15,13 +15,27 @@ v-app#app
         v-icon mdi-home
       v-list-item-content
         v-list-item-title Home
+    v-list-item(link, to="/clock", text)
+      v-list-item-icon
+        v-icon mdi-clock
+      v-list-item-content
+        v-list-item-title Timeclock
+    v-list-item(link, to="/dash", text)
+      v-list-item-icon
+        v-icon mdi-desk
+      v-list-item-content
+        v-list-item-title Dashboard
+    v-list-item(link, to="/jobs", text)
+      v-list-item-icon
+        v-icon mdi-notebook
+      v-list-item-content
+        v-list-item-title jobs
     v-list-item(link, to="/tasks", text)
       v-list-item-icon
-        v-icon mdi-home
+        v-icon mdi-clipboard-check
       v-list-item-content
         v-list-item-title Tasks
   v-app-bar#nav(app)
-    v-app-bar-nav-icon(@click="drawer = true")
     v-toolbar-title LiveScape
     v-spacer
     v-text-field(
@@ -34,11 +48,9 @@ v-app#app
     )
     .largeMenu
       v-spacer
-      v-btn(to="/", text) Home
-      v-btn(to="/tasks", text) Tasks
-      v-btn(@click.stop="loginDialog = true", text) Login
-      v-btn(icon)
-        v-icon mdi-help
+      template(v-if="!loggedIn")
+        v-btn(@click.stop="loginDialog = true", text) Login
+    v-app-bar-nav-icon(@click="drawer = !drawer")
   v-main
     v-container(fluid)
       router-view
@@ -58,6 +70,7 @@ export default Vue.extend({
   },
 
   data: () => ({
+    loggedIn: true,
     loginDialog: false,
     drawer: false,
     query: "",

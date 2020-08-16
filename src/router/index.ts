@@ -11,16 +11,27 @@ const routes: RouteConfig[] = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/dash',
+    name: 'Dashboard',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+      import(/* webpackChunkName: "dash" */ '../views/Dashboard.vue'),
+  },
+  {
+    path: '/jobs',
+    name: 'Jobs',
+    component: () => import(/* webpackChunkName: "jobs" */ '../views/Jobs.vue'),
   },
   {
     path: '/tasks',
     name: 'Tasks',
     component: () =>
       import(/* webpackChunkName: "tasks" */ '../views/Tasks.vue'),
+  },
+  {
+    path: '/clock',
+    name: 'Tiemclock',
+    component: () =>
+      import(/* webpackChunkName: "timeclock" */ '../views/Timeclock.vue'),
   },
 ]
 
