@@ -1,7 +1,7 @@
 <template lang="pug">
 v-container.tasks(fluid)
-  v-card.ma-2(v-for="task in tasks", width="400")
-    v-img(v-if="task.images", :src="task.images[0]")
+  v-card.ma-2.pa-2(v-for="task in tasks", width="400")
+    v-img(v-if="task.images", :src="task.images[0]", height="200")
     v-card-title {{ task.title }}
     v-card-subtitle {{ task.description }}
     v-divider
@@ -10,8 +10,8 @@ v-container.tasks(fluid)
       h4 Address: {{ locations[task.location].address }}
       p {{ task.notes }}
       h3 Tools
-      v-list
-        v-list-item(v-for="t in task.tools", two-line, dense)
+      v-list(avatar, dense)
+        v-list-item(v-for="t in task.tools", two-line)
           v-list-item-avatar(v-if="tools[t].image")
             v-img(:src="tools[t].image")
           v-list-item-content
