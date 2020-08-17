@@ -36,7 +36,9 @@ v-app#app
       v-list-item-content
         v-list-item-title Timeclock
   v-app-bar#nav(app dark color="green")
-    v-toolbar-title LiveScape
+    v-avatar
+      v-img.logo(src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Leaf_black.svg")
+    v-toolbar-title.app-title LiveScape
     v-spacer
     v-text-field(
       solo-inverted,
@@ -91,4 +93,10 @@ export default Vue.extend({
 <style lang="sass">
 #app
   background-color: #121212
+.logo
+  transform: rotate(330deg) scale(0.8)
+  filter: invert(1)
+.app-title
+  font-size: 1.4rem !important
+  padding-left: 0.25rem
 </style>
