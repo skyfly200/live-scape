@@ -5,9 +5,15 @@ v-app#app
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link @click="loginDialog = true; drawer = false")
       v-list-item-avatar
-        img(src="https://randomuser.me/api/portraits/men/81.jpg")
+        template(v-if="loggedIn")
+          v-avatar(color="purple") S
+        template(v-else)
+          v-avatar(color="grey") A
       v-list-item-content
-        v-list-item-title(text) Login or Register
+        template(v-if="loggedIn")
+          v-list-item-title(text) Login or Register
+        template(v-else)
+          v-list-item-title(text) Welcome
     v-divider
     v-list-item
       v-list-item-icon
@@ -50,7 +56,9 @@ v-app#app
     )
     v-spacer
     .largeMenu
-      template(v-if="!loggedIn")
+      template(v-if="loggedIn")
+        v-avatar(color="purple") S
+      template(v-else)
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
