@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container.timeclock
+v-container.timeclock(fluid)
   v-card(dark)
     v-card-title Time Clock
     v-card-text.flex.center
@@ -56,7 +56,7 @@ export default {
   methods: {
     startClock() {
       this.start = new Date();
-      this.timer = window.setInterval(this.tick, 500);
+      this.timer = window.setInterval(this.tick, 1000);
     },
     stopClock() {
       let entry = {
