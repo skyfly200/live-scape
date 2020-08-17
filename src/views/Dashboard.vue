@@ -7,15 +7,22 @@ v-container.dashboard(fluid)
       v-divider
       v-row
         v-col.data-box
-          h3 13 Hours 22 Minutes
+          h2.data-field 13 Hours 22 Minutes
           h5 Worked This Week
         v-divider(vertical)
         v-col.data-box
-          h3 {{ complete }}
-          h5 Tasks Completed
+          h1.data-field 3
+          h5 Work Days Left
         v-divider(vertical)
         v-col.data-box
-          v-progress-circular(:value="percent" size="100") {{ complete }} / {{ total }}
+          v-progress-circular.gauge(:value="percentTasks" size="120" color="blue")
+            span {{ completeTasks }} / {{ tasks.length }}
+          h5 Tasks Done
+        v-divider(vertical)
+        v-col.data-box
+          v-progress-circular.gauge(:value="percentJobs" size="120" color="green")
+            span {{ completeJobs }} / {{ jobs.length }}
+          h5 Jobs Done
       v-divider
   v-card.pa-2(dark)
     v-card-title
@@ -33,14 +40,17 @@ v-container.dashboard(fluid)
 export default {
   name: "Tasks",
   computed: {
-    total: function() {
-      return this.tasks.length;
-    },
-    complete: function() {
+    completeTasks: function() {
       return this.tasks.filter((t) => t.status === "done").length;
     },
-    percent: function() {
-      return (this.complete / this.total) * 100;
+    percentTasks: function() {
+      return (this.completeTasks / this.tasks.length) * 100;
+    },
+    completeJobs: function() {
+      return this.tasks.filter((t) => t.status === "done").length;
+    },
+    percentJobs: function() {
+      return (this.completeJobs / this.jobs.length) * 100;
     },
   },
   data: () => ({
@@ -82,6 +92,15 @@ export default {
 
 <style lang="sass" scoped>
 .data-box
+  width: 100%
   padding: 1rem
   text-align: center
+  display: flex
+  flex-direction: column
+  justify-content: center
+  .data-field
+    margin: 2rem
+    height: 100%
+  .gauge
+    margin: auto
 </style>
