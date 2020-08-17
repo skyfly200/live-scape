@@ -72,16 +72,16 @@ v-app#app
   v-main(dark)
     router-view
   v-bottom-navigation(app shift grow dark color="light-green")
-    v-btn(to="dash")
+    v-btn(to="/dash")
       span Dash
       v-icon mdi-gauge
-    v-btn(to="jobs")
+    v-btn(to="/jobs")
       span Jobs
       v-icon mdi-notebook
-    v-btn(to="tasks")
+    v-btn(to="/tasks")
       span Tasks
       v-icon mdi-clipboard-check
-    v-btn(to="clock")
+    v-btn(to="/clock")
       span Clock
       v-icon mdi-clock
 </template>
