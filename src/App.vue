@@ -55,7 +55,9 @@ v-app#app
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
       v-fab-transition
-        v-btn(fab absolute bottom right dark color="red")
+        v-btn(v-if="role = 'manager'" fab absolute bottom right dark color="blue")
+          v-icon(large) mdi-plus
+        v-btn(v-else fab absolute bottom right dark color="red")
           v-icon(large) mdi-timer
   v-main(dark)
     router-view
