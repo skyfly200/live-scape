@@ -4,17 +4,19 @@ v-app#app
     Login
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link @click="loginDialog = true; drawer = false")
-      v-list-item-avatar
-        template(v-if="loggedIn")
-          v-avatar(color="purple") S
-        template(v-else)
-          v-avatar(color="grey") A
+      v-list-item-avatar(v-if="loggedIn")
+        v-avatar(color="purple") S
       v-list-item-content
-        template(v-if="loggedIn")
+        template(v-if="!loggedIn")
           v-list-item-title(text) Login or Register
         template(v-else)
           v-list-item-title(text) Welcome
     v-divider
+    v-list-item
+      v-list-item-icon
+        v-icon mdi-lock
+      v-list-item-content
+        v-switch(v-model="loggedIn" label="Logged In" dense hide-details)
     v-list-item
       v-list-item-icon
         v-icon mdi-account-star
@@ -98,7 +100,7 @@ export default Vue.extend({
   data: () => ({
     role: "contractor",
     roles: ["admin", "manager", "contractor"],
-    loggedIn: true,
+    loggedIn: false,
     loginDialog: false,
     drawer: false,
     query: "",
@@ -115,4 +117,6 @@ export default Vue.extend({
 .app-title
   font-size: 1.4rem !important
   padding-left: 0.25rem
+.v-input--selection-controls
+  margin-top: 0 !important
 </style>
