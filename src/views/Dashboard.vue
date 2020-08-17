@@ -1,17 +1,27 @@
 <template lang="pug">
-v-container.dashboard
+v-container.dashboard(fluid)
   v-card.pa-2(dark)
-    v-card-title Dashboard
-    v-container
-      v-row
-        v-col
-          h4 Hours Worked This Week
-          p 13
-        v-col
-          h4 Tasks Completed
-          p 22
+    v-card-title
+      h1 Dashboard
+    v-container.data-boxes
       v-divider
+      v-row
+        v-col.data-box
+          h3 13 Hours 22 Minutes
+          h5 Worked This Week
+        v-divider(vertical)
+        v-col.data-box
+          h3 22
+          h5 Tasks Completed
+        v-divider(vertical)
+        v-col.data-box
+          h3 14
+          h5 Tasks ToDo
+      v-divider
+  v-card.pa-2(dark)
+    v-card-title
       h2 Current Tasks
+    v-card-text
       v-list
         v-list-item(v-for="task in tasks" dense three-line :to="'/tasks/' + task.id" :key="task.id")
           v-list-item-content
@@ -60,4 +70,8 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.data-box
+  padding: 1rem
+  text-align: center
+</style>
