@@ -20,14 +20,18 @@
       v-divider
       v-card-actions
         template(v-if="task.status === 'new'")
-          v-spacer
-          v-btn(@click="task.status = 'active'" color="green") Start
+          v-btn(@click="task.status = 'active'" icon)
+            v-icon(color="green") mdi-play
         template(v-else-if="task.status !== 'done'")
+          v-btn(@click="task.status = 'new'" icon)
+            v-icon(color="red") mdi-cancel
           v-spacer
-          v-btn(@click="task.status = 'new'" color="red") Cancel
-          v-btn(v-if="task.status === 'paused'" @click="task.status = 'active'" color="yellow") Resume
-          v-btn(v-else @click="task.status = 'paused'" color="yellow") Pause
-          v-btn(@click="task.status = 'done'" color="green") Done
+          v-btn(v-if="task.status === 'paused'" @click="task.status = 'active'" icon)
+            v-icon(color="yellow") mdi-play
+          v-btn(v-else @click="task.status = 'paused'" icon)
+            v-icon(color="yellow") mdi-pause
+          v-btn(@click="task.status = 'done'" icon)
+            v-icon(color="green") mdi-check
         template(v-else)
           v-btn(@click="task.status = 'active'" icon)
             v-icon mdi-undo
