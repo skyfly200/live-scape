@@ -1,6 +1,6 @@
 <template lang="pug">
   .home
-    v-card
+    v-card(dark)
       v-card-title Welcome to LiveScape
 </template>
 
