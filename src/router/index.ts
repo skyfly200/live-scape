@@ -1,44 +1,63 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter, { RouteConfig } from "vue-router";
+import store from "@/store/index";
+import Home from "../views/Home.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/dash',
-    name: 'Dashboard',
+    path: "/dash",
+    name: "Dashboard",
     component: () =>
-      import(/* webpackChunkName: "dash" */ '../views/Dashboard.vue'),
+      import(/* webpackChunkName: "dash" */ "../views/Dashboard.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
-    path: '/jobs',
-    name: 'Jobs',
-    component: () => import(/* webpackChunkName: "jobs" */ '../views/Jobs.vue'),
+    path: "/jobs",
+    name: "Jobs",
+    component: () => import(/* webpackChunkName: "jobs" */ "../views/Jobs.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
-    path: '/tasks',
-    name: 'Tasks',
+    path: "/tasks",
+    name: "Tasks",
     component: () =>
-      import(/* webpackChunkName: "tasks" */ '../views/Tasks.vue'),
+      import(/* webpackChunkName: "tasks" */ "../views/Tasks.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
-    path: '/clock',
-    name: 'Tiemclock',
+    path: "/clock",
+    name: "Tiemclock",
     component: () =>
-      import(/* webpackChunkName: "timeclock" */ '../views/Timeclock.vue'),
+      import(/* webpackChunkName: "timeclock" */ "../views/Timeclock.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
-]
+  {
+    path: "/*",
+    name: "Error404",
+    component: () =>
+      import(/* webpackChunkName: "error404" */ "@/views/404.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes,
-})
+});
 
-export default router
+export default router;
