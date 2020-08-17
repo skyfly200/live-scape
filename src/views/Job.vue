@@ -33,6 +33,51 @@ export default {
     },
   },
   data: () => ({
+    locations: [
+      {
+        id: 0,
+        title: "Dan's",
+        address: "1203 Spruce St. Boulder, CO",
+        contact: 0,
+        notes: [],
+      },
+      {
+        id: 1,
+        title: "Jerry's",
+        address: "5544 Bluff St. Boulder, CO",
+        contact: 1,
+        notes: [],
+      },
+      {
+        id: 2,
+        title: "Wester Disposal",
+        address: "Western Disposal Boulder, CO",
+        contact: null,
+        notes: [],
+      },
+    ],
+    contacts: [
+      {
+        id: 0,
+        title: "Mr",
+        firstName: "Dan",
+        LastName: "Brown",
+        nickname: "Dan",
+        homePhone: "720-555-1234",
+        cellPhone: "720-555-6543",
+        email: "dan.brown@example.com",
+      },
+      {
+        id: 1,
+        title: "Mr",
+        firstName: "Jerremy",
+        LastName: "Mathews",
+        nickname: "Jerry",
+        homePhone: "720-555-3854",
+        cellPhone: "720-555-9743",
+        email: "JMathews@example.com",
+      },
+    ],
     tasks: [
       {
         id: 0,
@@ -56,21 +101,15 @@ export default {
     jobs: [
       {
         id: 0,
-        customerName: "Dan Brown",
-        address: "1203 Spruce St. Boulder, CO",
-        notes: "Close the gate",
+        contact: 0,
+        notes: ["Close the gate"],
+        location: 0,
       },
       {
         id: 1,
-        customerName: "Jerry Mathews",
-        address: "1234 Bluff St. Boulder, CO",
-        notes: "Don't run the blower",
-      },
-      {
-        id: 2,
-        customerName: "Faye Fly",
-        address: "2644 Mapleton Ave. Boulder, CO",
-        notes: "Don't run the blower",
+        contact: 1,
+        notes: ["Don't run the blower"],
+        location: 1,
       },
     ],
   }),
