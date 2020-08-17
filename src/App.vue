@@ -1,14 +1,13 @@
 <template lang="pug">
 v-app#app
+  v-dialog(v-model="loginDialog", width="500")
+    Login
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
-    v-list-item(link)
-      v-dialog(v-model="loginDialog", width="500")
-        template(v-slot:activator="{ on, attrs }")
-          v-list-item-avatar
-            img(src="https://randomuser.me/api/portraits/men/81.jpg")
-          v-list-item-content(v-bind="attrs", v-on="on")
-            v-list-item-title(text) Login or Register
-        Login
+    v-list-item(link @click="loginDialog = true; drawer = false")
+      v-list-item-avatar
+        img(src="https://randomuser.me/api/portraits/men/81.jpg")
+      v-list-item-content
+        v-list-item-title(text) Login or Register
     v-divider
     v-list-item(link, to="/", text)
       v-list-item-icon
