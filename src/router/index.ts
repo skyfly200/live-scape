@@ -29,6 +29,14 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: "/jobs/:id",
+    name: "Job",
+    component: () => import(/* webpackChunkName: "job" */ "../views/Job.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/tasks",
     name: "Tasks",
     component: () =>
