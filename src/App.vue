@@ -9,11 +9,6 @@ v-app#app
       v-list-item-content
         v-list-item-title(text) Login or Register
     v-divider
-    v-list-item(link, to="/", text)
-      v-list-item-icon
-        v-icon mdi-home
-      v-list-item-content
-        v-list-item-title Home
     v-list-item(link, to="/dash", text)
       v-list-item-icon
         v-icon mdi-desk
@@ -34,7 +29,7 @@ v-app#app
         v-icon mdi-clock
       v-list-item-content
         v-list-item-title Timeclock
-  v-app-bar#nav(app dark color="green")
+  v-app-bar#nav(app extended dark color="green")
     v-avatar
       v-img.logo(src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Leaf_black.svg")
     v-toolbar-title.app-title LiveScape
@@ -52,6 +47,10 @@ v-app#app
       template(v-if="!loggedIn")
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
+    template(v-slot:extension)
+      v-fab-transition
+        v-btn(fab absolute bottom right dark color="red")
+          v-icon mdi-timer
   v-main(dark)
     router-view
   v-bottom-navigation(app shift grow dark color="light-green")

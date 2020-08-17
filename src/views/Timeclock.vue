@@ -12,8 +12,8 @@ v-container.timeclock(fluid)
           v-icon(large) mdi-stop
       template(v-else)
         v-spacer
-        v-btn(@click="startClock" fab color="green")
-          v-icon(large) mdi-play
+        v-btn(@click="startClock" fab color="red")
+          v-icon(large) mdi-timer
   v-card.mt-3(dark)
     v-card-title Entries
     v-card-text
