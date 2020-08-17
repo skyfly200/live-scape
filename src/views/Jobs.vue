@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container.jobs.d-flex
+v-container.jobs.d-flex(fluid)
   v-card.ma-4(v-for="job in jobs" dark)
     v-card-title {{ job.customerName }}
     v-card-subtitle {{ job.address }}
