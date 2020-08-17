@@ -1,6 +1,6 @@
 <template lang="pug">
   v-container.tasks.d-flex(fluid)
-    v-card.ma-2.pa-2(v-for="task in tasks" dark v-bind:class="{ active: (task.status === 'active'), paused: (task.status === 'paused'), done: (task.status === 'done') }")
+    v-card.task.ma-2(v-for="task in tasks" dark v-bind:class="{ active: (task.status === 'active'), paused: (task.status === 'paused'), done: (task.status === 'done') }")
       v-card-title {{ task.title }}
       v-card-subtitle {{ task.description }}
       v-divider
@@ -28,10 +28,11 @@
           v-spacer
           v-btn(v-if="task.status === 'paused'" @click="task.status = 'active'" icon)
             v-icon(color="yellow") mdi-play
-          v-btn(v-else @click="task.status = 'paused'" icon)
-            v-icon(color="yellow") mdi-pause
-          v-btn(@click="task.status = 'done'" icon)
-            v-icon(color="green") mdi-check
+          template(v-else)
+            v-btn(@click="task.status = 'paused'" icon)
+              v-icon(color="yellow") mdi-pause
+            v-btn(@click="task.status = 'done'" icon)
+              v-icon(color="green") mdi-check
         template(v-else)
           v-btn(@click="task.status = 'active'" icon)
             v-icon mdi-undo
@@ -105,8 +106,10 @@ export default {
 <style lang="sass" scoped>
 .tasks
   display: flex
+.task
+  border: 0.5px solid white
 .active
-  border: 2px solid red
+  border: 2px solid blue
 .paused
   border: 2px solid yellow
 .done
