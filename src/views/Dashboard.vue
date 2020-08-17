@@ -11,12 +11,11 @@ v-container.dashboard(fluid)
           h5 Worked This Week
         v-divider(vertical)
         v-col.data-box
-          h3 22
+          h3 {{ complete }}
           h5 Tasks Completed
         v-divider(vertical)
         v-col.data-box
-          h3 14
-          h5 Tasks ToDo
+          v-progress-circular(:value="percent" size="100") {{ complete }} / {{ total }}
       v-divider
   v-card.pa-2(dark)
     v-card-title
@@ -33,11 +32,22 @@ v-container.dashboard(fluid)
 <script>
 export default {
   name: "Tasks",
+  computed: {
+    total: function() {
+      return this.tasks.length;
+    },
+    complete: function() {
+      return this.tasks.filter((t) => t.status === "done").length;
+    },
+    percent: function() {
+      return (this.complete / this.total) * 100;
+    },
+  },
   data: () => ({
     tasks: [
       {
         id: 0,
-        status: "new",
+        status: "done",
         job: 0,
         title: "Weed and Deadhead",
         description: "Weed and deadhead the back and side yards",
