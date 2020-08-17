@@ -28,11 +28,10 @@
           v-spacer
           v-btn(v-if="task.status === 'paused'" @click="task.status = 'active'" icon)
             v-icon(color="yellow") mdi-play
-          template(v-else)
-            v-btn(@click="task.status = 'paused'" icon)
-              v-icon(color="yellow") mdi-pause
-            v-btn(@click="task.status = 'done'" icon)
-              v-icon(color="green") mdi-check
+          v-btn(v-else @click="task.status = 'paused'" icon)
+            v-icon(color="yellow") mdi-pause
+          v-btn(:disabled="task.status === 'paused'" @click="task.status = 'done'" icon)
+            v-icon(color="green") mdi-check
         template(v-else)
           v-btn(@click="task.status = 'active'" icon)
             v-icon mdi-undo
