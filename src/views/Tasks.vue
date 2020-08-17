@@ -1,38 +1,31 @@
 <template lang="pug">
-v-container.tasks(fluid)
-  v-card.ma-2.pa-2(v-for="task in tasks", width="400")
-    v-img(v-if="task.images.length", :src="task.images[0]", height="200")
-    v-card-title {{ task.title }}
-    v-card-subtitle {{ task.description }}
-    v-divider
-    v-card-text
-      v-expansion-panels(flat)
-        v-expansion-panel
-          v-expansion-panel-header Customer
-          v-expansion-panel-content
-            h4 Name
-            p {{ locations[task.location].customerName }}
-            h4 Address
-            p {{ locations[task.location].address }}
-            h4 Notes
-            p {{ task.notes }}
-        v-expansion-panel
-          v-expansion-panel-header Tools
-          v-expansion-panel-content
-            v-list(avatar, dense)
-              v-list-item(v-for="t in task.tools", two-line)
-                v-list-item-avatar(v-if="tools[t].image")
-                  v-img(:src="tools[t].image")
-                v-list-item-content
-                  v-list-item-title {{ tools[t].name }}
-                  v-list-item-subtitle {{ tools[t].description }}
-        v-expansion-panel(v-if="task.images.length > 0")
-          v-expansion-panel-header Images
-          v-expansion-panel-content
-            v-img(v-for="i in task.images", width="50", :src="i")
-    v-card-actions
-      v-spacer
-      v-btn Start
+.tasks
+  v-container.tasks(fluid).d-flex
+    v-card.ma-2.pa-2(v-for="task in tasks")
+      v-img(v-if="task.images.length", :src="task.images[0]", height="200")
+      v-card-title {{ task.title }}
+      v-card-subtitle {{ task.description }}
+      v-divider
+      v-card-text
+        h4 Customer Name
+        p {{ locations[task.location].customerName }}
+        h4 Address
+        p {{ locations[task.location].address }}
+        v-expansion-panels(flat)
+          v-expansion-panel
+            v-expansion-panel-header Tools
+            v-expansion-panel-content
+              v-list(avatar, dense)
+                v-list-item(v-for="t in task.tools", two-line)
+                  v-list-item-avatar(v-if="tools[t].image")
+                    v-img(:src="tools[t].image")
+                  v-list-item-content
+                    v-list-item-title {{ tools[t].name }}
+                    v-list-item-subtitle {{ tools[t].description }}
+      v-card-actions
+        v-btn View Job
+        v-spacer
+        v-btn Start
 </template>
 
 <script>
