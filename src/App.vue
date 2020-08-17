@@ -9,6 +9,12 @@ v-app#app
       v-list-item-content
         v-list-item-title(text) Login or Register
     v-divider
+    v-list-item
+      v-list-item-icon
+        v-icon mdi-account-star
+      v-list-item-content
+        v-combobox(v-model="role" :items="roles" label="Role" dense outlined hide-details hide-selected)
+    v-divider
     v-list-item(link, to="/dash", text)
       v-list-item-icon
         v-icon mdi-desk
@@ -50,7 +56,7 @@ v-app#app
     template(v-slot:extension)
       v-fab-transition
         v-btn(fab absolute bottom right dark color="red")
-          v-icon mdi-timer
+          v-icon(large) mdi-timer
   v-main(dark)
     router-view
   v-bottom-navigation(app shift grow dark color="light-green")
@@ -80,6 +86,8 @@ export default Vue.extend({
   },
 
   data: () => ({
+    role: "contractor",
+    roles: ["admin", "manager", "contractor"],
     loggedIn: true,
     loginDialog: false,
     drawer: false,
