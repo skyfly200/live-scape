@@ -1,12 +1,11 @@
 <template lang="pug">
-.tasks
-  v-container.tasks(fluid).d-flex
-    v-card.ma-2.pa-2(v-for="task in tasks")
+  v-container.tasks.d-flex(fluid)
+    v-card.ma-2.pa-2(v-for="task in tasks"  v-bind:class="{ active: (task.status === 'active'), paused: (task.status === 'paused'), done: (task.status === 'done') }")
       v-card-title {{ task.title }}
       v-card-subtitle {{ task.description }}
       v-divider
       v-card-text
-        v-btn(:to="'/jobs/' + task.id" text small) Job Info
+        v-btn.ma-2(:to="'/jobs/' + task.id" text small) View Job Info
         v-expansion-panels(flat)
           v-expansion-panel
             v-expansion-panel-header Tools
@@ -20,12 +19,19 @@
                     v-list-item-subtitle {{ tools[t].description }}
       v-divider
       v-card-actions
-        v-spacer
         template(v-if="task.status === 'new'")
+          v-spacer
           v-btn(@click="task.status = 'active'" color="green") Start
-        template(v-if="task.status !== 'done'")
-          v-btn(@click="task.status = 'done'" color="red") Done
+        template(v-else-if="task.status !== 'done'")
+          v-spacer
+          v-btn(@click="task.status = 'new'" color="red") Cancel
+          v-btn(v-if="task.status === 'paused'" @click="task.status = 'active'" color="yellow") Resume
+          v-btn(v-else @click="task.status = 'paused'" color="yellow") Pause
+          v-btn(@click="task.status = 'done'" color="green") Done
         template(v-else)
+          v-btn(@click="task.status = 'active'" icon)
+            v-icon mdi-undo
+          v-spacer
           v-icon(color="green") mdi-check
 </template>
 
@@ -95,4 +101,10 @@ export default {
 <style lang="sass" scoped>
 .tasks
   display: flex
+.active
+  border: 2px solid red
+.paused
+  border: 2px solid yellow
+.done
+  border: 2px solid green
 </style>
