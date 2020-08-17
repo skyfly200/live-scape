@@ -1,6 +1,6 @@
 <template lang="pug">
-.timeclock
-  v-card
+v-container.timeclock
+  v-card(dark)
     v-card-title Time Clock
     v-card-text.flex.center
       h1.ma-4 {{ elapsed }}
@@ -14,7 +14,7 @@
         v-spacer
         v-btn(@click="startClock" fab color="green")
           v-icon(large) mdi-play
-  v-card.mt-3
+  v-card.mt-3(dark)
     v-card-title Entries
     v-card-text
       v-simple-table

@@ -1,6 +1,6 @@
 <template lang="pug">
   v-container.tasks.d-flex(fluid)
-    v-card.ma-2.pa-2(v-for="task in tasks"  v-bind:class="{ active: (task.status === 'active'), paused: (task.status === 'paused'), done: (task.status === 'done') }")
+    v-card.ma-2.pa-2(v-for="task in tasks" dark v-bind:class="{ active: (task.status === 'active'), paused: (task.status === 'paused'), done: (task.status === 'done') }")
       v-card-title {{ task.title }}
       v-card-subtitle {{ task.description }}
       v-divider

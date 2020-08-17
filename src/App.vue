@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app#app
-  v-navigation-drawer(app, right, two-line, v-model="drawer")
+  v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link)
       v-dialog(v-model="loginDialog", width="500")
         template(v-slot:activator="{ on, attrs }")
@@ -35,7 +35,7 @@ v-app#app
         v-icon mdi-clock
       v-list-item-content
         v-list-item-title Timeclock
-  v-app-bar#nav(app)
+  v-app-bar#nav(app dark color="green")
     v-toolbar-title LiveScape
     v-spacer
     v-text-field(
@@ -46,18 +46,17 @@ v-app#app
       label="Search",
       prepend-inner-icon="mdi-magnify"
     )
+    v-spacer
     .largeMenu
-      v-spacer
       template(v-if="!loggedIn")
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
-  v-main
-    v-container(fluid)
-      router-view
-  v-bottom-navigation(app)
+  v-main(dark)
+    router-view
+  v-bottom-navigation(app shift grow dark color="light-green")
     v-btn(to="dash")
       span Dash
-      v-icon mdi-desk
+      v-icon mdi-gauge
     v-btn(to="jobs")
       span Jobs
       v-icon mdi-notebook
@@ -88,3 +87,8 @@ export default Vue.extend({
   }),
 });
 </script>
+
+<style lang="sass">
+#app
+  background-color: #121212
+</style>
