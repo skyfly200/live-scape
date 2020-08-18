@@ -37,9 +37,11 @@ v-container.dashboard(fluid)
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Tasks",
   computed: {
+    ...mapState(["locations", "contacts", "tasks", "jobs"]),
     completeTasks: function() {
       return this.tasks.filter((t) => t.status === "done").length;
     },
@@ -53,40 +55,7 @@ export default {
       return (this.completeJobs / this.jobs.length) * 100;
     },
   },
-  data: () => ({
-    tasks: [
-      {
-        id: 0,
-        status: "done",
-        job: 0,
-        title: "Weed and Deadhead",
-        description: "Weed and deadhead the back and side yards",
-        notes: "",
-        tools: [0, 1, 2],
-      },
-      {
-        id: 1,
-        status: "new",
-        job: 1,
-        title: "Plant Suculants",
-        description: "Plant the suculants in the garden",
-        notes: "",
-        tools: [0, 1, 2],
-      },
-    ],
-    jobs: [
-      {
-        name: "Dan Brown",
-        address: "1203 Spruce St. Boulder, CO",
-        notes: "Close the gate",
-      },
-      {
-        name: "Jerry Mathews",
-        address: "1234 Bluff St. Boulder, CO",
-        notes: "Don't run the blower",
-      },
-    ],
-  }),
+  data: () => ({}),
 };
 </script>
 

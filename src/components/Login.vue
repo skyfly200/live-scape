@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import firebase from "firebase";
 import { Auth } from "@/firebase/auth";
 var firebaseui = require("firebaseui");

@@ -40,8 +40,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Tasks",
+  computed: {
+    ...mapState(["locations", "contacts", "tasks", "jobs"]),
+  },
   data: () => ({
     tasks: [
       {

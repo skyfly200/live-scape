@@ -43,6 +43,7 @@ v-container.timeclock(fluid)
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { format, formatDuration, intervalToDuration } from "date-fns";
 
 export default {
@@ -53,6 +54,9 @@ export default {
     elapsed: "",
     entries: [],
   }),
+  computed: {
+    ...mapState(["locations", "contacts", "tasks", "jobs"]),
+  },
   methods: {
     startClock() {
       this.start = new Date();

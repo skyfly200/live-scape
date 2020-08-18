@@ -13,49 +13,19 @@ v-container.jobs.d-flex(fluid)
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Tasks",
+  computed: {
+    ...mapState(["locations", "contacts", "tasks", "jobs"]),
+  },
   methods: {
     getTasks: function(index) {
       return this.tasks.filter((task) => task.job === index);
     },
   },
-  data: () => ({
-    tasks: [
-      {
-        id: 0,
-        status: "new",
-        job: 0,
-        title: "Weed and Deadhead",
-        description: "Weed and deadhead the back and side yards",
-        notes: "",
-        tools: [0, 1, 2],
-      },
-      {
-        id: 1,
-        status: "new",
-        job: 1,
-        title: "Plant Suculants",
-        description: "Plant the suculants in the garden",
-        notes: "",
-        tools: [0, 1, 2],
-      },
-    ],
-    jobs: [
-      {
-        id: 0,
-        customerName: "Dan Brown",
-        address: "1203 Spruce St. Boulder, CO",
-        notes: "Close the gate",
-      },
-      {
-        id: 1,
-        customerName: "Jerry Mathews",
-        address: "1234 Bluff St. Boulder, CO",
-        notes: "Don't run the blower",
-      },
-    ],
-  }),
+  data: () => ({}),
 };
 </script>
 

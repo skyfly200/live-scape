@@ -30,7 +30,7 @@
 
 <script>
 import { mdbNavbar, mdbNavbarBrand, mdbNavbarNav, mdbNavItem } from "mdbvue";
-
+import { mapState } from "vuex";
 import { Auth } from "@/firebase/auth";
 
 export default {
