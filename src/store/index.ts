@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { mapState } from "vuex";
 
 import Auth from "./modules/auth";
 
@@ -122,7 +123,12 @@ export default new Vuex.Store({
     ],
     timeclockEntries: [],
   },
-  mutations: {},
+  mutations: {
+    clockIn: (state) => {},
+    clockOut: (state) => {},
+    addTask: (state) => {},
+    updateTask: () => {},
+  },
   actions: {},
   getters: {
     tasks: (state) => {
