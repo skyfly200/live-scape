@@ -30,7 +30,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["locations", "contacts", "tasks", "jobs"]),
+    ...mapState("taskSys", ["locations", "contacts", "tasks", "jobs"]),
     job: function() {
       return this.jobs[this.$route.params.id];
     },

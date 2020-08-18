@@ -11,7 +11,7 @@ export default new Vuex.Store({
   modules: {
     auth: Auth,
     timeclock: Timeclock,
-    tasks: Tasks,
+    taskSys: Tasks,
   },
   state: {},
   mutations: {},

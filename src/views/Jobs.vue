@@ -18,7 +18,7 @@ import { mapState } from "vuex";
 export default {
   name: "Tasks",
   computed: {
-    ...mapState(["locations", "contacts", "tasks", "jobs"]),
+    ...mapState("taskSys", ["locations", "contacts", "tasks", "jobs"]),
   },
   methods: {
     getTasks: function(index) {
