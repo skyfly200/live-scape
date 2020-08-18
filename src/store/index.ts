@@ -120,6 +120,7 @@ export default new Vuex.Store({
         name: "Stone",
       },
     ],
+    timeclockEntries: [],
   },
   mutations: {},
   actions: {},
@@ -141,6 +142,9 @@ export default new Vuex.Store({
     },
     materials: (state) => {
       return state.materials;
+    },
+    timeclockEntries: (state) => {
+      return state.timeclockEntries;
     },
   },
 });
