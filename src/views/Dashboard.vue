@@ -49,6 +49,7 @@ export default {
       return (this.completeTasks / this.tasks.length) * 100;
     },
     completeJobs: function() {
+      // TODO: filter -> jobs where all tasks are done
       return this.tasks.filter((t) => t.status === "done").length;
     },
     percentJobs: function() {

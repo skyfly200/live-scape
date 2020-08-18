@@ -6,10 +6,12 @@ v-container.job(fluid)
           v-card-title {{ contacts[job.contact].lastName }}, {{ contacts[job.contact].firstName }}
           v-card-subtitle {{ contacts[job.contact].nickname }}
           v-divider
-          v-card-text
+          v-card-text.location
+            div
               h3 {{ locations[job.location].title }}
               p {{ locations[job.location].address }}
-              v-btn(:href="'https://www.google.com/maps/dir/?api=1&destination='+ encodeURI(job.address)" target="_blank" color="primary") Navigate
+            div
+              v-btn(:href="'https://www.google.com/maps/dir/?api=1&destination='+ encodeURI(job.address)" target="_blank" color="primary") Navigate To
     v-col
       v-card.ma-2(dark)
           v-card-title Notes
@@ -72,4 +74,8 @@ export default {
   display: flex
 .job
     width: 100%
+.location
+  display: flex
+  width: 100%
+  justify-content: space-between
 </style>
