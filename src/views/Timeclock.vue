@@ -8,7 +8,7 @@ v-container.timeclock(fluid)
         v-btn(@click="edit = true" icon).mr-6
           v-icon mdi-pencil
         v-spacer
-        v-btn(@click="stopClock(entries[this.active].id)" fab color="red")
+        v-btn(@click="stopClock" fab color="red")
           v-icon(large) mdi-stop
       template(v-else)
         v-spacer
@@ -26,13 +26,13 @@ v-container.timeclock(fluid)
               th.text-left Duration
               th.text-right Controls
           tbody
-            tr(v-for="e in entries" :key="id")
+            tr(v-for="e in sorted" :key="e.id")
               td {{ e.start }}
               template(v-if="e.end === undefined")
                 td {{ now }}
                 td {{ elapsed }}
                 td
-                  v-btn(@click="stopClock(e.id)" icon)
+                  v-btn(@click="stopClock" icon)
                     v-icon(color="red") mdi-stop
               template(v-else)
                 td {{ e.end }}
@@ -43,7 +43,7 @@ v-container.timeclock(fluid)
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { format, formatDuration, intervalToDuration } from "date-fns";
 
 export default {
@@ -57,34 +57,27 @@ export default {
     this.timer = setInterval(() => {
       this.now = new Date();
       if (this.active !== null)
-        this.elapsed = intervalToDuration({
-          start: this.entries[this.active].start,
-          end: this.now,
-        });
+        this.elapsed = formatDuration(
+          intervalToDuration({
+            start: this.entries[this.active].start,
+            end: this.now,
+          })
+        );
     }, 250);
   },
   unmounted: function() {
     clearInterval(this.timer);
   },
   computed: {
-    ...mapState("timeclock", ["entries"]),
-    running: function() {
-      return (
-        !!this.entries &&
-        !!this.active &&
-        !!this.entries[this.active] &&
-        this.entries[this.active].end === undefined
-      );
-    },
-    active: function() {
-      let a = Object.values(this.entries);
-      if (a === []) return null;
-      a = a.filter((e) => e.end === undefined);
-      return a.length ? a[0].id : null;
+    ...mapState("timeclock", ["entries", "running", "active"]),
+    ...mapGetters("timeclock", ["totalAll"]),
+    sorted() {
+      return Object.values(this.entries).sort((a, b) => b.start - a.start);
     },
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
+    formatDuration: formatDuration,
   },
 };
 </script>
