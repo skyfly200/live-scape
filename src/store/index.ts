@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { mapState } from "vuex";
 
 import Auth from "./modules/auth";
 
