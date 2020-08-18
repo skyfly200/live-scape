@@ -20,21 +20,21 @@ export default class Tasks extends VuexModule {
       title: "Dan's",
       address: "1203 Spruce St. Boulder, CO",
       contact: 0,
-      notes: [],
+      notes: ["Don't run the blower"],
     },
     {
       id: 1,
       title: "Jerry's",
       address: "5544 Bluff St. Boulder, CO",
       contact: 1,
-      notes: [],
+      notes: ["Close the gate"],
     },
     {
       id: 2,
       title: "Wester Disposal",
       address: "Western Disposal Boulder, CO",
       contact: null,
-      notes: [],
+      notes: ["This place is a dump"],
     },
   ];
   contacts: any = [
@@ -42,7 +42,7 @@ export default class Tasks extends VuexModule {
       id: 0,
       title: "Mr",
       firstName: "Dan",
-      LastName: "Brown",
+      lastName: "Brown",
       nickname: "Dan",
       homePhone: "720-555-1234",
       cellPhone: "720-555-6543",
@@ -52,7 +52,7 @@ export default class Tasks extends VuexModule {
       id: 1,
       title: "Mr",
       firstName: "Jerremy",
-      LastName: "Mathews",
+      lastName: "Mathews",
       nickname: "Jerry",
       homePhone: "720-555-3854",
       cellPhone: "720-555-9743",
@@ -83,13 +83,11 @@ export default class Tasks extends VuexModule {
     {
       id: 0,
       contact: 0,
-      notes: ["Close the gate"],
       location: 0,
     },
     {
       id: 1,
       contact: 1,
-      notes: ["Don't run the blower"],
       location: 1,
     },
   ];

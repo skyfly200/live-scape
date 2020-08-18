@@ -1,10 +1,10 @@
 <template lang="pug">
-  v-container.tasks.d-flex(fluid)
+  v-container.tasks.d-flex(fluid no-gutter)
     v-card.task.ma-2(v-for="task in tasks" dark v-bind:class="{ active: (task.status === 'active'), paused: (task.status === 'paused'), done: (task.status === 'done') }")
       v-card-title {{ task.title }}
-      v-card-subtitle {{ task.description }}
       v-divider
       v-card-text
+        p {{ task.description }}
         v-btn.ma-2(:to="'/jobs/' + task.id" text small) View Job Info
         v-expansion-panels(flat)
           v-expansion-panel
@@ -61,8 +61,10 @@ export default {
 <style lang="sass" scoped>
 .tasks
   display: flex
+  flex-wrap: wrap
 .task
   border: 0.5px solid white
+  width: 250px
 .active
   border: 2px solid blue
 .paused

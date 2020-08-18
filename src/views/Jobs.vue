@@ -1,11 +1,10 @@
 <template lang="pug">
 v-container.jobs.d-flex(fluid)
   v-card.ma-4(v-for="job in jobs" dark)
-    v-card-title {{ job.customerName }}
-    v-card-subtitle {{ job.address }}
+    v-card-title {{ locations[job.location].title }}
+    v-card-subtitle {{ locations[job.location].address }}
     v-card-text
       h3 {{ getTasks(job.id).length }} New Task(s)
-      p {{ job.notes }}
     v-divider
     v-card-actions
       v-spacer
@@ -18,7 +17,14 @@ import { mapState } from "vuex";
 export default {
   name: "Tasks",
   computed: {
-    ...mapState("taskSys", ["locations", "contacts", "tasks", "jobs"]),
+    ...mapState("taskSys", [
+      "locations",
+      "contacts",
+      "tasks",
+      "jobs",
+      "tools",
+      "materials",
+    ]),
   },
   methods: {
     getTasks: function(index) {
@@ -30,6 +36,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.tasks
+.jobs
   display: flex
+  flex-wrap: wrap
 </style>
