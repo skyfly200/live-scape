@@ -130,27 +130,5 @@ export default new Vuex.Store({
     updateTask: () => {},
   },
   actions: {},
-  getters: {
-    tasks: (state) => {
-      return state.tasks;
-    },
-    locations: (state) => {
-      return state.locations;
-    },
-    contacts: (state) => {
-      return state.contacts;
-    },
-    jobs: (state) => {
-      return state.jobs;
-    },
-    tools: (state) => {
-      return state.tools;
-    },
-    materials: (state) => {
-      return state.materials;
-    },
-    timeclockEntries: (state) => {
-      return state.timeclockEntries;
-    },
-  },
+  getters: {},
 });
