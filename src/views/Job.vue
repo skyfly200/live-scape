@@ -1,22 +1,43 @@
 <template lang="pug">
-v-container.jobs.d-flex(fluid)
-    v-card.ma-2.job(dark)
-        v-card-title {{ job.customerName }}
-        v-card-subtitle {{ job.address }}
-        v-card-text
-            h3 Notes
-            p {{ job.notes }}
-        v-card-actions
-            v-btn(:href="'https://www.google.com/maps/dir/?api=1&destination='+ encodeURI(job.address)" target="_blank" color="primary") Navigate
-    v-card.ma-2.job(dark)
+v-container.job(fluid)
+  v-row(no-gutters)
+    v-col
+      v-card.ma-2(dark)
+          v-card-title {{ contacts[job.contact].lastName }}, {{ contacts[job.contact].firstName }}
+          v-card-subtitle {{ contacts[job.contact].nickname }}
+          v-divider
+          v-card-text
+              h3 {{ locations[job.location].title }}
+              p {{ locations[job.location].address }}
+              v-btn(:href="'https://www.google.com/maps/dir/?api=1&destination='+ encodeURI(job.address)" target="_blank" color="primary") Navigate
+    v-col
+      v-card.ma-2(dark)
+          v-card-title Notes
+          v-card-text
+              v-list 
+                  v-list-item(v-for="note,i in locations[job.location].notes" dense three-line :key="i")
+                      v-list-item-content
+                          v-list-item-subtitle {{ note }}
+  v-row(no-gutters)
+    v-col(cols=12)
+      v-card.ma-2(dark)
         v-card-title Tasks
         v-card-text
-            v-list
-                v-list-item(v-for="task in getTasks(job.id)" dense three-line :to="'/tasks/' + task.id" :key="task.id")
-                    v-list-item-content
-                        v-list-item-title {{ task.title }} for {{ jobs[task.job].name }}
-                        v-list-item-subtitle {{ task.description }}
-                        v-list-item-subtitle {{ jobs[task.job].address }}
+          v-list
+            v-list-item(v-for="task in getTasks(job.id)" dense three-line :key="task.id")
+              v-list-item-content
+                v-list-item-title {{ task.title }} for {{ jobs[task.job].name }}
+                v-list-item-subtitle {{ task.description }}
+                v-list-item-subtitle {{ jobs[task.job].address }}
+              v-list-item-icon
+                template(v-if="task.status === 'new'")
+                  v-icon(color="green" @click="") mdi-play
+                template(v-else-if="task.status !== 'done'")
+                  v-icon(color="yellow" @click="") mdi-pause
+                  v-icon(color="red" @click="") mdi-cancel
+                template(v-else)
+                  v-icon(@click="") mdi-undo
+                  v-icon(color="green") mdi-check
 </template>
 
 <script>
@@ -30,7 +51,14 @@ export default {
     },
   },
   computed: {
-    ...mapState("taskSys", ["locations", "contacts", "tasks", "jobs"]),
+    ...mapState("taskSys", [
+      "locations",
+      "contacts",
+      "tasks",
+      "jobs",
+      "tools",
+      "materials",
+    ]),
     job: function() {
       return this.jobs[this.$route.params.id];
     },
