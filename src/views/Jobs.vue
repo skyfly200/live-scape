@@ -14,7 +14,7 @@ v-container(fluid)
 import { mapState } from "vuex";
 
 export default {
-  name: "Tasks",
+  name: "Jobs",
   computed: {
     ...mapState("taskSys", [
       "locations",

@@ -18,11 +18,6 @@ v-container.dashboard(fluid)
           v-progress-circular.gauge(:value="percentTasks" size="120" color="blue")
             span {{ completeTasks }} / {{ tasks.length }}
           h5 Tasks Done
-        v-divider(vertical)
-        v-col.data-box
-          v-progress-circular.gauge(:value="percentJobs" size="120" color="green")
-            span {{ completeJobs }} / {{ jobs.length }}
-          h5 Jobs Done
       v-divider
   v-card.pa-2(dark)
     v-card-title
@@ -31,29 +26,22 @@ v-container.dashboard(fluid)
       v-list
         v-list-item(v-for="task in tasks" dense three-line :to="'/job/' + task.job" :key="task.id")
           v-list-item-content
-            v-list-item-title {{ task.title }} for {{ jobs[task.job].name }}
-            v-list-item-subtitle {{ task.description }}
-            v-list-item-subtitle {{ jobs[task.job].address }}
+            v-list-item-title {{ task.title }} for {{ locations[task.job].name }}
+            v-list-item-subtitle {{ locations[task.job].description }}
+            v-list-item-subtitle {{ locations[task.job].address }}
 </template>
 
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "Tasks",
+  name: "Dashboard",
   computed: {
-    ...mapState("taskSys", ["locations", "contacts", "tasks", "jobs"]),
+    ...mapState("taskSys", ["locations", "contacts", "tasks"]),
     completeTasks: function() {
       return this.tasks.filter((t) => t.status === "done").length;
     },
     percentTasks: function() {
       return (this.completeTasks / this.tasks.length) * 100;
-    },
-    completeJobs: function() {
-      // TODO: filter -> jobs where all tasks are done
-      return this.tasks.filter((t) => t.status === "done").length;
-    },
-    percentJobs: function() {
-      return (this.completeJobs / this.jobs.length) * 100;
     },
   },
   data: () => ({}),
