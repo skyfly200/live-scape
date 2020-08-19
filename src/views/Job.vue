@@ -4,23 +4,33 @@ v-container.job(fluid)
     v-col
       v-card.ma-2(dark)
         v-img(:src="streetViewURL + encodeURI(location.address)")
-        v-card-title {{ contacts[location.contact].lastName }}, {{ contacts[location.contact].firstName }}
-        v-card-subtitle {{ contacts[location.contact].nickname }}
-        v-divider
+        v-card-title
         v-card-text.location
           div
             h3 {{ location.title }}
-            p {{ location.address }}
+            a(:href="mapsURL + encodeURI(location.address)" target="_blank")
+              p {{ location.address }}
           div
-            v-btn(:href="'https://www.google.com/maps/dir/?api=1&destination='+ encodeURI(location.address)" target="_blank" color="primary") Navigate To
+            v-btn(:href="navigationURL + encodeURI(location.address)" target="_blank" color="green" fab outlined)
+              v-icon mdi-navigation
     v-col
       v-card.ma-2(dark)
-          v-card-title Notes
-          v-card-text
-              v-list 
-                  v-list-item(v-for="note,i in location.notes" dense three-line :key="i")
-                      v-list-item-content
-                          v-list-item-subtitle {{ note }}
+        v-card-title {{ contacts[location.contact].lastName }}, {{ contacts[location.contact].firstName }}
+        v-card-subtitle {{ contacts[location.contact].nickname }}
+        v-card-text
+          v-btn.ma-2(color="primary" :href="'tel:' + contacts[location.contact].cellPhone")
+            v-icon mdi-phone
+            span Call
+          v-btn.ma-2(color="primary" :href="'mailto:' + contacts[location.contact].email")
+            v-icon mdi-email
+            span Email
+          v-divider
+          br
+          h2 Notes
+          v-list 
+            v-list-item(v-for="note,i in location.notes" dense three-line :key="i")
+              v-list-item-content
+                v-list-item-subtitle {{ note }}
   v-row(no-gutters)
     v-col(cols=12)
       v-card.ma-2(dark)
@@ -68,6 +78,8 @@ export default {
   data: () => ({
     streetViewURL:
       "https://maps.googleapis.com/maps/api/streetview?size=300x200&fov=80&pitch=0&key=AIzaSyDPbvEAlVbD1oME8UH9b2pbTQJympA5lM8&location=",
+    navigationURL: "https://www.google.com/maps/dir/?api=1&destination=",
+    mapsURL: "https://www.google.com/maps/search/?api=1&query=",
   }),
 };
 </script>
