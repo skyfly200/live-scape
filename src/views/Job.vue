@@ -76,6 +76,7 @@ export default {
     width: 100%
 .location
   display: flex
+  flex-wrap: wrap
   width: 100%
   justify-content: space-between
 </style>

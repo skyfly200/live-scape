@@ -1,14 +1,13 @@
 <template lang="pug">
-v-container.jobs.d-flex(fluid)
-  v-card.ma-4(v-for="job in jobs" dark)
-    v-card-title {{ locations[job.location].title }}
-    v-card-subtitle {{ locations[job.location].address }}
-    v-card-text
-      h3 {{ getTasks(job.id).length }} New Task(s)
-    v-divider
-    v-card-actions
-      v-spacer
-      v-btn(:to="'/jobs/' + job.id") Job Info
+v-container(fluid)
+  v-row
+    v-col.jobs
+      .job.ma-4(v-for="location in locations")
+        v-badge(color="red" size="1rem" :value="getTasks(location.id).length > 0" :content="getTasks(location.id).length")
+          v-card(dark width="300" height="300" :to="'/jobs/' + location.id")
+            v-img(:src="streetViewURL + encodeURI(location.address)")
+            v-card-title {{ location.title }}
+            v-card-subtitle {{ location.address }}
 </template>
 
 <script>
@@ -21,7 +20,6 @@ export default {
       "locations",
       "contacts",
       "tasks",
-      "jobs",
       "tools",
       "materials",
     ]),
@@ -31,7 +29,10 @@ export default {
       return this.tasks.filter((task) => task.job === index);
     },
   },
-  data: () => ({}),
+  data: () => ({
+    streetViewURL:
+      "https://maps.googleapis.com/maps/api/streetview?size=300x200&fov=80&pitch=0&key=AIzaSyDPbvEAlVbD1oME8UH9b2pbTQJympA5lM8&location=",
+  }),
 };
 </script>
 
@@ -39,4 +40,8 @@ export default {
 .jobs
   display: flex
   flex-wrap: wrap
+  justify-content: space-around
+.page-title
+  color: #FFF
+  text-align: center
 </style>

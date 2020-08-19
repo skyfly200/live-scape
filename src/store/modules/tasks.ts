@@ -17,24 +17,31 @@ export default class Tasks extends VuexModule {
   locations: any = [
     {
       id: 0,
+      contact: 0,
       title: "Dan's",
       address: "1203 Spruce St. Boulder, CO",
-      contact: 0,
       notes: ["Don't run the blower"],
     },
     {
       id: 1,
-      title: "Jerry's",
-      address: "5544 Bluff St. Boulder, CO",
       contact: 1,
+      title: "Jerry's",
+      address: "554 Bluff St. Boulder, CO",
       notes: ["Close the gate"],
     },
     {
       id: 2,
+      contact: null,
       title: "Wester Disposal",
       address: "Western Disposal Boulder, CO",
-      contact: null,
       notes: ["This place is a dump"],
+    },
+    {
+      id: 3,
+      contact: 3,
+      title: "Libby's",
+      address: "2644 Mapleton Ave. Boulder, CO",
+      notes: ["Libby is awesome"],
     },
   ];
   contacts: any = [
@@ -68,27 +75,17 @@ export default class Tasks extends VuexModule {
       description: "Weed and deadhead the back and side yards",
       notes: "",
       tools: [0, 1, 2],
+      materials: [],
     },
     {
       id: 1,
       status: "new",
-      job: 1,
+      job: 0,
       title: "Plant Suculants",
       description: "Plant the suculants in the garden",
       notes: "",
       tools: [0, 1, 2],
-    },
-  ];
-  jobs: any = [
-    {
-      id: 0,
-      contact: 0,
-      location: 0,
-    },
-    {
-      id: 1,
-      contact: 1,
-      location: 1,
+      materials: [2],
     },
   ];
   tools: any = [
@@ -117,9 +114,21 @@ export default class Tasks extends VuexModule {
   materials: any = [
     {
       name: "Fertilizer",
+      image: "",
+      size: "medium",
+      description: "",
     },
     {
       name: "Stone",
+      image: "",
+      size: "large",
+      description: "",
+    },
+    {
+      name: "Suculants",
+      image: "",
+      size: "medium",
+      description: "",
     },
   ];
 }
