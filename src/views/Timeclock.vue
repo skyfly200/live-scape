@@ -77,7 +77,9 @@ export default {
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
-    formatDuration: formatDuration,
+    formatDuration: function(d) {
+      return [d.hours, d.minutes, d.seconds].join(":");
+    },
   },
 };
 </script>
