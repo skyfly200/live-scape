@@ -46,8 +46,17 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: "/schedule",
+    name: "Schedule",
+    component: () =>
+      import(/* webpackChunkName: "schedule" */ "../views/Schedule.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/clock",
-    name: "Tiemclock",
+    name: "Timeclock",
     component: () =>
       import(/* webpackChunkName: "timeclock" */ "../views/Timeclock.vue"),
     meta: {

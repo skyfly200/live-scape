@@ -38,6 +38,11 @@ v-app#app
         v-icon mdi-clipboard-check
       v-list-item-content
         v-list-item-title Tasks
+    v-list-item(link, to="/schedule", text)
+      v-list-item-icon
+        v-icon mdi-calendar
+      v-list-item-content
+        v-list-item-title Schedule
     v-list-item(link, to="/clock", text)
       v-list-item-icon
         v-icon mdi-clock
@@ -81,6 +86,9 @@ v-app#app
     v-btn(to="/tasks")
       span Tasks
       v-icon mdi-clipboard-check
+    v-btn(to="/schedule")
+      span Schedule
+      v-icon mdi-calendar
     v-btn(to="/clock")
       span Clock
       v-icon mdi-clock
