@@ -19,6 +19,10 @@
             :type="type"
             :now="now"
             :events="events"
+            :first-interval="intervals.first"
+            :interval-minutes="intervals.minutes"
+            :interval-count="intervals.count"
+            :interval-height="intervals.height"
             :show-interval-label="showIntervalLabel"
             :event-color="getEventColor")
 </template>
@@ -44,7 +48,7 @@ export default {
       { text: "Week", value: "week" },
       { text: "Month", value: "month" },
     ],
-    interval: { first: 16, minutes: 30, count: 20, height: 48 },
+    intervals: { first: 5, minutes: 60, count: 15, height: 48 },
   }),
   methods: {
     viewDay({ date }) {
@@ -55,7 +59,7 @@ export default {
       return event.color;
     },
     showIntervalLabel(interval) {
-      return interval.minute === 0;
+      return interval.minute === 0 && interval.hour % 2 === 0;
     },
   },
 };
@@ -65,5 +69,5 @@ export default {
 .controls
   position: relative
 .calendar
-  height: 65vh
+  height: 60vh
 </style>
