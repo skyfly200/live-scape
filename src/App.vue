@@ -1,13 +1,13 @@
 <template lang="pug">
 v-app#app
   v-dialog(v-model="loginDialog", width="500")
-    Login
+    Login(@success="loginDialog = false")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link @click="loginDialog = true; drawer = false")
       v-list-item-avatar(v-if="loggedIn")
         v-avatar(color="purple") S
       v-list-item-content
-        template(v-if="!loggedIn")
+        template(v-if="!isLoggedIn")
           v-list-item-title(text) Login or Register
         template(v-else)
           v-list-item-title(text) Welcome
@@ -63,7 +63,7 @@ v-app#app
     )
     v-spacer
     .largeMenu
-      template(v-if="loggedIn")
+      template(v-if="isLoggedIn")
         v-avatar(color="purple") S
       template(v-else)
         v-btn(@click.stop="loginDialog = true", text) Login
@@ -96,6 +96,7 @@ v-app#app
 
 <script lang="ts">
 import Vue from "vue";
+import { mapState, mapActions, mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 
 export default Vue.extend({
@@ -104,11 +105,13 @@ export default Vue.extend({
   components: {
     Login,
   },
-
+  computed: {
+    ...mapState("auth", ["status", "raw", "user"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
   data: () => ({
     role: "contractor",
     roles: ["admin", "manager", "contractor"],
-    loggedIn: false,
     loginDialog: false,
     drawer: false,
     query: "",

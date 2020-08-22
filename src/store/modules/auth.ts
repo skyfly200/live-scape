@@ -3,7 +3,7 @@ import {
   VuexModule,
   Mutation,
   MutationAction,
-  Action
+  Action,
 } from "vuex-module-decorators";
 
 import router from "../../router";
@@ -31,19 +31,19 @@ export default class Auth extends VuexModule {
 
   @Mutation
   setAuth(payload: any) {
-    let raw = payload.user;
     this.status = payload.status;
-    this.token = payload.token;
-    this.raw = raw;
-    this.user = raw
+    // this.token = payload.raw.credentials.token;
+    this.raw = payload.raw;
+    let user = payload.user;
+    this.user = user
       ? new User({
-          uid: raw.uid,
-          name: raw.displayName,
-          email: raw.email,
-          phone: raw.phoneNumber,
-          photoURL: raw.photoURL,
-          providers: raw.providerData,
-          active: raw.emailVerified
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          phone: user.phoneNumber,
+          photoURL: user.photoURL,
+          providers: user.providerData,
+          active: user.emailVerified,
         })
       : null;
     this.error = payload.error;
@@ -56,20 +56,20 @@ export default class Auth extends VuexModule {
       status: "success",
       token: null,
       user: null,
-      error: null
+      error: null,
     });
     await firebase
       .auth()
       .signOut()
-      .then(response => {
+      .then((response) => {
         if (router.currentRoute.name !== "auth") router.push("auth");
       })
-      .catch(error => {
+      .catch((error) => {
         t.context.commit("setAuth", {
           status: "failure",
           token: null,
           user: null,
-          error: error
+          error: error,
         });
       });
   }
@@ -84,7 +84,7 @@ export default class Auth extends VuexModule {
             status: "success",
             token: null,
             user: user,
-            error: null
+            error: null,
           });
           resolve(true);
         } else {
@@ -92,7 +92,7 @@ export default class Auth extends VuexModule {
             status: "success",
             token: null,
             user: null,
-            error: null
+            error: null,
           });
           resolve(false);
         }
@@ -110,17 +110,17 @@ export default class Auth extends VuexModule {
       firebase
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(response => {
+        .then((response) => {
           t.context.commit("setAuth", {
             status: "success",
             token: null,
             user: response.user,
-            error: null
+            error: null,
           });
           db.collection("users")
             .doc(response.user.uid)
             .update({
-              name: payload.name
+              name: payload.name,
             })
             .catch(function(error) {
               console.error("Error updating name in firestore: ", error);
@@ -136,12 +136,12 @@ export default class Auth extends VuexModule {
               resolve();
             });
         })
-        .catch(error => {
+        .catch((error) => {
           t.context.commit("setAuth", {
             status: "failure",
             token: null,
             user: null,
-            error: error
+            error: error,
           });
           reject(error);
         });
@@ -157,21 +157,21 @@ export default class Auth extends VuexModule {
       firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
-        .then(response => {
+        .then((response) => {
           t.context.commit("setAuth", {
             status: "success",
             user: response.user,
             token: null,
-            error: null
+            error: null,
           });
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           t.context.commit("setAuth", {
             status: "failure",
             user: null,
             token: null,
-            error: error
+            error: error,
           });
           reject(error);
         });
@@ -205,7 +205,7 @@ export default class Auth extends VuexModule {
               status: "success",
               user: result.user,
               token: result.credential ? result.credential.accessToken : null,
-              error: null
+              error: null,
             });
             resolve();
           } else {
@@ -213,7 +213,7 @@ export default class Auth extends VuexModule {
               status: "failure",
               token: null,
               user: null,
-              error: ""
+              error: "",
             });
             reject(null);
           }
@@ -223,7 +223,7 @@ export default class Auth extends VuexModule {
             status: "failure",
             user: null,
             token: null,
-            error: error
+            error: error,
           });
           reject(error);
         });

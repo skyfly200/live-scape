@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import firebase from "firebase";
 import { Auth } from "@/firebase/auth";
 var firebaseui = require("firebaseui");
@@ -18,6 +18,7 @@ export default {
   data: function() {
     return {
       loading: true,
+      ui: null,
       uiConfig: {
         callbacks: {
           signInSuccessWithAuthResult: this.signInSuccessWithAuthResult,
@@ -41,10 +42,20 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState("auth", ["status", "raw", "user"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
   methods: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
+      this.$emit("success", authResult);
+      this.$store.commit("setAuth", {
+        status: "success",
+        raw: authResult,
+        error: null,
+      });
       console.log(authResult);
       return false;
     },
@@ -57,9 +68,9 @@ export default {
     let mode = this.$route.query.mode;
     let redirectURL = this.$route.query.redirectURL;
     // Initialize the FirebaseUI Widget using Firebase.
-    var ui = new firebaseui.auth.AuthUI(Auth);
+    this.ui = new firebaseui.auth.AuthUI(Auth);
     // The start method will wait until the DOM is loaded.
-    ui.start("#firebaseui-auth-container", this.uiConfig);
+    this.ui.start("#firebaseui-auth-container", this.uiConfig);
   },
 };
 </script>
