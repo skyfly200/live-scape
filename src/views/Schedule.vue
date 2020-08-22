@@ -40,6 +40,12 @@ export default {
         timed: true,
         color: "purple",
       },
+      {
+        name: "Test 456",
+        start: new Date("8-22-2020 12:00PM"),
+        timed: true,
+        color: "green",
+      },
     ],
     type: "week",
     typeOptions: [
