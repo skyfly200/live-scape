@@ -14,6 +14,16 @@ import { v4 as uuidv4 } from "uuid";
 
 @Module({ namespaced: true })
 export default class Tasks extends VuexModule {
+  jobs: any = [
+    {
+      id: 0,
+      location: 0,
+      start: "",
+      end: "",
+      assigned: [],
+      tasks: [0, 1],
+    },
+  ];
   locations: any = [
     {
       id: 0,
@@ -78,6 +88,7 @@ export default class Tasks extends VuexModule {
       id: 0,
       status: "new",
       job: 0,
+      location: 0,
       title: "Weed and Deadhead",
       description: "Weed and deadhead the back and side yards",
       notes: "",
@@ -88,6 +99,7 @@ export default class Tasks extends VuexModule {
       id: 1,
       status: "new",
       job: 0,
+      location: 0,
       title: "Plant Suculants",
       description: "Plant the suculants in the garden",
       notes: "",
