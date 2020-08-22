@@ -4,10 +4,9 @@ v-app#app
     Login(@success="loginDialog = false")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link @click="loginDialog = true; drawer = false")
-      v-list-item-avatar(v-if="isLoggedIn")
-        v-avatar(color="purple")
-          v-img(v-if="!!raw.additionalUserInfo.profile.picture" :src="raw.additionalUserInfo.profile.picture" :alt="user.displayName")
-          span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
+      v-list-item-avatar(v-if="isLoggedIn" color="purple")
+        v-img(v-if="!!raw.additionalUserInfo.profile.picture" :src="raw.additionalUserInfo.profile.picture" :alt="user.displayName")
+        span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
       v-list-item-content
         template(v-if="!isLoggedIn")
           v-list-item-title(text) Login or Register
