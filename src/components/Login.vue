@@ -33,9 +33,11 @@ export default {
           firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         ],
         // Terms of service url.
-        //tosUrl: "https://www.privacypolicyonline.com/live.php?token=jhi7M6yy2nbhExzhhJczTtBUDCEBSvRn",
+        tosUrl:
+          "https://www.privacypolicyonline.com/live.php?token=jhi7M6yy2nbhExzhhJczTtBUDCEBSvRn",
         // Privacy policy url.
-        //privacyPolicyUrl: "https://www.privacypolicyonline.com/live.php?token=gpEVPUliE5C9QhXw4amsSM0wpTB1cAKC",
+        privacyPolicyUrl:
+          "https://www.privacypolicyonline.com/live.php?token=gpEVPUliE5C9QhXw4amsSM0wpTB1cAKC",
       },
     };
   },

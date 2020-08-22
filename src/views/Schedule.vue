@@ -36,13 +36,16 @@ export default {
     events: [
       {
         name: "Test 123",
-        start: new Date(),
+        description: "Testing Job Scheduling",
+        start: new Date("8/22/2020 8:00 AM"),
+        end: new Date("8/22/2020 12:00 PM"),
         timed: true,
         color: "purple",
       },
       {
         name: "Test 456",
-        start: new Date("8-22-2020 12:00PM"),
+        start: new Date("8/22/2020 12:00 PM"),
+        end: new Date("8/22/2020 4:00 PM"),
         timed: true,
         color: "green",
       },
