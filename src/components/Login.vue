@@ -56,7 +56,6 @@ export default {
         raw: authResult,
         error: null,
       });
-      console.log(authResult);
       return false;
     },
     uiShown: function() {
