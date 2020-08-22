@@ -51,7 +51,7 @@ export default {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
       this.$emit("success", authResult);
-      this.$store.commit("setAuth", {
+      this.$store.commit("auth/setAuth", {
         status: "success",
         raw: authResult,
         error: null,

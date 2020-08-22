@@ -4,19 +4,16 @@ v-app#app
     Login(@success="loginDialog = false")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link @click="loginDialog = true; drawer = false")
-      v-list-item-avatar(v-if="loggedIn")
-        v-avatar(color="purple") S
+      v-list-item-avatar(v-if="isLoggedIn")
+        v-avatar(color="purple")
+          v-img(v-if="!!raw.additionalUserInfo.profile.picture" :src="raw.additionalUserInfo.profile.picture" :alt="user.displayName")
+          span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
       v-list-item-content
         template(v-if="!isLoggedIn")
           v-list-item-title(text) Login or Register
         template(v-else)
-          v-list-item-title(text) Welcome
+          v-list-item-title(text) Welcome {{ user.displayName }}
     v-divider
-    v-list-item
-      v-list-item-icon
-        v-icon mdi-lock
-      v-list-item-content
-        v-switch(v-model="loggedIn" label="Logged In" dense hide-details)
     v-list-item
       v-list-item-icon
         v-icon mdi-account-star
@@ -64,7 +61,9 @@ v-app#app
     v-spacer
     .largeMenu
       template(v-if="isLoggedIn")
-        v-avatar(color="purple") S
+        v-avatar(color="purple")
+          v-img(v-if="!!raw.additionalUserInfo.profile.picture" :src="raw.additionalUserInfo.profile.picture" :alt="user.displayName")
+          span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
       template(v-else)
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")

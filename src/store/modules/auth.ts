@@ -10,7 +10,7 @@ import router from "../../router";
 import firebase from "firebase";
 import { User } from "@/models/user";
 
-@Module
+@Module({ namespaced: true })
 export default class Auth extends VuexModule {
   status: string | null = null;
   token: string | null = null;
@@ -33,8 +33,12 @@ export default class Auth extends VuexModule {
   setAuth(payload: any) {
     this.status = payload.status;
     // this.token = payload.raw.credentials.token;
+    // let isNew = payload.raw.additionalUserInfo.isNewUser;
     this.raw = payload.raw;
-    let user = payload.user;
+    let user = {
+      ...payload.raw.user,
+      profile: payload.raw.additionalUserInfo.profile,
+    };
     this.user = user
       ? new User({
           uid: user.uid,
