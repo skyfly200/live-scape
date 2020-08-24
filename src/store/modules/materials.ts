@@ -8,7 +8,7 @@ import {
 
 import { Material } from "@/models/material";
 
-@Module({ namespaced: true })
+@Module
 export default class Materials extends VuexModule {
   materials: any = [
     {

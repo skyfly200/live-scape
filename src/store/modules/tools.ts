@@ -8,7 +8,7 @@ import {
 
 import { Tool } from "@/models/tool";
 
-@Module({ namespaced: true })
+@Module
 export default class Tools extends VuexModule {
   tools: any = [
     {

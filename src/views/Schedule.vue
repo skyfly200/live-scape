@@ -35,7 +35,11 @@ export default {
   computed: {
     ...mapState(
       "taskSys",
-      ["locations", "contacts", "tasks", "tools", "materials"],
+      ["tasks"],
+      "locations",
+      "contacts",
+      "tools",
+      "materials",
       "jobs"
     ),
   },

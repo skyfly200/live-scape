@@ -8,7 +8,7 @@ import {
 
 import { Contact } from "@/models/contact";
 
-@Module({ namespaced: true })
+@Module
 export default class Contacts extends VuexModule {
   contacts: any = [
     {

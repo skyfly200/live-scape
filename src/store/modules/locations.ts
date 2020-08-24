@@ -8,7 +8,7 @@ import {
 
 import { Location } from "@/models/location";
 
-@Module({ namespaced: true })
+@Module
 export default class Locations extends VuexModule {
   locations: any = [
     {

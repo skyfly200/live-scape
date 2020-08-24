@@ -16,13 +16,15 @@ import { mapState } from "vuex";
 export default {
   name: "Jobs",
   computed: {
-    ...mapState("taskSys", [
+    ...mapState(
+      "taskSys",
+      ["tasks"],
       "locations",
       "contacts",
-      "tasks",
       "tools",
       "materials",
-    ]),
+      "jobs"
+    ),
   },
   methods: {
     getTasks: function(index) {

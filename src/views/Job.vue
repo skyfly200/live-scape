@@ -64,13 +64,15 @@ export default {
     },
   },
   computed: {
-    ...mapState("taskSys", [
+    ...mapState(
+      "taskSys",
+      ["tasks"],
       "locations",
       "contacts",
-      "tasks",
       "tools",
       "materials",
-    ]),
+      "jobs"
+    ),
     location: function() {
       return this.locations[this.$route.params.id];
     },

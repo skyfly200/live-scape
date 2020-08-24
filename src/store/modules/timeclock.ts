@@ -10,7 +10,7 @@ import { TimeclockLogs } from "@/models/timeclockLogs";
 import { format, formatDuration, intervalToDuration } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
-@Module({ namespaced: true })
+@Module
 export default class Timeclock extends VuexModule {
   entries: any = {};
   running: boolean = false;
