@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import nodemailer from "nodemailer";
+const nodemailer = require("nodemailer");
 
 import { User } from "../../src/models/user";
 
