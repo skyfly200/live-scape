@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import { vuexfireMutations } from "vuexfire";
+
 import Auth from "./modules/auth";
 import Timeclock from "./modules/timeclock";
 import Tasks from "./modules/tasks";
@@ -14,7 +16,9 @@ export default new Vuex.Store({
     taskSys: Tasks,
   },
   state: {},
-  mutations: {},
+  mutations: {
+    ...vuexfireMutations,
+  },
   actions: {},
   getters: {},
 });
