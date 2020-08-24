@@ -24,7 +24,7 @@ v-container.dashboard(fluid)
       h2 Current Tasks
     v-card-text
       v-list
-        v-list-item(v-for="task in tasks" dense three-line :to="'/job/' + task.job" :key="task.id")
+        v-list-item(v-for="task in tasks" dense three-line :to="'/jobs/' + task.job" :key="task.id")
           v-list-item-content
             v-list-item-title {{ task.title }} for {{ locations[task.job].name }}
             v-list-item-subtitle {{ locations[task.job].description }}
