@@ -28,8 +28,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Schedule",
+  computed: {
+    ...mapState(
+      "taskSys",
+      ["locations", "contacts", "tasks", "tools", "materials"],
+      "jobs"
+    ),
+  },
   data: () => ({
     value: "",
     now: null,

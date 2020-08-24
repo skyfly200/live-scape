@@ -6,9 +6,7 @@ import {
   Action,
 } from "vuex-module-decorators";
 
-import router from "../../router";
-import firebase from "firebase";
-import { User } from "@/models/user";
+import { TimeclockLogs } from "@/models/timeclockLogs";
 import { format, formatDuration, intervalToDuration } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
