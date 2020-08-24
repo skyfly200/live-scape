@@ -1,8 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import { vuexfireMutations, firestoreAction } from "vuexfire";
-import { db } from "@/firebase/db";
+import { vuexfireMutations } from "vuexfire";
 
 import Auth from "./modules/auth";
 import Timeclock from "./modules/timeclock";
