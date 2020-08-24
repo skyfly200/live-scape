@@ -85,7 +85,10 @@ exports.sendByeEmail = functions.auth.user().onDelete((user) => {
 // [END sendByeEmail]
 
 // Sends a welcome email to the given user.
-async function sendWelcomeEmail(email: string, displayName: string) {
+async function sendWelcomeEmail(
+  email: string | undefined,
+  displayName: string | undefined
+) {
   const mailOptions = {
     from: `${APP_NAME} <noreply@wayhighradio.com>`,
     to: email,
@@ -102,7 +105,10 @@ async function sendWelcomeEmail(email: string, displayName: string) {
 }
 
 // Sends a goodbye email to the given user.
-async function sendGoodbyeEmail(email: string, displayName: string) {
+async function sendGoodbyeEmail(
+  email: string | undefined,
+  displayName: string | undefined
+) {
   const mailOptions = {
     from: `${APP_NAME} <noreply@wayhighradio.com>`,
     to: email,
