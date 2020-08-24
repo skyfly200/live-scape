@@ -50,12 +50,12 @@ export default {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
-      this.$emit("success", authResult);
       this.$store.commit("auth/setAuth", {
         status: "success",
         raw: authResult,
         error: null,
       });
+      this.$emit("success", authResult);
       return false;
     },
     uiShown: function() {

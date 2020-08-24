@@ -13,8 +13,6 @@ import { User } from "@/models/user";
 @Module({ namespaced: true })
 export default class Auth extends VuexModule {
   status: string | null = null;
-  token: string | null = null;
-  provider: string | null = null;
   raw: object | null = null;
   user: User | null = null;
   error: string | null = null;
@@ -25,14 +23,8 @@ export default class Auth extends VuexModule {
   }
 
   @Mutation
-  setProvider(provider: string | null) {
-    this.provider = provider;
-  }
-
-  @Mutation
   setAuth(payload: any) {
     this.status = payload.status;
-    // this.token = payload.raw.credentials.token;
     // let isNew = payload.raw.additionalUserInfo.isNewUser;
     this.raw = payload.raw;
     let user = {
@@ -105,57 +97,8 @@ export default class Auth extends VuexModule {
   }
 
   @Action({ rawError: true })
-  signUpAction(payload: { email: string; password: string; name: string }) {
-    this.context.commit("setStatus", "loading");
-    this.context.commit("setProvider", "email");
-    let t = this;
-    var db = firebase.firestore();
-    return new Promise((resolve, reject) => {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(payload.email, payload.password)
-        .then((response) => {
-          t.context.commit("setAuth", {
-            status: "success",
-            token: null,
-            user: response.user,
-            error: null,
-          });
-          db.collection("users")
-            .doc(response.user.uid)
-            .update({
-              name: payload.name,
-            })
-            .catch(function(error) {
-              console.error("Error updating name in firestore: ", error);
-            });
-          var user = firebase.auth().currentUser;
-          user
-            .updateProfile({ displayName: payload.name })
-            .then(() => {
-              resolve();
-            })
-            .catch(function(error) {
-              console.error("Error updating name in user properties: ", error);
-              resolve();
-            });
-        })
-        .catch((error) => {
-          t.context.commit("setAuth", {
-            status: "failure",
-            token: null,
-            user: null,
-            error: error,
-          });
-          reject(error);
-        });
-    });
-  }
-
-  @Action({ rawError: true })
   signInAction(payload: { email: string; password: string }) {
     this.context.commit("setStatus", "loading");
-    this.context.commit("setProvider", "email");
     let t = this;
     return new Promise((resolve, reject) => {
       firebase
@@ -171,58 +114,6 @@ export default class Auth extends VuexModule {
           resolve();
         })
         .catch((error) => {
-          t.context.commit("setAuth", {
-            status: "failure",
-            user: null,
-            token: null,
-            error: error,
-          });
-          reject(error);
-        });
-    });
-  }
-
-  @Action({ rawError: true })
-  providerSignIn(p: string) {
-    this.context.commit("setStatus", "loading");
-    this.context.commit("setProvider", p);
-    var provider: any;
-    switch (p) {
-      case "fb":
-        provider = new firebase.auth.FacebookAuthProvider();
-        break;
-      case "go":
-        provider = new firebase.auth.GoogleAuthProvider();
-        break;
-      case "gh":
-        provider = new firebase.auth.GithubAuthProvider();
-        break;
-    }
-    let t = this;
-    return new Promise((resolve, reject) => {
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(function(result) {
-          if (result.user) {
-            t.context.commit("setAuth", {
-              status: "success",
-              user: result.user,
-              token: result.credential ? result.credential.accessToken : null,
-              error: null,
-            });
-            resolve();
-          } else {
-            t.context.commit("setAuth", {
-              status: "failure",
-              token: null,
-              user: null,
-              error: "",
-            });
-            reject(null);
-          }
-        })
-        .catch((error: any) => {
           t.context.commit("setAuth", {
             status: "failure",
             user: null,
