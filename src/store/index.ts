@@ -17,7 +17,16 @@ export default new Vuex.Store({
     taskSys: Tasks,
   },
   state: {
-    todos: [],
+    jobs: [
+      {
+        id: 0,
+        location: 0,
+        start: "",
+        end: "",
+        assigned: [],
+        tasks: [0, 1],
+      },
+    ],
   },
   mutations: {
     ...vuexfireMutations,
@@ -25,7 +34,7 @@ export default new Vuex.Store({
   actions: {
     bindTodos: firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("todos", db.collection("todos"));
+      return bindFirestoreRef("jobs", db.collection("jobs"));
     }),
   },
   getters: {},

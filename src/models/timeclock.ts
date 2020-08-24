@@ -1,10 +1,9 @@
 export class Job {
   uid: string = "";
-  location: string = "";
+  user: string = "";
   start: Date = new Date();
   end: Date = new Date();
-  asigned: Array<string> = [];
-  tasks: Array<string> = [];
+  duration: string = "";
   constructor(data: Job | {} = {}) {
     Object.assign(this, data);
   }

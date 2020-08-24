@@ -8,6 +8,7 @@ export class Task {
   notes: string = "";
   tools: Array<string> = [];
   materials: Array<string> = [];
+  logs: Array<Object> = [];
   constructor(data: Task | {} = {}) {
     Object.assign(this, data);
   }

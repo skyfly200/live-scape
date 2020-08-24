@@ -65,6 +65,7 @@ export default class Timeclock extends VuexModule {
     };
     let entry = {
       id: id,
+      user: "",
       ...interval,
       duration: intervalToDuration(interval),
     };

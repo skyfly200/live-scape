@@ -14,16 +14,6 @@ import { v4 as uuidv4 } from "uuid";
 
 @Module({ namespaced: true })
 export default class Tasks extends VuexModule {
-  jobs: any = [
-    {
-      id: 0,
-      location: 0,
-      start: "",
-      end: "",
-      assigned: [],
-      tasks: [0, 1],
-    },
-  ];
   locations: any = [
     {
       id: 0,
