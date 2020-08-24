@@ -4,9 +4,8 @@ const nodemailer = require("nodemailer");
 import { User } from "../../src/models/user";
 
 const admin = require("firebase-admin");
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
-let db = admin.firestore();
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
@@ -62,9 +61,10 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   });
 
   // Add a new document in collection "users"
-  db.collection("users")
-    .doc(user.uid)
-    .set(profile);
+  admin
+    .firestore()
+    .collection("user")
+    .add(profile);
 
   return sendWelcomeEmail(email, displayName);
 });
