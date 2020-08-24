@@ -45,6 +45,11 @@ export default {
   },
   created() {
     this.$store.dispatch("bindJobs");
+    this.$store.dispatch("bindTasks");
+    this.$store.dispatch("bindLocations");
+    this.$store.dispatch("bindContacts");
+    this.$store.dispatch("bindTools");
+    this.$store.dispatch("bindMaterials");
   },
   data: () => ({
     value: "",
