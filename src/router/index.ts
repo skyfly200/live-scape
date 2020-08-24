@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import store from "@/store/index";
+import { Auth } from "@/firebase/auth";
 import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
@@ -77,34 +78,43 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   let auth = store.getters.isLoggedIn;
-//   if (!auth) {
-//     // try to load auth
-//     store
-//       .dispatch("syncAuth")
-//       .then((flag) => {
-//         if (to.matched.some((record) => record.meta.requiresAuth)) {
-//           // this route requires auth, check if logged in
-//           // if not, send to login page with redirect
-//           if (!flag) {
-//             next({
-//               path: "/auth",
-//               query: { redirect: to.fullPath },
-//             });
-//           } else {
-//             next();
-//           }
-//         } else {
-//           next();
-//         }
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  let auth = store.getters.isLoggedIn;
+  console.log(Auth.currentUser);
+  if (to.matched.some((route) => route.meta.requiresAuth)) {
+    if (Auth.currentUser !== null) {
+      next();
+    } else {
+      next("/");
+    }
+  }
+  next();
+  // if (!auth) {
+  //   try to load auth
+  //   store
+  //     .dispatch("syncAuth")
+  //     .then((flag) => {
+  //       if (to.matched.some((record) => record.meta.requiresAuth)) {
+  //         // this route requires auth, check if logged in
+  //         // if not, send to login page with redirect
+  //         if (!flag) {
+  //           next({
+  //             path: "/auth",
+  //             query: { redirect: to.fullPath },
+  //           });
+  //         } else {
+  //           next();
+  //         }
+  //       } else {
+  //         next();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // } else {
+  //   next();
+  // }
+});
 
 export default router;
