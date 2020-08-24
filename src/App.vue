@@ -99,13 +99,20 @@ import Login from "@/components/Login.vue";
 
 export default Vue.extend({
   name: "App",
-
   components: {
     Login,
   },
   computed: {
     ...mapState("auth", ["status", "raw", "user"]),
     ...mapGetters("auth", ["isLoggedIn"]),
+  },
+  created() {
+    this.$store.dispatch("bindJobs");
+    this.$store.dispatch("bindTasks");
+    this.$store.dispatch("bindLocations");
+    this.$store.dispatch("bindContacts");
+    this.$store.dispatch("bindTools");
+    this.$store.dispatch("bindMaterials");
   },
   data: () => ({
     role: "contractor",

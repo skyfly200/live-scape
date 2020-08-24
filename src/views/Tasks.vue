@@ -45,15 +45,14 @@ import { mapState } from "vuex";
 export default {
   name: "Tasks",
   computed: {
-    ...mapState(
-      "taskSys",
-      ["tasks"],
+    ...mapState([
+      "tasks",
       "locations",
       "contacts",
       "tools",
       "materials",
-      "jobs"
-    ),
+      "jobs",
+    ]),
   },
   data: () => ({}),
 };

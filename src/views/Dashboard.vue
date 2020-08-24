@@ -36,7 +36,14 @@ import { mapState } from "vuex";
 export default {
   name: "Dashboard",
   computed: {
-    ...mapState("taskSys", ["tasks"], "locations", "contacts"),
+    ...mapState([
+      "tasks",
+      "locations",
+      "contacts",
+      "tools",
+      "materials",
+      "jobs",
+    ]),
     completeTasks: function() {
       return this.tasks.filter((t) => t.status === "done").length;
     },

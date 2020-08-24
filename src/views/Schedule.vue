@@ -33,23 +33,14 @@ import { mapState } from "vuex";
 export default {
   name: "Schedule",
   computed: {
-    ...mapState(
-      "taskSys",
-      ["tasks"],
+    ...mapState([
+      "tasks",
       "locations",
       "contacts",
       "tools",
       "materials",
-      "jobs"
-    ),
-  },
-  created() {
-    this.$store.dispatch("bindJobs");
-    this.$store.dispatch("bindTasks");
-    this.$store.dispatch("bindLocations");
-    this.$store.dispatch("bindContacts");
-    this.$store.dispatch("bindTools");
-    this.$store.dispatch("bindMaterials");
+      "jobs",
+    ]),
   },
   data: () => ({
     value: "",
