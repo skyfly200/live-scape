@@ -43,6 +43,9 @@ export default {
       "jobs"
     ),
   },
+  created() {
+    this.$store.dispatch("bindJobs");
+  },
   data: () => ({
     value: "",
     now: null,
