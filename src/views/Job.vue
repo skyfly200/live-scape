@@ -59,8 +59,8 @@ import { mapState } from "vuex";
 export default {
   name: "Job",
   methods: {
-    getTasks: function(index) {
-      return this.tasks.filter((task) => task.job === index);
+    getTasks: function(jobID) {
+      return this.tasks.filter((task) => task.job === jobID);
     },
   },
   computed: {
@@ -72,6 +72,12 @@ export default {
       "materials",
       "jobs",
     ]),
+    jobID: function() {
+      return this.$route.params.id;
+    },
+    job: function() {
+      return this.jobs.filter((job) => job.uid === this.jobID);
+    },
     location: function() {
       return this.locations[this.$route.params.id];
     },
