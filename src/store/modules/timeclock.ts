@@ -6,6 +6,9 @@ import {
   Action,
 } from "vuex-module-decorators";
 
+import { firestoreAction } from "vuexfire";
+import { db } from "@/firebase/db";
+
 import { TimeclockLogs } from "@/models/timeclockLogs";
 import { format, formatDuration, intervalToDuration } from "date-fns";
 import { v4 as uuidv4 } from "uuid";

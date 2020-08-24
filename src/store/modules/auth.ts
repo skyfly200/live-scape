@@ -6,6 +6,9 @@ import {
   Action,
 } from "vuex-module-decorators";
 
+import { firestoreAction } from "vuexfire";
+import { db } from "@/firebase/db";
+
 import router from "../../router";
 import firebase from "firebase";
 import { User } from "@/models/user";

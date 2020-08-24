@@ -26,9 +26,9 @@ v-container.dashboard(fluid)
       v-list
         v-list-item(v-for="task in tasks" dense three-line :to="'/jobs/' + task.job" :key="task.id")
           v-list-item-content
-            v-list-item-title {{ task.title }} for {{ locations[task.job].name }}
-            v-list-item-subtitle {{ locations[task.job].description }}
-            v-list-item-subtitle {{ locations[task.job].address }}
+            v-list-item-title {{ task.title }}
+            v-list-item-subtitle {{ task.description }}
+            v-list-item-subtitle {{ task.notes }}
 </template>
 
 <script>
