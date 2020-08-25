@@ -32,7 +32,7 @@ v-container.timeclock(fluid)
               dark,
               v-model="time",
               full-width,
-              @click:minute="updateEntry('start', time)"
+              @click:minute="updateEntry('start', active, time)"
             )
         template(v-else)
           h1.ma-4 {{ elapsed }}
@@ -122,17 +122,24 @@ export default {
       this.edit = entry.id;
       this.time = entry.start.toDate();
     },
-    updateEntry(prop, time) {
-      if (prop === "start")
+    updateEntry(prop, entry, time) {
+      if (prop === "start") {
+        let old = entry.start.toDate();
+        let newDateString =
+          format(old, "P ") + time + ":" + format(old, "ss OOOO");
+        console.log(newDateString);
+        let newValue = new Date(newDateString);
         this.$store.dispatch("timeclock/updateEntry", {
           id: this.edit,
-          update: { start: time },
+          update: { start: newValue },
         });
-      else
+      } else {
+        let newValue = entry.end.toDate();
         this.$store.dispatch("timeclock/updateEntry", {
           id: this.edit,
-          update: { end: new Date(time) },
+          update: { end: entry.end.toDate().setTime(time) },
         });
+      }
       // TODO: update duration
 
       this.edit = "";
