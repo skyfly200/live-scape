@@ -46,7 +46,7 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   // [END eventAttributes]
 
   // create profile document
-  let profile = new User({
+  const profile = new User({
     uid: user.disabled,
     displayName: user.displayName,
     email: user.email,
