@@ -20,8 +20,8 @@ export default class Timeclock extends VuexModule {
   entries: any = []
 
   @Action({ rawError: true })
-  async startClock() {
-    await db.collection('entries').add({
+  startClock() {
+    return db.collection('entries').add({
       id: uuidv4(),
       user: Auth.currentUser.uid,
       start: new Date(),
@@ -29,19 +29,23 @@ export default class Timeclock extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async stopClock(entry: TimeclockEntries) {
-    console.log(entry)
+  stopClock(entry: TimeclockEntries) {
     let interval = {
       start: new Date(entry.start.toDate()),
       end: new Date(),
     }
     let entryUpdate = {
-      uid: entry.id,
+      id: entry.id,
       ...interval,
       duration: intervalToDuration(interval),
     }
     if (entryUpdate.duration !== '')
-      await db.collection('entries').doc(entry.id).set(entryUpdate)
+      return db.collection('entries').doc(entry.id).set(entryUpdate)
+  }
+
+  @Action({ rawError: true })
+  updateEntry(payload: { id: string; update: any }) {
+    return db.collection('entries').doc(payload.id).update(payload.update)
   }
 
   @Action({ rawError: true })

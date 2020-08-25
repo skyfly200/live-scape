@@ -4,9 +4,38 @@ v-container.timeclock(fluid)
     v-card-title Time Clock
     v-card-text.flex.center
       template(v-if="running")
-        h1.ma-4 {{ elapsed }}
-        v-btn.mr-6(@click="edit = true", icon)
-          v-icon mdi-pencil
+        template(v-if="edit !== ''")
+          v-menu(
+            ref="menu",
+            v-model="menu",
+            :close-on-content-click="false",
+            :nudge-right="40",
+            :return-value.sync="time",
+            transition="scale-transition",
+            offset-y,
+            max-width="290px",
+            min-width="290px"
+          )
+            template(v-slot:activator="{ on, attrs }")
+              v-text-field(
+                v-model="time",
+                label="Edit Start Time",
+                prepend-icon="mdi-clock",
+                readonly,
+                v-bind="attrs",
+                v-on="on"
+              )
+            v-time-picker(
+              v-if="menu",
+              dark,
+              v-model="time",
+              full-width,
+              @click:minute="updateEntry('start', time)"
+            )
+        template(v-else)
+          h1.ma-4 {{ elapsed }}
+          v-btn.mr-6(@click="editEntry(active)", icon)
+            v-icon mdi-pencil
         v-spacer
         v-btn(@click="stopClock(active)", fab, color="red")
           v-icon(large) mdi-stop
@@ -38,7 +67,7 @@ v-container.timeclock(fluid)
                 td {{ e.end.toDate() }}
                 td {{ formatDuration(e.duration) }}
                 td
-                  v-btn(icon)
+                  v-btn(@click="editEntry(e)", icon)
                     v-icon mdi-pencil
 </template>
 
@@ -48,7 +77,9 @@ import { format, intervalToDuration } from "date-fns";
 
 export default {
   data: () => ({
-    edit: false,
+    edit: "",
+    menu: false,
+    time: "",
     timer: null,
     now: "",
     elapsed: "",
@@ -84,6 +115,26 @@ export default {
       return [duration.hours, duration.minutes, duration.seconds]
         .map((p) => p.toString().padStart(2, "0"))
         .join(":");
+    },
+    editEntry(entry) {
+      this.edit = entry.id;
+      this.time = entry.start.toDate();
+    },
+    updateEntry(prop, time) {
+      if (prop === "start")
+        this.$store.dispatch("timeclock/updateEntry", {
+          id: this.edit,
+          update: { start: time },
+        });
+      else
+        this.$store.dispatch("timeclock/updateEntry", {
+          id: this.edit,
+          update: { end: time },
+        });
+      // TODO: update duration
+
+      this.edit = "";
+      this.time = "";
     },
   },
 };
