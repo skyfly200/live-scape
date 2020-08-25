@@ -8,7 +8,7 @@ v-container.timeclock(fluid)
         v-btn(@click="edit = true" icon).mr-6
           v-icon mdi-pencil
         v-spacer
-        v-btn(@click="stopClock" fab color="red")
+        v-btn(@click="stopClock(active)" fab color="red")
           v-icon(large) mdi-stop
       template(v-else)
         v-spacer
@@ -32,7 +32,7 @@ v-container.timeclock(fluid)
                 td {{ now }}
                 td {{ elapsed }}
                 td
-                  v-btn(@click="stopClock" icon)
+                  v-btn(@click="stopClock(e)" icon)
                     v-icon(color="red") mdi-stop
               template(v-else)
                 td {{ e.end }}
@@ -59,7 +59,7 @@ export default {
       if (this.active !== null)
         this.elapsed = formatDuration(
           intervalToDuration({
-            start: this.entries[this.active].start,
+            start: this.active.start,
             end: this.now,
           })
         );
@@ -69,10 +69,16 @@ export default {
     clearInterval(this.timer);
   },
   computed: {
-    ...mapState("timeclock", ["entries", "running", "active"]),
+    ...mapState("timeclock", ["entries"]),
     ...mapGetters("timeclock", ["totalAll"]),
     sorted() {
-      return Object.values(this.entries).sort((a, b) => b.start - a.start);
+      return this.entries.sort((a, b) => b.start - a.start);
+    },
+    running() {
+      return this.entries.filter((e) => e.end === null).length > 0;
+    },
+    active() {
+      return this.entries.filter((e) => e.end === null)[0];
     },
   },
   methods: {

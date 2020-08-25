@@ -18,61 +18,34 @@ import { TimeclockEntries } from "@/models/timeclockEntries";
 @Module({ namespaced: true })
 export default class Timeclock extends VuexModule {
   entries: any = [];
-  running: boolean = false;
-  active: string | null = null;
-
-  @Mutation
-  setRunning(running: boolean) {
-    this.running = running;
-  }
-
-  @Mutation
-  setActive(id: string) {
-    this.active = id;
-  }
-
-  @Mutation
-  clearActive() {
-    this.active = null;
-  }
 
   @Action({ rawError: true })
-  startClock() {
-    let id = uuidv4();
-    this.context.commit(
-      "setEntry",
+  async startClock() {
+    await db.collection("entries").add(
       new TimeclockEntries({
-        id: id,
+        id: uuidv4(),
+        user: Auth.currentUser.uid,
         start: new Date(),
       })
     );
-    this.context.commit("setRunning", true);
-    this.context.commit("setActive", id);
   }
 
   @Action({ rawError: true })
-  stopClock() {
-    let id: string = this.active !== null ? this.active : "";
-    if (
-      this.entries === undefined ||
-      this.entries[id] === undefined ||
-      this.entries[id].start === undefined ||
-      this.entries[id].end !== undefined
-    )
-      return;
+  async stopClock(entry: TimeclockEntries) {
     let interval = {
-      start: this.entries[id].start,
+      start: entry.start,
       end: new Date(),
     };
-    let entry = new TimeclockEntries({
-      id: id,
-      user: "",
+    let entryUpdate = new TimeclockEntries({
+      uid: entry.uid,
       ...interval,
       duration: intervalToDuration(interval),
     });
-    if (entry.duration !== "") this.context.commit("setEntry", entry);
-    this.context.commit("setRunning", false);
-    this.context.commit("clearActive");
+    if (entryUpdate.duration !== "")
+      await db
+        .collection("entries")
+        .doc(entry.uid)
+        .set(entryUpdate);
   }
 
   @Action({ rawError: true })
@@ -90,7 +63,7 @@ export default class Timeclock extends VuexModule {
   }
 
   get totalAll() {
-    let complete = Object.values(this.entries).filter((e: any) => !!e.duration);
+    let complete = this.entries.filter((e: any) => !!e.duration);
     return complete.reduce(
       (sum: number, e: any) =>
         sum +

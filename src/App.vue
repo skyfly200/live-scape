@@ -113,6 +113,7 @@ export default Vue.extend({
     this.$store.dispatch("bindContacts");
     this.$store.dispatch("bindTools");
     this.$store.dispatch("bindMaterials");
+    this.$store.dispatch("timeclock/bindEntries");
   },
   data: () => ({
     role: "contractor",
