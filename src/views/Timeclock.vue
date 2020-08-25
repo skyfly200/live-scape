@@ -218,16 +218,18 @@ export default {
           format(old, "P ") + time + ":" + format(old, "ss OOOO");
         let newValue = new Date(newDateString);
         if (isAfter(newValue, entry.start.toDate())) {
-          this.$store.dispatch("timeclock/updateEntry", {
-            id: this.edit,
-            update: {
-              end: newValue,
-              duration: intervalToDuration({
-                start: entry.start.toDate(),
+          if (isBefore(newValue, new Date())) {
+            this.$store.dispatch("timeclock/updateEntry", {
+              id: this.edit,
+              update: {
                 end: newValue,
-              }),
-            },
-          });
+                duration: intervalToDuration({
+                  start: entry.start.toDate(),
+                  end: newValue,
+                }),
+              },
+            });
+          } else this.error = "End must be in the past";
         } else this.error = "End must come after start";
       }
       this.edit = "";
