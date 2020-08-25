@@ -85,19 +85,7 @@ v-app#app
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
-      v-fab-transition
-        v-btn(
-          v-if="(role = 'manager')",
-          fab,
-          absolute,
-          bottom,
-          right,
-          dark,
-          color="blue"
-        )
-          v-icon(large) mdi-plus
-        v-btn(v-else, fab, absolute, bottom, right, dark, color="red")
-          v-icon(large) mdi-timer
+      ActionBar
   v-main(dark)
     router-view
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
@@ -122,11 +110,13 @@ v-app#app
 import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
+import ActionBar from "@/components/ActionBar.vue";
 
 export default Vue.extend({
   name: "App",
   components: {
     Login,
+    ActionBar,
   },
   computed: {
     ...mapState("auth", ["status", "raw", "user"]),

@@ -43,7 +43,7 @@ v-container.timeclock(fluid)
           v-icon(large) mdi-stop
       template(v-else)
         v-spacer
-        v-btn(@click="startClock", fab, color="red")
+        v-btn(@click="startClock(); selectTask()", fab, color="red")
           v-icon(large) mdi-timer
   v-card.mt-3(dark)
     v-card-title Entries
@@ -236,6 +236,9 @@ export default {
       this.edit = "";
       this.startTime = "";
       this.endTime = "";
+    },
+    selectTask() {
+      console.log("Select Task");
     },
   },
 };
