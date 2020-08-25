@@ -48,7 +48,14 @@ v-container.timeclock(fluid)
   v-card.mt-3(dark)
     v-card-title Entries
     v-card-text
-      v-alert(v-if="!!error", type="error") {{ error }}
+      v-alert(
+        v-if="!!error",
+        type="error",
+        v-model="alert",
+        dismissible,
+        close-icon="mdi-close",
+        dense
+      ) {{ error }}
       v-simple-table
         template(v-slot:default)
           thead
@@ -149,6 +156,7 @@ export default {
     endTime: "",
     menuStart: false,
     menuEnd: false,
+    alert: false,
     error: "",
     timer: null,
     now: "",
@@ -190,13 +198,15 @@ export default {
       return format(time, "PPPPpp");
     },
     editEntry(entry) {
-      this.error = "";
       this.edit = entry.id;
       this.startTime = entry.start.toDate();
       if (entry.end !== undefined) this.endTime = entry.end.toDate();
     },
+    setError(msg) {
+      this.error = msg;
+      this.alert = true;
+    },
     updateEntry(prop, entry, time) {
-      this.error = "";
       if (prop === "start") {
         let old = entry.start.toDate();
         let newDateString =
@@ -211,7 +221,7 @@ export default {
               duration: intervalToDuration({ start: newValue, end: end }),
             },
           });
-        } else this.error = "Start must come before end";
+        } else this.setError("Start must come before end");
       } else {
         let old = entry.end.toDate();
         let newDateString =
@@ -229,8 +239,8 @@ export default {
                 }),
               },
             });
-          } else this.error = "End must be in the past";
-        } else this.error = "End must come after start";
+          } else this.setError("End must be in the past");
+        } else this.setError("End must come after start");
       }
       this.edit = "";
       this.startTime = "";
@@ -238,6 +248,7 @@ export default {
     },
     cancelEdit() {
       this.error = "";
+      this.alert = false;
       this.edit = "";
       this.startTime = "";
       this.endTime = "";
