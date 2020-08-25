@@ -3,9 +3,13 @@ v-app#app
   v-dialog(v-model="loginDialog", width="500")
     Login(@success="loginDialog = false")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
-    v-list-item(link @click="loginDialog = true; drawer = false")
-      v-list-item-avatar(v-if="isLoggedIn" color="purple")
-        v-img(v-if="!!raw.additionalUserInfo.profile.picture" :src="raw.additionalUserInfo.profile.picture" :alt="user.displayName")
+    v-list-item(link, @click="loginDialog = true; drawer = false")
+      v-list-item-avatar(v-if="isLoggedIn", color="purple")
+        v-img(
+          v-if="!!raw.additionalUserInfo.profile.picture",
+          :src="raw.additionalUserInfo.profile.picture",
+          :alt="user.displayName"
+        )
         span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
       v-list-item-content
         template(v-if="!isLoggedIn")
@@ -17,7 +21,15 @@ v-app#app
       v-list-item-icon
         v-icon mdi-account-star
       v-list-item-content
-        v-select(:items="roles" v-model.lazy="role" label="User Role" dense outlined hide-details hide-selected)
+        v-select(
+          :items="roles",
+          v-model.lazy="role",
+          label="User Role",
+          dense,
+          outlined,
+          hide-details,
+          hide-selected
+        )
     v-divider
     v-list-item(link, to="/dash", text)
       v-list-item-icon
@@ -44,9 +56,11 @@ v-app#app
         v-icon mdi-clock
       v-list-item-content
         v-list-item-title Timeclock
-  v-app-bar#nav(app extended dark color="green")
+  v-app-bar#nav(app, extended, dark, color="green")
     v-avatar
-      v-img.logo(src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Leaf_black.svg")
+      v-img.logo(
+        src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Leaf_black.svg"
+      )
     v-toolbar-title.app-title LiveScape
     v-spacer
     v-text-field(
@@ -61,20 +75,32 @@ v-app#app
     .largeMenu
       template(v-if="isLoggedIn")
         v-avatar(color="purple")
-          v-img(v-if="!!raw.additionalUserInfo.profile.picture" :src="raw.additionalUserInfo.profile.picture" :alt="user.displayName")
+          v-img(
+            v-if="!!raw.additionalUserInfo.profile.picture",
+            :src="raw.additionalUserInfo.profile.picture",
+            :alt="user.displayName"
+          )
           span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
       template(v-else)
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
       v-fab-transition
-        v-btn(v-if="role = 'manager'" fab absolute bottom right dark color="blue")
+        v-btn(
+          v-if="(role = 'manager')",
+          fab,
+          absolute,
+          bottom,
+          right,
+          dark,
+          color="blue"
+        )
           v-icon(large) mdi-plus
-        v-btn(v-else fab absolute bottom right dark color="red")
+        v-btn(v-else, fab, absolute, bottom, right, dark, color="red")
           v-icon(large) mdi-timer
   v-main(dark)
     router-view
-  v-bottom-navigation(app shift grow dark color="light-green")
+  v-bottom-navigation(app, shift, grow, dark, color="light-green")
     v-btn(to="/dash")
       span Dash
       v-icon mdi-gauge
@@ -108,7 +134,7 @@ export default Vue.extend({
   },
   created() {
     this.$store.dispatch("bindJobs");
-    this.$store.dispatch("bindTasks");
+    this.$store.dispatch("taskSys/bindTasks");
     this.$store.dispatch("bindLocations");
     this.$store.dispatch("bindContacts");
     this.$store.dispatch("bindTools");
