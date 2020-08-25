@@ -1,6 +1,7 @@
 <template lang="pug">
 .action-bar.flex
   template(v-if="running")
+    v-spacer
     template(v-if="edit === active.id")
       v-menu(
         ref="menuActive",
@@ -35,6 +36,11 @@
       h1.ma-4 {{ elapsed }}
       v-btn.mr-6.mt-3(@click="editEntry(active)", icon)
         v-icon mdi-pencil
+    v-spacer
+  template(v-else)
+    v-spacer
+    p Your off the clock
+    v-spacer
   v-fab-transition
     template(v-if="role === 'manager'")
       v-btn(fab, absolute, bottom, right, dark, color="blue")
