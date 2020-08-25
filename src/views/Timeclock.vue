@@ -6,8 +6,8 @@ v-container.timeclock(fluid)
       template(v-if="running")
         template(v-if="edit === active.id")
           v-menu(
-            ref="menu",
-            v-model="menu",
+            ref="menuActive",
+            v-model="menuStart",
             :close-on-content-click="false",
             :nudge-right="40",
             :return-value.sync="time",
@@ -18,7 +18,7 @@ v-container.timeclock(fluid)
           )
             template(v-slot:activator="{ on, attrs }")
               v-text-field(
-                v-model="time",
+                v-model="startTime",
                 label="Edit Start Time",
                 prepend-icon="mdi-clock",
                 readonly,
@@ -28,11 +28,11 @@ v-container.timeclock(fluid)
               v-btn(icon, @click="cancelEdit")
                 v-icon mdi-close
             v-time-picker(
-              v-if="menu",
+              v-if="menuStart",
               dark,
-              v-model="time",
+              v-model="startTime",
               full-width,
-              @click:minute="updateEntry('start', active, time)"
+              @click:minute="updateEntry('start', active, startTime)"
             )
         template(v-else)
           h1.ma-4 {{ elapsed }}
@@ -48,6 +48,7 @@ v-container.timeclock(fluid)
   v-card.mt-3(dark)
     v-card-title Entries
     v-card-text
+      v-alert(v-if="!!error", type="error") {{ error }}
       v-simple-table
         template(v-slot:default)
           thead
@@ -58,14 +59,78 @@ v-container.timeclock(fluid)
               th.text-right Controls
           tbody
             tr(v-for="e in entries", :key="e.id")
-              td {{ e.start.toDate() }}
-              template(v-if="e.end === undefined")
+              template(v-if="edit === e.id")
+                td
+                  v-menu(
+                    ref="menuStart",
+                    v-model="menuStart",
+                    :close-on-content-click="false",
+                    :nudge-right="40",
+                    :return-value.sync="startTime",
+                    transition="scale-transition",
+                    offset-y,
+                    max-width="290px",
+                    min-width="290px"
+                  )
+                    template(v-slot:activator="{ on, attrs }")
+                      v-text-field(
+                        v-model="startTime",
+                        label="Edit Start Time",
+                        prepend-icon="mdi-clock",
+                        readonly,
+                        v-bind="attrs",
+                        v-on="on"
+                      )
+                    v-time-picker(
+                      v-if="menuStart",
+                      dark,
+                      v-model="startTime",
+                      full-width,
+                      @click:minute="updateEntry('start', e, startTime)"
+                    )
+                td
+                  .now(v-if="e.end === undefined") {{ now }}
+                  v-menu(
+                    v-else,
+                    ref="menuEnd",
+                    v-model="menuEnd",
+                    :close-on-content-click="false",
+                    :nudge-right="40",
+                    :return-value.sync="endTime",
+                    transition="scale-transition",
+                    offset-y,
+                    max-width="290px",
+                    min-width="290px"
+                  )
+                    template(v-slot:activator="{ on, attrs }")
+                      v-text-field(
+                        v-model="endTime",
+                        label="Edit End Time",
+                        prepend-icon="mdi-clock",
+                        readonly,
+                        v-bind="attrs",
+                        v-on="on"
+                      )
+                    v-time-picker(
+                      v-if="menuEnd",
+                      dark,
+                      v-model="endTime",
+                      full-width,
+                      @click:minute="updateEntry('end', e, endTime)"
+                    )
+                td {{ formatDuration(e.duration) }}
+                td
+                  v-btn(icon, @click="cancelEdit")
+                    v-icon mdi-close
+              template(v-else-if="e.end === undefined")
+                td {{ e.start.toDate() }}
                 td {{ now }}
                 td {{ elapsed }}
                 td
                   v-btn(@click="stopClock(e)", icon)
                     v-icon(color="red") mdi-stop
               template(v-else)
+                td {{ e.start.toDate() }}
                 td {{ e.end.toDate() }}
                 td {{ formatDuration(e.duration) }}
                 td
@@ -75,13 +140,16 @@ v-container.timeclock(fluid)
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-import { format, intervalToDuration } from "date-fns";
+import { format, isBefore, isAfter, intervalToDuration } from "date-fns";
 
 export default {
   data: () => ({
     edit: "",
-    menu: false,
-    time: "",
+    startTime: "",
+    endTime: "",
+    menuStart: false,
+    menuEnd: false,
+    error: "",
     timer: null,
     now: "",
     elapsed: "",
@@ -119,35 +187,57 @@ export default {
         .join(":");
     },
     editEntry(entry) {
+      this.error = "";
       this.edit = entry.id;
-      this.time = entry.start.toDate();
+      this.startTime = entry.start.toDate();
+      if (entry.end !== undefined) this.endTime = entry.end.toDate();
     },
     updateEntry(prop, entry, time) {
+      this.error = "";
       if (prop === "start") {
         let old = entry.start.toDate();
         let newDateString =
           format(old, "P ") + time + ":" + format(old, "ss OOOO");
         console.log(newDateString);
         let newValue = new Date(newDateString);
-        this.$store.dispatch("timeclock/updateEntry", {
-          id: this.edit,
-          update: { start: newValue },
-        });
+        let end = entry.end === undefined ? new Date() : entry.end.toDate();
+        if (isBefore(newValue, end)) {
+          this.$store.dispatch("timeclock/updateEntry", {
+            id: this.edit,
+            update: {
+              start: newValue,
+              duration: intervalToDuration({ start: newValue, end: end }),
+            },
+          });
+        } else this.error = "Start must come before end";
       } else {
-        let newValue = entry.end.toDate();
-        this.$store.dispatch("timeclock/updateEntry", {
-          id: this.edit,
-          update: { end: entry.end.toDate().setTime(time) },
-        });
+        let old = entry.end.toDate();
+        let newDateString =
+          format(old, "P ") + time + ":" + format(old, "ss OOOO");
+        console.log(newDateString);
+        let newValue = new Date(newDateString);
+        if (isAfter(newValue, entry.start.toDate())) {
+          this.$store.dispatch("timeclock/updateEntry", {
+            id: this.edit,
+            update: {
+              end: newValue,
+              duration: intervalToDuration({
+                start: entry.start.toDate(),
+                end: newValue,
+              }),
+            },
+          });
+        } else this.error = "End must come after start";
       }
-      // TODO: update duration
-
       this.edit = "";
-      this.time = "";
+      this.startTime = "";
+      this.endTime = "";
     },
     cancelEdit() {
+      this.error = "";
       this.edit = "";
-      this.time = "";
+      this.startTime = "";
+      this.endTime = "";
     },
   },
 };
