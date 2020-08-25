@@ -4,7 +4,7 @@ v-container.timeclock(fluid)
     v-card-title Time Clock
     v-card-text.flex.center
       template(v-if="running")
-        template(v-if="edit !== ''")
+        template(v-if="edit === active.id")
           v-menu(
             ref="menu",
             v-model="menu",
@@ -25,6 +25,8 @@ v-container.timeclock(fluid)
                 v-bind="attrs",
                 v-on="on"
               )
+              v-btn(icon, @click="cancelEdit")
+                v-icon mdi-close
             v-time-picker(
               v-if="menu",
               dark,
@@ -129,10 +131,14 @@ export default {
       else
         this.$store.dispatch("timeclock/updateEntry", {
           id: this.edit,
-          update: { end: time },
+          update: { end: new Date(time) },
         });
       // TODO: update duration
 
+      this.edit = "";
+      this.time = "";
+    },
+    cancelEdit() {
       this.edit = "";
       this.time = "";
     },
