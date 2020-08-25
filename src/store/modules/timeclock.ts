@@ -7,22 +7,19 @@ import {
 } from "vuex-module-decorators";
 
 import { firestoreAction } from "vuexfire";
-import { db } from "@/firebase/db";
-
-import { TimeclockLogs } from "@/models/timeclockLogs";
 import { format, formatDuration, intervalToDuration } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
+import { db } from "@/firebase/db";
+import { Auth } from "@/firebase/auth";
+
+import { TimeclockEntries } from "@/models/timeclockEntries";
+
 @Module({ namespaced: true })
 export default class Timeclock extends VuexModule {
-  entries: any = {};
+  entries: any = [];
   running: boolean = false;
   active: string | null = null;
-
-  @Mutation
-  setEntry(payload: any) {
-    this.entries[payload.id] = payload;
-  }
 
   @Mutation
   setRunning(running: boolean) {
@@ -42,10 +39,13 @@ export default class Timeclock extends VuexModule {
   @Action({ rawError: true })
   startClock() {
     let id = uuidv4();
-    this.context.commit("setEntry", {
-      id: id,
-      start: new Date(),
-    });
+    this.context.commit(
+      "setEntry",
+      new TimeclockEntries({
+        id: id,
+        start: new Date(),
+      })
+    );
     this.context.commit("setRunning", true);
     this.context.commit("setActive", id);
   }
@@ -64,15 +64,29 @@ export default class Timeclock extends VuexModule {
       start: this.entries[id].start,
       end: new Date(),
     };
-    let entry = {
+    let entry = new TimeclockEntries({
       id: id,
       user: "",
       ...interval,
       duration: intervalToDuration(interval),
-    };
+    });
     if (entry.duration !== "") this.context.commit("setEntry", entry);
     this.context.commit("setRunning", false);
     this.context.commit("clearActive");
+  }
+
+  @Action({ rawError: true })
+  bindEntries() {
+    firestoreAction(({ bindFirestoreRef }) => {
+      // return the promise returned by `bindFirestoreRef`
+      return bindFirestoreRef(
+        "entries",
+        db
+          .collection("entries")
+          .where("user", "==", Auth.currentUser.uid)
+          .orderBy("start")
+      );
+    });
   }
 
   get totalAll() {
