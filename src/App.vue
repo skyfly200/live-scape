@@ -1,21 +1,23 @@
 <template lang="pug">
 v-app#app
-  v-dialog(v-model="loginDialog", width="500")
-    Login(@success="loginDialog = false")
+  v-dialog(v-model="dialog", width="500")
+    Login(v-if="dialog.type === 'login'", @success="clearDialog")
+    TaskForm(v-else-if="dialog.type === 'task'", @done="clearDialog")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
-    v-list-item(link, @click="loginDialog = true; drawer = false")
-      v-list-item-avatar(v-if="isLoggedIn", color="purple")
-        v-img(
-          v-if="!!raw.additionalUserInfo.profile.picture",
-          :src="raw.additionalUserInfo.profile.picture",
-          :alt="user.displayName"
-        )
-        span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
-      v-list-item-content
-        template(v-if="!isLoggedIn")
-          v-list-item-title(text) Login or Register
-        template(v-else)
+    v-list-item(link)
+      template(v-if="isLoggedIn")
+        v-list-item-avatar(color="purple")
+          v-img(
+            v-if="!!raw.additionalUserInfo.profile.picture",
+            :src="raw.additionalUserInfo.profile.picture",
+            :alt="user.displayName"
+          )
+          span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
+        v-list-item-content
           v-list-item-title(text) Welcome {{ user.displayName }}
+      template(v-else)
+      v-list-item-content(@click="setDialog('login')")
+        v-list-item-title(text) Login or Register
     v-divider
     v-list-item
       v-list-item-icon
@@ -85,7 +87,7 @@ v-app#app
         v-btn(@click.stop="loginDialog = true", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
-      ActionBar
+      ActionBar(@newTask="setDialog('task')")
   v-main(dark)
     router-view
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
@@ -110,6 +112,7 @@ v-app#app
 import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
+import TaskForm from "@/components/TaskForm.vue";
 import ActionBar from "@/components/ActionBar.vue";
 
 export default Vue.extend({
@@ -117,6 +120,7 @@ export default Vue.extend({
   components: {
     Login,
     ActionBar,
+    TaskForm,
   },
   computed: {
     ...mapState("auth", ["status", "raw", "user"]),
@@ -131,10 +135,28 @@ export default Vue.extend({
     this.$store.dispatch("bindMaterials");
     this.$store.dispatch("timeclock/bind");
   },
+  methods: {
+    clearDialog() {
+      this.dialog = {
+        state: false,
+        type: "",
+      };
+    },
+    setDialog(type: string) {
+      this.dialog = {
+        state: true,
+        type: type,
+      };
+      this.drawer = false;
+    },
+  },
   data: () => ({
-    role: "contractor",
+    role: "manager",
     roles: ["admin", "manager", "contractor"],
-    loginDialog: false,
+    dialog: {
+      state: false,
+      type: "",
+    },
     drawer: false,
     query: "",
   }),

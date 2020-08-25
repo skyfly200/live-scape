@@ -1,14 +1,22 @@
 <template lang="pug">
-  v-card.task-form
-    v-card-title Add a Task
-    v-card-text
-      v-input(label="Title" v-model="task.title")
-      v-textfield(label="decription" v-model="task.description")
-      v-autocomplete(label="tools" chips v-model="task.tools" :items="tools" item-text="name" item-value="id") 
-    v-card-actions
-      v-btn Clear
-      v-spacer
-      v-btn Add
+v-card.task-form
+  v-card-title Add a Task
+  v-card-text
+    v-input(label="Title", v-model="task.title")
+    v-textfield(label="decription", v-model="task.description")
+    v-autocomplete(
+      label="tools",
+      chips,
+      v-model="task.tools",
+      :items="tools",
+      item-text="name",
+      item-value="id"
+    ) 
+  v-card-actions
+    v-btn(@click="clear") Clear
+    v-spacer
+    v-btn(@click="add") Add
+    v-btn(@click="cancel") Cancel
 </template>
 
 <script>
@@ -16,6 +24,15 @@ import { mapState } from "vuex";
 
 export default {
   name: "TaskForm",
+  methods: {
+    add() {
+      this.$emit("done");
+    },
+    cancel() {
+      this.$emit("done");
+    },
+    clear() {},
+  },
   data: () => ({
     task: {
       id: 3,

@@ -43,7 +43,15 @@
     v-spacer
   v-fab-transition
     template(v-if="role === 'manager'")
-      v-btn(fab, absolute, bottom, right, dark, color="blue")
+      v-btn(
+        fab,
+        @click="$emit('newTask')",
+        absolute,
+        bottom,
+        right,
+        dark,
+        color="blue"
+      )
         v-icon(large) mdi-plus
     template(v-else)
       v-btn(
@@ -78,7 +86,7 @@ import { format, isBefore, isAfter, intervalToDuration } from "date-fns";
 export default {
   name: "ActionBar",
   data: () => ({
-    role: "contractor",
+    role: "manager",
     edit: "",
     time: "",
     menu: false,
