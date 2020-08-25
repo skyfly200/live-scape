@@ -198,7 +198,6 @@ export default {
         let old = entry.start.toDate();
         let newDateString =
           format(old, "P ") + time + ":" + format(old, "ss OOOO");
-        console.log(newDateString);
         let newValue = new Date(newDateString);
         let end = entry.end === undefined ? new Date() : entry.end.toDate();
         if (isBefore(newValue, end)) {
@@ -214,7 +213,6 @@ export default {
         let old = entry.end.toDate();
         let newDateString =
           format(old, "P ") + time + ":" + format(old, "ss OOOO");
-        console.log(newDateString);
         let newValue = new Date(newDateString);
         if (isAfter(newValue, entry.start.toDate())) {
           this.$store.dispatch("timeclock/updateEntry", {
