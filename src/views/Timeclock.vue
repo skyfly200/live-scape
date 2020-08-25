@@ -123,15 +123,15 @@ v-container.timeclock(fluid)
                   v-btn(icon, @click="cancelEdit")
                     v-icon mdi-close
               template(v-else-if="e.end === undefined")
-                td {{ e.start.toDate() }}
-                td {{ now }}
+                td {{ friendlyTime(e.start.toDate()) }}
+                td {{ friendlyTime(now) }}
                 td {{ elapsed }}
                 td
                   v-btn(@click="stopClock(e)", icon)
                     v-icon(color="red") mdi-stop
               template(v-else)
-                td {{ e.start.toDate() }}
-                td {{ e.end.toDate() }}
+                td {{ friendlyTime(e.start.toDate()) }}
+                td {{ friendlyTime(e.end.toDate()) }}
                 td {{ formatDuration(e.duration) }}
                 td
                   v-btn(@click="editEntry(e)", icon)
@@ -185,6 +185,9 @@ export default {
       return [duration.hours, duration.minutes, duration.seconds]
         .map((p) => p.toString().padStart(2, "0"))
         .join(":");
+    },
+    friendlyTime(time) {
+      return format(time, "PPPPpp");
     },
     editEntry(entry) {
       this.error = "";
