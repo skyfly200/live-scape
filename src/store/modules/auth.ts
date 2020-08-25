@@ -12,6 +12,7 @@ import { db } from "@/firebase/db";
 import router from "../../router";
 import firebase from "firebase";
 import { User } from "@/models/user";
+import { Auth as FirebaseAuth } from "@/firebase/auth";
 
 @Module({ namespaced: true })
 export default class Auth extends VuexModule {
@@ -129,7 +130,7 @@ export default class Auth extends VuexModule {
   }
 
   get isLoggedIn() {
-    return !!this.raw;
+    return FirebaseAuth.currentUser !== null;
   }
   get getUser() {
     return this.user;
