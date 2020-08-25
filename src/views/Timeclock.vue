@@ -1,50 +1,5 @@
 <template lang="pug">
 v-container.timeclock(fluid)
-  v-card(dark)
-    v-card-title Time Clock
-    v-card-text.flex.center
-      template(v-if="running")
-        template(v-if="edit === active.id")
-          v-menu(
-            ref="menuActive",
-            v-model="menuStart",
-            :close-on-content-click="false",
-            :nudge-right="40",
-            :return-value.sync="time",
-            transition="scale-transition",
-            offset-y,
-            max-width="290px",
-            min-width="290px"
-          )
-            template(v-slot:activator="{ on, attrs }")
-              v-text-field(
-                v-model="startTime",
-                label="Edit Start Time",
-                prepend-icon="mdi-clock",
-                readonly,
-                v-bind="attrs",
-                v-on="on"
-              )
-              v-btn(icon, @click="cancelEdit")
-                v-icon mdi-close
-            v-time-picker(
-              v-if="menuStart",
-              dark,
-              v-model="startTime",
-              full-width,
-              @click:minute="updateEntry('start', active, startTime)"
-            )
-        template(v-else)
-          h1.ma-4 {{ elapsed }}
-          v-btn.mr-6(@click="editEntry(active)", icon)
-            v-icon mdi-pencil
-        v-spacer
-        v-btn(@click="stopClock(active)", fab, color="red")
-          v-icon(large) mdi-stop
-      template(v-else)
-        v-spacer
-        v-btn(@click="startClock(); selectTask()", fab, color="red")
-          v-icon(large) mdi-timer
   v-card.mt-3(dark)
     v-card-title Entries
     v-card-text
@@ -213,15 +168,17 @@ export default {
           format(old, "P ") + time + ":" + format(old, "ss OOOO");
         let newValue = new Date(newDateString);
         let end = entry.end === undefined ? new Date() : entry.end.toDate();
-        if (isBefore(newValue, end)) {
-          this.$store.dispatch("timeclock/updateEntry", {
-            id: this.edit,
-            update: {
-              start: newValue,
-              duration: intervalToDuration({ start: newValue, end: end }),
-            },
-          });
-        } else this.setError("Start must come before end");
+        if (isBefore(newValue, new Date())) {
+          if (isBefore(newValue, end)) {
+            this.$store.dispatch("timeclock/updateEntry", {
+              id: this.edit,
+              update: {
+                start: newValue,
+                duration: intervalToDuration({ start: newValue, end: end }),
+              },
+            });
+          } else this.setError("Start must come before end");
+        } else this.setError("Start must be in the past");
       } else {
         let old = entry.end.toDate();
         let newDateString =
