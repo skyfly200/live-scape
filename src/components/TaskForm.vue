@@ -1,22 +1,44 @@
 <template lang="pug">
-v-card.task-form
+v-card.task-form.pa-6
   v-card-title Add a Task
   v-card-text
-    v-input(label="Title", v-model="task.title")
-    v-text-field(label="decription", v-model="task.description")
+    v-text-field(label="Title", v-model="task.title")
+    v-text-field(label="Decription", v-model="task.description")
     v-autocomplete(
-      label="tools",
+      label="Location",
+      clearable,
+      v-model="task.location",
+      :items="locations.locations",
+      item-text="title",
+      item-value="id"
+    )
+    v-autocomplete(
+      label="Tools",
       chips,
+      multiple,
+      clearable,
       v-model="task.tools",
-      :items="tools",
+      :items="tools.tools",
+      item-text="name",
+      item-value="id"
+    )
+    v-autocomplete(
+      label="Materials",
+      chips,
+      multiple,
+      clearable,
+      v-model="task.materials",
+      :items="materials.materials",
       item-text="name",
       item-value="id"
     ) 
   v-card-actions
-    v-btn(@click="clear") Clear
+    v-btn(@click="save", icon, color="blue")
+      v-icon mdi-content-save
     v-spacer
-    v-btn(@click="add") Add
-    v-btn(@click="cancel") Cancel
+    v-btn(@click="clear", color="red", outlined) Clear
+    v-btn(@click="cancel", color="red") Cancel
+    v-btn(@click="add", color="green") Add
 </template>
 
 <script>
@@ -24,6 +46,17 @@ import { mapState } from "vuex";
 
 export default {
   name: "TaskForm",
+  computed: {
+    ...mapState([
+      "tasks",
+      "locations",
+      ["locations"],
+      "contacts",
+      "tools",
+      "materials",
+      "jobs",
+    ]),
+  },
   methods: {
     add() {
       this.$emit("done");
@@ -31,44 +64,29 @@ export default {
     cancel() {
       this.$emit("done");
     },
-    clear() {},
-  },
-  data: () => ({
-    task: {
-      id: 3,
-      status: "new",
-      job: 0,
-      title: "Weed and Deadhead",
-      description: "Weed and deadhead the back and side yards",
-      notes: "",
-      tools: [0, 1, 2],
+    clear() {
+      this.task = this.blankTask;
     },
-    tools: [
-      {
-        id: 0,
-        name: "Weeding Tool",
-        image:
-          "https://www.gardenersedge.com/images/500/4752.jpg?v=100000227430-2",
-        size: "small",
-        description: "For pulling up weeds at the root",
-      },
-      {
-        id: 1,
-        name: "Hand Pruners",
-        image:
-          "https://p0.pikist.com/photos/117/802/background-isolated-garden-scissors-pruner-shears-secateurs-object-equipment.jpg",
-        size: "small",
-        description: "For pruning and deadheading",
-      },
-      {
-        id: 3,
-        name: "Bucket",
-        image:
-          "https://images.homedepot-static.com/productImages/db7d4968-169c-4360-aece-5fd544701f00/svn/orange-the-home-depot-paint-buckets-lids-05glhd2-c3_1000.jpg",
-        size: "medium",
-        description: "for collecting debris",
-      },
-    ],
+    save() {},
+  },
+  mounted() {
+    this.clear();
+  },
+  props: ["mode"],
+  data: () => ({
+    task: {},
+    blankTask: {
+      status: "new",
+      title: "",
+      description: "",
+      location: "",
+      job: "",
+      asigned: [],
+      notes: "",
+      tools: [],
+      materials: [],
+      logs: [],
+    },
   }),
 };
 </script>
