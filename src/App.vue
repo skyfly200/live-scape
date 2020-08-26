@@ -94,10 +94,10 @@ v-app#app
     v-btn(to="/dash")
       span Dash
       v-icon mdi-gauge
-    v-btn(to="/jobs")
+    v-btn(to="/jobs", v-if="roleFilter(['admin', 'manager'])")
       span Jobs
       v-icon mdi-notebook
-    v-btn(to="/tasks")
+    v-btn(to="/tasks", v-if="roleFilter(['admin', 'manager'])")
       span Tasks
       v-icon mdi-clipboard-check
     v-btn(to="/schedule")
@@ -136,6 +136,9 @@ export default Vue.extend({
     this.$store.dispatch("timeclock/bind");
   },
   methods: {
+    roleFilter(roles: Array<string>) {
+      return roles.reduce((acc, role) => acc || role === this.role, false);
+    },
     clearDialog() {
       this.dialog = {
         state: false,
