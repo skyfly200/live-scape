@@ -1,7 +1,7 @@
 <template lang="pug">
 .action-bar.flex
+  v-spacer
   template(v-if="running")
-    v-spacer
     template(v-if="edit === active.id")
       v-menu(
         ref="menuActive",
@@ -33,49 +33,15 @@
           @click:minute="updateEntry(active, time)"
         )
     template(v-else)
+      v-spacer
       h1.ma-4 {{ elapsed }}
+      v-spacer
       v-btn.mr-6.mt-3(@click="editEntry(active)", icon)
         v-icon mdi-pencil
-    v-spacer
   template(v-else)
     v-spacer
     h3 You are off the clock
     v-spacer
-  v-fab-transition
-    template(v-if="role === 'manager'")
-      v-btn(
-        fab,
-        @click="$emit('newTask')",
-        absolute,
-        bottom,
-        right,
-        dark,
-        color="blue"
-      )
-        v-icon(large) mdi-plus
-    template(v-else)
-      v-btn(
-        v-if="!running",
-        @click="startClock(); selectTask()",
-        fab,
-        absolute,
-        bottom,
-        right,
-        dark,
-        color="red"
-      )
-        v-icon(large) mdi-timer
-      v-btn(
-        v-else,
-        @click="stopClock(active)",
-        fab,
-        absolute,
-        bottom,
-        right,
-        dark,
-        color="red"
-      )
-        v-icon(large) mdi-stop
   v-alert(v-if="!!error", type="error") {{ error }}
 </template>
 
@@ -90,6 +56,7 @@ export default {
     edit: "",
     time: "",
     menu: false,
+    actions: false,
     error: "",
     timer: null,
     now: "",
@@ -156,9 +123,6 @@ export default {
       this.error = "";
       this.edit = "";
       this.time = "";
-    },
-    selectTask() {
-      console.log("Select Task");
     },
   },
 };

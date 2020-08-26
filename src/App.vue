@@ -88,9 +88,10 @@ v-app#app
         v-btn(@click.stop="setDialog('login')", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
-      ActionBar(@newTask="setDialog('task')")
+      ActionBar
   v-main(dark)
     router-view
+    ActionBtn(@newTask="setDialog('task')", @newJob="setDialog('job')")
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
     v-btn(to="/dash")
       span Dash
@@ -116,12 +117,14 @@ import Login from "@/components/Login.vue";
 import TaskForm from "@/components/TaskForm.vue";
 import JobForm from "@/components/JobForm.vue";
 import ActionBar from "@/components/ActionBar.vue";
+import ActionBtn from "@/components/ActionBtn.vue";
 
 export default Vue.extend({
   name: "App",
   components: {
     Login,
     ActionBar,
+    ActionBtn,
     TaskForm,
     JobForm,
   },

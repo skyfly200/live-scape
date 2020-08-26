@@ -1,49 +1,33 @@
 <template lang="pug">
 .action-btn
   template(v-if="role === 'manager'")
-    v-speed-dial(v-model="actions", fixed, direction="left", bottom, right)
+    v-speed-dial(
+      v-model="actions",
+      absolute,
+      open-on-hover,
+      direction="top",
+      height="100%",
+      bottom,
+      right
+    )
       template(v-slot:activator)
-        v-btn(
-          fab,
-          v-model="actions",
-          absolute,
-          bottom,
-          right,
-          dark,
-          color="blue"
-        )
-          v-icon(large) mdi-plus
-      v-btn(
-        fab,
-        @click="$emit('newTask')",
-        absolute,
-        bottom,
-        right,
-        dark,
-        color="green"
-      )
-        v-icon(large) mdi-clipboard-plus
-      v-btn(
-        fab,
-        @click="$emit('newJob')",
-        absolute,
-        bottom,
-        right,
-        dark,
-        color="purple"
-      )
-        v-icon(large) mdi-calendar-plus
+        v-btn(fab, v-model="actions", dark, color="blue")
+          v-icon mdi-plus
+      v-btn(fab, @click="$emit('newTask')", small, dark, color="green")
+        v-icon mdi-clipboard-plus
+      v-btn(fab, @click="$emit('newJob')", small, dark, color="purple")
+        v-icon mdi-calendar-plus
       v-btn(
         v-if="!running",
         @click="startClock(); selectTask()",
         fab,
-        absolute,
-        bottom,
-        right,
+        small,
         dark,
         color="red"
       )
-        v-icon(large) mdi-timer
+        v-icon mdi-timer
+      v-btn(v-else, @click="stopClock(active)", fab, small, dark, color="red")
+        v-icon mdi-stop
   template(v-else)
     v-btn(
       v-if="!running",
@@ -55,7 +39,7 @@
       dark,
       color="red"
     )
-      v-icon(large) mdi-timer
+      v-icon mdi-timer
     v-btn(
       v-else,
       @click="stopClock(active)",
@@ -66,7 +50,7 @@
       dark,
       color="red"
     )
-      v-icon(large) mdi-stop
+      v-icon mdi-stop
 </template>
 
 <script>
@@ -79,6 +63,12 @@ export default {
     role: "manager",
     actions: false,
   }),
+  computed: {
+    ...mapState("timeclock", ["entries"]),
+    running() {
+      return this.entries.filter((e) => e.end === undefined).length > 0;
+    },
+  },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
     selectTask() {
