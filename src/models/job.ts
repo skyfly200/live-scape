@@ -1,11 +1,11 @@
 export class Job {
-  uid: string = "";
-  location: string = "";
-  start: Date = new Date();
-  end: Date = new Date();
-  asigned: Array<string> = [];
-  tasks: Array<string> = [];
+  id: string = ''
+  location: string = ''
+  start: Date = new Date()
+  end: Date = new Date()
+  asigned: Array<string> = []
+  tasks: Array<string> = []
   constructor(data: Job | {} = {}) {
-    Object.assign(this, data);
+    Object.assign(this, data)
   }
 }

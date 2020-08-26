@@ -1,10 +1,10 @@
 export class Tool {
-  uid: string = "";
-  name: string = "";
-  size: string = "";
-  description: string = "";
-  image: string | null = null;
+  id: string = ''
+  name: string = ''
+  size: string = ''
+  description: string = ''
+  image: string | null = null
   constructor(data: Tool | {} = {}) {
-    Object.assign(this, data);
+    Object.assign(this, data)
   }
 }

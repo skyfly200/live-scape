@@ -1,11 +1,11 @@
 export class Material {
-  uid: string = "";
-  name: string = "";
-  size: string = "";
-  description: string = "";
-  image: string | null = null;
-  prompts: Array<Object> = [];
+  id: string = ''
+  name: string = ''
+  size: string = ''
+  description: string = ''
+  image: string | null = null
+  prompts: Array<Object> = []
   constructor(data: Material | {} = {}) {
-    Object.assign(this, data);
+    Object.assign(this, data)
   }
 }

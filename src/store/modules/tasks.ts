@@ -4,45 +4,48 @@ import {
   Mutation,
   MutationAction,
   Action,
-} from "vuex-module-decorators";
+} from 'vuex-module-decorators'
 
-import { firestoreAction } from "vuexfire";
-import { db } from "@/firebase/db";
+import { firestoreAction } from 'vuexfire'
+import { db } from '@/firebase/db'
+import { v4 as uuidv4 } from 'uuid'
 
-import { Task } from "@/models/task";
+import { Task } from '@/models/task'
 
 @Module({ namespaced: true })
 export default class Tasks extends VuexModule {
-  tasks: Array<Task> = [
-    new Task({
-      id: 0,
-      status: "new",
-      job: 0,
-      location: 0,
-      title: "Weed and Deadhead",
-      description: "Weed and deadhead the back and side yards",
-      notes: "",
-      tools: [0, 1, 2],
-      materials: [],
-    }),
-    new Task({
-      id: 1,
-      status: "new",
-      job: 0,
-      location: 0,
-      title: "Plant Suculants",
-      description: "Plant the suculants in the garden",
-      notes: "",
-      tools: [0, 1, 2],
-      materials: [2],
-    }),
-  ];
+  tasks: Array<Task> = []
+
+  @Action({ rawError: true })
+  addTask(task: any) {
+    return db.collection('tasks').add({
+      id: uuidv4(),
+      status: 'new',
+      job: task.job,
+      location: task.location,
+      title: task.title,
+      description: task.description,
+      notes: task.notes,
+      tools: task.tools,
+      materials: task.materials,
+    })
+  }
+
+  @Action({ rawError: true })
+  updateTask(payload: any) {
+    return db.collection('tasks').doc(payload.id).update(payload.update)
+  }
+
+  @Action({ rawError: true })
+  deleteTask(id: any) {
+    return db.collection('tasks').doc(id).delete()
+  }
 
   @Action({ rawError: true })
   bindTasks() {
     firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("tasks", db.collection("tasks"));
-    });
+      return bindFirestoreRef('tasks', db.collection('tasks'))
+    })
   }
 }
