@@ -103,14 +103,7 @@ export default {
   }),
   methods: {
     addJob() {
-      this.events.push({
-        name: "New Job",
-        description: "Testing Job Adding",
-        start: new Date(),
-        end: add(new Date(), { hours: 2 }),
-        timed: true,
-        color: "purple",
-      });
+      this.$emit("newJob");
     },
     viewDay({ date }) {
       this.value = date;

@@ -90,7 +90,7 @@ v-app#app
     template(v-slot:extension)
       ActionBar
   v-main(dark)
-    router-view
+    router-view(@newJob="setDialog('job')")
   ActionBtn(
     :role="role",
     @newTask="setDialog('task')",
