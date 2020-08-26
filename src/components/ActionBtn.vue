@@ -68,6 +68,9 @@ export default {
     running() {
       return this.entries.filter((e) => e.end === undefined).length > 0;
     },
+    active() {
+      return this.entries.filter((e) => e.end === undefined)[0];
+    },
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
