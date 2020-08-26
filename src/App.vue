@@ -3,6 +3,7 @@ v-app#app
   v-dialog(v-model="dialog.state", width="500")
     Login(v-if="dialog.type === 'login'", @success="clearDialog")
     TaskForm(v-else-if="dialog.type === 'task'", @done="clearDialog")
+    JobForm(v-else-if="dialog.type === 'job'", @done="clearDialog")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link)
       template(v-if="isLoggedIn")
@@ -113,6 +114,7 @@ import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 import TaskForm from "@/components/TaskForm.vue";
+import JobForm from "@/components/JobForm.vue";
 import ActionBar from "@/components/ActionBar.vue";
 
 export default Vue.extend({
@@ -121,6 +123,7 @@ export default Vue.extend({
     Login,
     ActionBar,
     TaskForm,
+    JobForm,
   },
   computed: {
     ...mapState("auth", ["status", "raw", "user"]),

@@ -2,12 +2,10 @@
 v-card.job-form.pa-6
   v-card-title Add a Job
   v-card-text
-    v-text-field(label="Title", v-model="task.title")
-    v-text-field(label="Decription", v-model="task.description")
     v-autocomplete(
       label="Location",
       clearable,
-      v-model="task.location",
+      v-model="job.location",
       :items="locations.locations",
       :filter="locationFilter",
       item-text="title",
@@ -17,6 +15,25 @@ v-card.job-form.pa-6
         v-list-item-content
           v-list-item-title {{ data.item.title }}
           v-list-item-title {{ data.item.address }}
+    v-autocomplete(
+      label="Assigned",
+      clearable,
+      chip,
+      multiple,
+      v-model="job.assigned",
+      :items="contractors"
+    )
+    .start-time
+      v-date-picker
+      v-time-picker
+    .end-time
+      v-date-picker
+      v-time-picker
+    .tasks
+      h2 Tasks
+      v-list
+        v-list-item(v-for="task in tasks", :key="task")
+          v-list-item-content {{ task }}
   v-card-actions
     v-spacer
     v-btn(@click="clear", color="red", outlined) Clear
@@ -58,7 +75,7 @@ export default {
       this.$emit("done");
     },
     clear() {
-      this.task = this.blankTask;
+      this.job = this.blankJob;
     },
     save() {},
   },
@@ -67,19 +84,21 @@ export default {
   },
   props: ["mode"],
   data: () => ({
-    task: {},
-    blankTask: {
-      status: "new",
-      title: "",
-      description: "",
+    job: {},
+    blankJob: {
       location: "",
-      job: "",
-      asigned: [],
-      notes: "",
-      tools: [],
-      materials: [],
-      logs: [],
+      start: {
+        date: "",
+        time: "",
+      },
+      end: {
+        date: "",
+        time: "",
+      },
+      assigned: [],
+      tasks: [],
     },
+    contractors: ["Gunner", "Marrie"],
   }),
 };
 </script>
