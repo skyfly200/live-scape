@@ -134,6 +134,7 @@ v-card.job-form.pa-6
               full-width,
               @click:minute="menus.end.time = false"
             )
+    DateTime
   v-card-actions
     v-spacer
     v-btn(@click="clear", color="red", outlined) Clear
@@ -145,8 +146,13 @@ v-card.job-form.pa-6
 import { mapState } from "vuex";
 import { add } from "date-fns";
 
+import DateTime from "@/components/DateTime.vue";
+
 export default {
   name: "JobForm",
+  components: {
+    DateTime,
+  },
   computed: {
     ...mapState([
       "tasks",
