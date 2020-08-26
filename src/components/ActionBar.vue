@@ -39,7 +39,7 @@
     v-spacer
   template(v-else)
     v-spacer
-    p Your off the clock
+    h3 You are off the clock
     v-spacer
   v-fab-transition
     template(v-if="role === 'manager'")
