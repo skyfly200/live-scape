@@ -23,118 +23,12 @@ v-card.job-form.pa-6
       v-model="job.assigned",
       :items="contractors"
     )
-    .datetime
-      .start.d-flex
-        .start-date
-          v-menu(
-            v-model="menus.start.date",
-            :close-on-content-click="false",
-            :nudge-right="40",
-            :return-value.sync="job.start.date",
-            transition="scale-transition",
-            offset-y,
-            max-width="290px",
-            min-width="290px"
-          )
-            template(v-slot:activator="{ on, attrs }")
-              v-text-field(
-                v-model="job.start.date",
-                label="Start Date",
-                prepend-icon="mdi-calendar",
-                readonly,
-                v-bind="attrs",
-                v-on="on"
-              )
-            v-date-picker(
-              v-if="menus.start.date",
-              dark,
-              v-model="job.start.date",
-              full-width,
-              @click:date="menus.start.date = false"
-            )
-        .start-time
-          v-menu(
-            v-model="menus.start.time",
-            :close-on-content-click="false",
-            :nudge-right="40",
-            :return-value.sync="job.start.time",
-            transition="scale-transition",
-            offset-y,
-            max-width="290px",
-            min-width="290px"
-          )
-            template(v-slot:activator="{ on, attrs }")
-              v-text-field(
-                v-model="job.start.time",
-                label="Start Time",
-                prepend-icon="mdi-clock",
-                readonly,
-                v-bind="attrs",
-                v-on="on"
-              )
-            v-time-picker(
-              v-if="menus.start.time",
-              dark,
-              v-model="job.start.time",
-              full-width,
-              @click:minute="menus.start.time = false"
-            )
-      .end.d-flex
-        .end-date
-          v-menu(
-            v-model="menus.end.date",
-            :close-on-content-click="false",
-            :nudge-right="40",
-            :return-value.sync="job.end.date",
-            transition="scale-transition",
-            offset-y,
-            max-width="290px",
-            min-width="290px"
-          )
-            template(v-slot:activator="{ on, attrs }")
-              v-text-field(
-                v-model="job.end.date",
-                label="End Date",
-                prepend-icon="mdi-calendar",
-                readonly,
-                v-bind="attrs",
-                v-on="on"
-              )
-            v-date-picker(
-              v-if="menus.end.date",
-              dark,
-              v-model="job.end.date",
-              full-width,
-              @click:date="menus.end.date = false"
-            )
-        .end-time
-          v-menu(
-            v-model="menus.end.time",
-            :close-on-content-click="false",
-            :nudge-right="40",
-            :return-value.sync="job.end.time",
-            transition="scale-transition",
-            offset-y,
-            max-width="290px",
-            min-width="290px"
-          )
-            template(v-slot:activator="{ on, attrs }")
-              v-text-field(
-                v-model="job.end.time",
-                label="End Time",
-                prepend-icon="mdi-clock",
-                readonly,
-                v-bind="attrs",
-                v-on="on"
-              )
-            v-time-picker(
-              v-if="menus.end.time",
-              dark,
-              v-model="job.end.time",
-              full-width,
-              @click:minute="menus.end.time = false"
-            )
-    DateTime
+    .start 
+      p Start
+      DateTime 
+    .end
+      p End
+      DateTime
   v-card-actions
     v-spacer
     v-btn(@click="clear", color="red", outlined) Clear
