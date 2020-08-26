@@ -2,6 +2,7 @@
 .datetime.d-flex
   .date
     v-menu(
+      ref="dateMenu",
       v-model="dateMenu",
       :close-on-content-click="false",
       :nudge-right="40",
@@ -22,13 +23,18 @@
         )
       v-date-picker(
         v-if="dateMenu",
-        dark,
         v-model="date",
-        full-width,
-        @click:date="dateMenu = false"
+        dark,
+        scrollable,
+        no-title,
+        full-width
       )
+        v-spacer
+        v-btn(text, color="primary", @click="dateMenu = false") Cancel
+        v-btn(text, color="primary", @click="$refs.dateMenu.save(date)") OK
   .time
     v-menu(
+      ref="timeMenu",
       v-model="timeMenu",
       :close-on-content-click="false",
       :nudge-right="40",
