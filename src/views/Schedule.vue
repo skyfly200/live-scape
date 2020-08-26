@@ -1,34 +1,64 @@
 <template lang="pug">
-  v-container.schedule(fluid)
-    v-row
-      v-col
-        v-select(v-model="type" :items="typeOptions" label="Type" dark hide-details outlined dense)
-      v-col
-        v-btn(outlined dark) Add A Job
-    v-row
-      v-col.controls
-        v-btn(fab small absolute left color="primary" @click="$refs.calendar.prev()")
-          v-icon(dark) mdi-chevron-left
-        v-btn(fab small absolute right color="primary" @click="$refs.calendar.next()")
-          v-icon(dark) mdi-chevron-right
-    v-row
-      v-col
-        v-sheet.calendar
-          v-calendar(dark ref="calendar" short-intervals short-months short-weekdays color="primary"
-            v-model="value"
-            :type="type"
-            :now="now"
-            :events="events"
-            :first-interval="intervals.first"
-            :interval-minutes="intervals.minutes"
-            :interval-count="intervals.count"
-            :interval-height="intervals.height"
-            :show-interval-label="showIntervalLabel"
-            :event-color="getEventColor")
+v-container.schedule(fluid)
+  v-row
+    v-col
+      v-select(
+        v-model="type",
+        :items="typeOptions",
+        label="Type",
+        dark,
+        hide-details,
+        outlined,
+        dense
+      )
+    v-col
+      v-btn(outlined, dark, @click="addJob") Add A Job
+  v-row
+    v-col.controls
+      v-btn(
+        fab,
+        small,
+        absolute,
+        left,
+        color="primary",
+        @click="$refs.calendar.prev()"
+      )
+        v-icon(dark) mdi-chevron-left
+      v-btn(
+        fab,
+        small,
+        absolute,
+        right,
+        color="primary",
+        @click="$refs.calendar.next()"
+      )
+        v-icon(dark) mdi-chevron-right
+  v-row
+    v-col
+      v-sheet.calendar
+        v-calendar(
+          dark,
+          ref="calendar",
+          short-intervals,
+          short-months,
+          short-weekdays,
+          color="primary",
+          v-model="value",
+          :type="type",
+          :now="now",
+          :events="events",
+          :first-interval="intervals.first",
+          :interval-minutes="intervals.minutes",
+          :interval-count="intervals.count",
+          :interval-height="intervals.height",
+          :show-interval-label="showIntervalLabel",
+          :event-color="getEventColor"
+        )
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { add } from "date-fns";
 
 export default {
   name: "Schedule",
@@ -72,6 +102,16 @@ export default {
     intervals: { first: 5, minutes: 60, count: 15, height: 48 },
   }),
   methods: {
+    addJob() {
+      this.events.push({
+        name: "New Job",
+        description: "Testing Job Adding",
+        start: new Date(),
+        end: add(new Date(), { hours: 2 }),
+        timed: true,
+        color: "purple",
+      });
+    },
     viewDay({ date }) {
       this.value = date;
       this.type = "day";
