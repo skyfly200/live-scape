@@ -91,7 +91,7 @@ v-app#app
       ActionBar
   v-main(dark)
     router-view
-    ActionBtn(@newTask="setDialog('task')", @newJob="setDialog('job')")
+  ActionBtn(@newTask="setDialog('task')", @newJob="setDialog('job')")
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
     v-btn(to="/dash")
       span Dash
@@ -183,4 +183,7 @@ export default Vue.extend({
   padding-left: 0.25rem
 .v-input--selection-controls
   margin-top: 0 !important
+.action-btn
+  .v-speed-dial--bottom
+    bottom: 72px
 </style>

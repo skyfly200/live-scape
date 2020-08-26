@@ -3,8 +3,7 @@
   template(v-if="role === 'manager'")
     v-speed-dial(
       v-model="actions",
-      absolute,
-      open-on-hover,
+      fixed,
       direction="top",
       height="100%",
       bottom,
