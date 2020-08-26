@@ -85,6 +85,9 @@ export default {
     },
     save() {},
   },
+  mounted() {
+    this.blankTask = JSON.parse(JSON.stringify(this.task));
+  },
   props: ["mode"],
   data: () => ({
     task: {
@@ -99,18 +102,7 @@ export default {
       materials: [],
       logs: [],
     },
-    blankTask: {
-      status: "new",
-      title: "",
-      description: "",
-      location: "",
-      job: "",
-      asigned: [],
-      notes: "",
-      tools: [],
-      materials: [],
-      logs: [],
-    },
+    blankTask: {},
   }),
 };
 </script>

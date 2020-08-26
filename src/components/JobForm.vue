@@ -70,17 +70,16 @@ export default {
       this.$emit("done");
     },
     clear() {
-      this.job = this.blankJob;
+      this.job = JSON.parse(JSON.stringify(this.blankJob));
     },
     save() {},
   },
   mounted() {
-    this.clear();
+    this.blankJob = JSON.parse(JSON.stringify(this.job));
   },
   props: ["mode"],
   data: () => ({
-    job: {},
-    blankJob: {
+    job: {
       location: "",
       start: {
         date: "",
@@ -93,6 +92,7 @@ export default {
       assigned: [],
       tasks: [],
     },
+    blankJob: {},
     contractors: ["Gunner", "Marrie"],
   }),
 };
