@@ -81,7 +81,7 @@ export default {
       this.$emit("done");
     },
     clear() {
-      this.task = this.blankTask;
+      this.task = JSON.parse(JSON.stringify(this.blankTask));
     },
     save() {},
   },
