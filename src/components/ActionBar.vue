@@ -1,6 +1,5 @@
 <template lang="pug">
 .action-bar.flex
-  v-spacer
   template(v-if="running")
     template(v-if="edit === active.id")
       v-menu(
