@@ -9,12 +9,18 @@ v-card.task-form.pa-6
       clearable,
       v-model="task.location",
       :items="locations.locations",
+      :filter="locationFilter",
       item-text="title",
       item-value="id"
     )
+      template(v-slot:item="data")
+        v-list-item-content
+          v-list-item-title {{ data.item.title }}
+          v-list-item-title {{ data.item.address }}
     v-autocomplete(
       label="Tools",
       chips,
+      dense,
       multiple,
       clearable,
       v-model="task.tools",
@@ -25,6 +31,7 @@ v-card.task-form.pa-6
     v-autocomplete(
       label="Materials",
       chips,
+      dense,
       multiple,
       clearable,
       v-model="task.materials",
@@ -58,6 +65,15 @@ export default {
     ]),
   },
   methods: {
+    locationFilter(item, queryText, itemText) {
+      const textOne = item.title.toLowerCase();
+      const textTwo = item.address.toLowerCase();
+      const searchText = queryText.toLowerCase();
+
+      return (
+        textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
+      );
+    },
     add() {
       this.$emit("done");
     },
