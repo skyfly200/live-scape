@@ -29,11 +29,6 @@ v-card.job-form.pa-6
     .end-time
       v-date-picker
       v-time-picker
-    .tasks
-      h2 Tasks
-      v-list
-        v-list-item(v-for="task in tasks", :key="task")
-          v-list-item-content {{ task }}
   v-card-actions
     v-spacer
     v-btn(@click="clear", color="red", outlined) Clear

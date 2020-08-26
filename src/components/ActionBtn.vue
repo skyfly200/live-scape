@@ -12,44 +12,70 @@
       template(v-slot:activator)
         v-btn(fab, v-model="actions", dark, color="blue")
           v-icon mdi-plus
-      v-btn(fab, @click="$emit('newTask')", small, dark, color="green")
-        v-icon mdi-clipboard-plus
-      v-btn(fab, @click="$emit('newJob')", small, dark, color="purple")
-        v-icon mdi-calendar-plus
-      v-btn(
-        v-if="!running",
-        @click="startClock(); selectTask()",
-        fab,
-        small,
-        dark,
-        color="red"
-      )
-        v-icon mdi-timer
-      v-btn(v-else, @click="stopClock(active)", fab, small, dark, color="red")
-        v-icon mdi-stop
+      v-tooltip(v-for="action in speedDial", left)
+        template(v-slot:activator="{ on, attrs }")
+          v-btn(
+            fab,
+            @click="$emit(action.event)",
+            small,
+            dark,
+            v-bind="attrs",
+            v-on="on",
+            :color="action.color"
+          )
+            v-icon {{ action.icon }}
+        span {{ action.tooltip }}
+      v-tooltip(left)
+        template(v-slot:activator="{ on, attrs }")
+          v-btn(
+            v-if="!running",
+            @click.stop="startClock(); selectTask()",
+            fab,
+            small,
+            dark,
+            v-bind="attrs",
+            v-on="on",
+            color="red"
+          )
+            v-icon mdi-timer
+          v-btn(
+            v-else,
+            @click.stop="stopClock(active)",
+            fab,
+            small,
+            dark,
+            v-bind="attrs",
+            v-on="on",
+            color="red"
+          )
+            v-icon mdi-stop
+        span {{ running ? 'Stop Timeclock' : 'Start Timeclock' }}
   template(v-else)
-    v-btn(
-      v-if="!running",
-      @click="startClock(); selectTask()",
-      fab,
-      absolute,
-      bottom,
-      right,
-      dark,
-      color="red"
-    )
-      v-icon mdi-timer
-    v-btn(
-      v-else,
-      @click="stopClock(active)",
-      fab,
-      absolute,
-      bottom,
-      right,
-      dark,
-      color="red"
-    )
-      v-icon mdi-stop
+    v-tooltip(left)
+      template(v-slot:activator="{ on, attrs }")
+        v-btn(
+          v-if="!running",
+          @click.stop="startClock(); selectTask()",
+          fab,
+          small,
+          dark,
+          v-bind="attrs",
+          v-on="on",
+          color="red"
+        )
+          v-icon mdi-timer
+        v-btn(
+          v-else,
+          @click.stop="stopClock(active)",
+          fab,
+          small,
+          dark,
+          v-bind="attrs",
+          v-on="on",
+          color="red"
+        )
+          v-icon mdi-stop
+      span {{ running ? 'Stop Timeclock' : 'Start Timeclock' }}
 </template>
 
 <script>
@@ -61,6 +87,20 @@ export default {
   data: () => ({
     role: "manager",
     actions: false,
+    speedDial: [
+      {
+        event: "newTask",
+        icon: "mdi-clipboard-plus",
+        color: "green",
+        tooltip: "New Task",
+      },
+      {
+        event: "newJob",
+        icon: "mdi-calendar-plus",
+        color: "purple",
+        tooltip: "New Job",
+      },
+    ],
   }),
   computed: {
     ...mapState("timeclock", ["entries"]),
