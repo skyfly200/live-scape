@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app#app
-  v-dialog(v-model="dialog", width="500")
+  v-dialog(v-model="dialog.state", width="500")
     Login(v-if="dialog.type === 'login'", @success="clearDialog")
     TaskForm(v-else-if="dialog.type === 'task'", @done="clearDialog")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
@@ -84,7 +84,7 @@ v-app#app
           )
           span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
       template(v-else)
-        v-btn(@click.stop="loginDialog = true", text) Login
+        v-btn(@click.stop="setDialog('login')", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
       ActionBar(@newTask="setDialog('task')")

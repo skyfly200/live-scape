@@ -3,7 +3,7 @@ v-card.task-form
   v-card-title Add a Task
   v-card-text
     v-input(label="Title", v-model="task.title")
-    v-textfield(label="decription", v-model="task.description")
+    v-text-field(label="decription", v-model="task.description")
     v-autocomplete(
       label="tools",
       chips,
