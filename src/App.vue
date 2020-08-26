@@ -91,7 +91,13 @@ v-app#app
       ActionBar
   v-main(dark)
     router-view
-  ActionBtn(@newTask="setDialog('task')", @newJob="setDialog('job')")
+  ActionBtn(
+    :role="role",
+    @newTask="setDialog('task')",
+    @newJob="setDialog('job')",
+    @startClock="startClock(); selectTask()",
+    @stopClock="stopClock(active)"
+  )
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
     v-btn(to="/dash")
       span Dash
@@ -131,6 +137,13 @@ export default Vue.extend({
   computed: {
     ...mapState("auth", ["status", "raw", "user"]),
     ...mapGetters("auth", ["isLoggedIn"]),
+    ...mapState("timeclock", ["entries"]),
+    running() {
+      return this.entries.filter((e: any) => e.end === undefined).length > 0;
+    },
+    active() {
+      return this.entries.filter((e: any) => e.end === undefined)[0];
+    },
   },
   created() {
     this.$store.dispatch("bindJobs");
@@ -142,6 +155,7 @@ export default Vue.extend({
     this.$store.dispatch("timeclock/bind");
   },
   methods: {
+    ...mapActions("timeclock", ["startClock", "stopClock"]),
     roleFilter(roles: Array<string>) {
       return roles.reduce((acc, role) => acc || role === this.role, false);
     },
@@ -158,9 +172,12 @@ export default Vue.extend({
       };
       this.drawer = false;
     },
+    selectTask() {
+      console.log("Select Task");
+    },
   },
   data: () => ({
-    role: "manager",
+    role: "contractor",
     roles: ["admin", "manager", "contractor"],
     dialog: {
       state: false,
