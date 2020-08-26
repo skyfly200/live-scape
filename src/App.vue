@@ -177,7 +177,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    role: "contractor",
+    role: "admin",
     roles: ["admin", "manager", "contractor"],
     dialog: {
       state: false,

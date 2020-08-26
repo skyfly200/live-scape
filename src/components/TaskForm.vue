@@ -85,12 +85,20 @@ export default {
     },
     save() {},
   },
-  mounted() {
-    this.clear();
-  },
   props: ["mode"],
   data: () => ({
-    task: {},
+    task: {
+      status: "new",
+      title: "",
+      description: "",
+      location: "",
+      job: "",
+      asigned: [],
+      notes: "",
+      tools: [],
+      materials: [],
+      logs: [],
+    },
     blankTask: {
       status: "new",
       title: "",
