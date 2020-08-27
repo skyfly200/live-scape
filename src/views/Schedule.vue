@@ -64,43 +64,45 @@ export default {
   name: "Schedule",
   computed: {
     ...mapState([
-      "tasks",
-      "locations",
+      "taskSys",
+      ["tasks"],
+      "location",
+      ["locations"],
       "contacts",
+      ["contacts"],
       "tools",
+      ["tools"],
       "materials",
+      ["materials"],
       "jobs",
+      ["jobs"],
     ]),
   },
-  data: () => ({
-    value: "",
-    now: null,
-    events: [
-      {
-        name: "Test 123",
-        description: "Testing Job Scheduling",
-        start: new Date("8/24/2020 8:00 AM"),
-        end: new Date("8/24/2020 12:00 PM"),
-        timed: true,
-        color: "purple",
-      },
-      {
-        name: "Test 456",
-        start: new Date("8/24/2020 12:00 PM"),
-        end: new Date("8/24/2020 4:00 PM"),
-        timed: true,
-        color: "green",
-      },
-    ],
-    type: "week",
-    typeOptions: [
-      { text: "Day", value: "day" },
-      { text: "4 Day", value: "4day" },
-      { text: "Week", value: "week" },
-      { text: "Month", value: "month" },
-    ],
-    intervals: { first: 5, minutes: 60, count: 15, height: 48 },
-  }),
+  mounted() {
+    this.events = this.jobs.jobs.map((j) => ({
+      name: j.location,
+      description: "Tasks: " + j.tasks.length,
+      start: j.start.toDate(),
+      end: j.end.toDate(),
+      timed: true,
+      color: "purple",
+    }));
+  },
+  data() {
+    return {
+      value: "",
+      now: null,
+      type: "week",
+      events: [],
+      typeOptions: [
+        { text: "Day", value: "day" },
+        { text: "4 Day", value: "4day" },
+        { text: "Week", value: "week" },
+        { text: "Month", value: "month" },
+      ],
+      intervals: { first: 5, minutes: 60, count: 15, height: 48 },
+    };
+  },
   methods: {
     addJob() {
       this.$emit("newJob");
