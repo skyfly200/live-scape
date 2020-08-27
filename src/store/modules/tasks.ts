@@ -42,7 +42,7 @@ export default class Tasks extends VuexModule {
   }
 
   @Action({ rawError: true })
-  bindTasks() {
+  bind() {
     firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef('tasks', db.collection('tasks'))

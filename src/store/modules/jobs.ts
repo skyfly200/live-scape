@@ -12,18 +12,9 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { Job } from '@/models/job'
 
-@Module
+@Module({ namespaced: true })
 export default class Jobs extends VuexModule {
-  jobs: Array<Job> = [
-    new Job({
-      id: 0,
-      location: 0,
-      start: '',
-      end: '',
-      assigned: [],
-      tasks: [0, 1],
-    }),
-  ]
+  jobs: Array<Job> = []
 
   @Action({ rawError: true })
   addJob(job: any) {
@@ -48,7 +39,7 @@ export default class Jobs extends VuexModule {
   }
 
   @Action({ rawError: true })
-  bindJobs() {
+  bind() {
     firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef('jobs', db.collection('jobs'))

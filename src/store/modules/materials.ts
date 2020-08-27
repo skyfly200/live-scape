@@ -4,41 +4,22 @@ import {
   Mutation,
   MutationAction,
   Action,
-} from "vuex-module-decorators";
+} from 'vuex-module-decorators'
 
-import { firestoreAction } from "vuexfire";
-import { db } from "@/firebase/db";
+import { firestoreAction } from 'vuexfire'
+import { db } from '@/firebase/db'
 
-import { Material } from "@/models/material";
+import { Material } from '@/models/material'
 
-@Module
+@Module({ namespaced: true })
 export default class Materials extends VuexModule {
-  materials: Array<Material> = [
-    new Material({
-      name: "Fertilizer",
-      image: "",
-      size: "medium",
-      description: "",
-    }),
-    new Material({
-      name: "Stone",
-      image: "",
-      size: "large",
-      description: "",
-    }),
-    new Material({
-      name: "Suculants",
-      image: "",
-      size: "medium",
-      description: "",
-    }),
-  ];
+  materials: Array<Material> = []
 
   @Action({ rawError: true })
-  bindMaterials() {
+  bind() {
     firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef("materials", db.collection("materials"));
-    });
+      return bindFirestoreRef('materials', db.collection('materials'))
+    })
   }
 }

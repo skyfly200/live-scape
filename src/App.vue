@@ -147,12 +147,12 @@ export default Vue.extend({
     },
   },
   created() {
-    this.$store.dispatch("bindJobs");
-    this.$store.dispatch("taskSys/bindTasks");
-    this.$store.dispatch("bindLocations");
-    this.$store.dispatch("bindContacts");
-    this.$store.dispatch("bindTools");
-    this.$store.dispatch("bindMaterials");
+    this.$store.dispatch("jobs/bind");
+    this.$store.dispatch("taskSys/bind");
+    this.$store.dispatch("locations/bind");
+    this.$store.dispatch("contacts/bind");
+    this.$store.dispatch("tools/bind");
+    this.$store.dispatch("materials/bind");
     this.$store.dispatch("timeclock/bind");
   },
   methods: {
