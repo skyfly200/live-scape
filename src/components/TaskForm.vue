@@ -91,7 +91,7 @@ export default {
         tools: this.task.tools,
         materials: this.task.materials,
       };
-      this.$store.dispatch("taskSys/addTask", newTask);
+      this.$store.dispatch("taskSys/add", newTask);
       this.$emit("done");
     },
     toRef(collection, id) {

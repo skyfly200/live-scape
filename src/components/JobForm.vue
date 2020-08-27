@@ -6,7 +6,7 @@ v-card.job-form.pa-6
       label="Location",
       clearable,
       v-model="job.location",
-      :items="locations.locations",
+      :items="location.locations",
       :filter="locationFilter",
       item-text="title",
       item-value="id"
@@ -49,13 +49,18 @@ export default {
   },
   computed: {
     ...mapState([
-      "tasks",
-      "locations",
+      "taskSys",
+      ["tasks"],
+      "location",
       ["locations"],
       "contacts",
+      ["contacts"],
       "tools",
+      ["tools"],
       "materials",
+      ["materials"],
       "jobs",
+      ["jobs"],
     ]),
   },
   methods: {
@@ -69,7 +74,20 @@ export default {
       );
     },
     add() {
+      let newJob = {
+        location: this.job.location,
+        start: this.compileDate(this.job.start),
+        end: this.compileDate(this.job.end),
+        assigned: this.job.assigned,
+        tasks: this.job.tasks,
+      };
+      this.$store.dispatch("jobs/add", newJob);
       this.$emit("done");
+    },
+    compileDate(parts) {
+      const dateString = parts.date + parts.time;
+      console.log(dateString);
+      return new Date(dateString);
     },
     cancel() {
       this.$emit("done");

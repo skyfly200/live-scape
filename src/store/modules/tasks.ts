@@ -17,7 +17,7 @@ export default class Tasks extends VuexModule {
   tasks: Array<Task> = []
 
   @Action({ rawError: true })
-  addTask(task: any) {
+  add(task: any) {
     return db.collection('tasks').add({
       id: uuidv4(),
       status: 'new',
@@ -32,12 +32,12 @@ export default class Tasks extends VuexModule {
   }
 
   @Action({ rawError: true })
-  updateTask(payload: any) {
+  update(payload: any) {
     return db.collection('tasks').doc(payload.id).update(payload.update)
   }
 
   @Action({ rawError: true })
-  deleteTask(id: any) {
+  delete(id: any) {
     return db.collection('tasks').doc(id).delete()
   }
 

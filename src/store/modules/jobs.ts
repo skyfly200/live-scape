@@ -17,7 +17,7 @@ export default class Jobs extends VuexModule {
   jobs: Array<Job> = []
 
   @Action({ rawError: true })
-  addJob(job: any) {
+  add(job: any) {
     return db.collection('jobs').add({
       id: uuidv4(),
       location: job.location,
@@ -29,12 +29,12 @@ export default class Jobs extends VuexModule {
   }
 
   @Action({ rawError: true })
-  updateJob(payload: any) {
+  update(payload: any) {
     return db.collection('jobs').doc(payload.id).update(payload.update)
   }
 
   @Action({ rawError: true })
-  deleteJob(id: any) {
+  delete(id: any) {
     return db.collection('jobs').doc(id).delete()
   }
 
