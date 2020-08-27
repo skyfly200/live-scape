@@ -9,7 +9,13 @@ v-container.tasks.d-flex(fluid, no-gutter)
     v-divider
     v-card-text
       p {{ task.description }}
-      v-btn.ma-2(:to="'/jobs/' + task.id", text, small) View Job Info
+      v-btn.ma-2(
+        v-if="task.job !== null",
+        :to="'/jobs/' + task.job",
+        text,
+        small
+      ) View Job Info
+      v-btn.ma-2(v-else, text, small) Schedule Task
       v-expansion-panels(flat)
         v-expansion-panel
           v-expansion-panel-header Tools

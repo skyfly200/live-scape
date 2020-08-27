@@ -8,27 +8,44 @@ v-container.job(fluid)
         v-card-text.location
           div
             h3 {{ location.title }}
-            a(:href="mapsURL + encodeURI(location.address)" target="_blank")
+            a(:href="mapsURL + encodeURI(location.address)", target="_blank")
               p {{ location.address }}
           div
-            v-btn(:href="navigationURL + encodeURI(location.address)" target="_blank" color="green" fab outlined)
+            v-btn(
+              :href="navigationURL + encodeURI(location.address)",
+              target="_blank",
+              color="green",
+              fab,
+              outlined
+            )
               v-icon mdi-navigation
     v-col
       v-card.ma-2(dark)
         v-card-title {{ contacts[location.contact].lastName }}, {{ contacts[location.contact].firstName }}
         v-card-subtitle {{ contacts[location.contact].nickname }}
         v-card-text
-          v-btn.ma-2(color="primary" :href="'tel:' + contacts[location.contact].cellPhone")
+          v-btn.ma-2(
+            color="primary",
+            :href="'tel:' + contacts[location.contact].cellPhone"
+          )
             v-icon mdi-phone
             span Call
-          v-btn.ma-2(color="primary" :href="'mailto:' + contacts[location.contact].email")
+          v-btn.ma-2(
+            color="primary",
+            :href="'mailto:' + contacts[location.contact].email"
+          )
             v-icon mdi-email
             span Email
           v-divider
           br
           h2 Notes
           v-list 
-            v-list-item(v-for="note,i in location.notes" dense three-line :key="i")
+            v-list-item(
+              v-for="(note, i) in location.notes",
+              dense,
+              three-line,
+              :key="i"
+            )
               v-list-item-content
                 v-list-item-subtitle {{ note }}
   v-row(no-gutters)
@@ -37,17 +54,22 @@ v-container.job(fluid)
         v-card-title Tasks
         v-card-text
           v-list
-            v-list-item(v-for="task in getTasks(location.id)" dense three-line :key="task.id")
+            v-list-item(
+              v-for="task in job.tasks",
+              dense,
+              three-line,
+              :key="task.id"
+            )
               v-list-item-content
                 v-list-item-title {{ task.title }} for {{ location.name }}
                 v-list-item-subtitle {{ task.description }}
                 v-list-item-subtitle {{ location.address }}
               v-list-item-icon
                 template(v-if="task.status === 'new'")
-                  v-icon(color="green" @click="") mdi-play
+                  v-icon(color="green", @click="") mdi-play
                 template(v-else-if="task.status !== 'done'")
-                  v-icon(color="yellow" @click="") mdi-pause
-                  v-icon(color="red" @click="") mdi-cancel
+                  v-icon(color="yellow", @click="") mdi-pause
+                  v-icon(color="red", @click="") mdi-cancel
                 template(v-else)
                   v-icon(@click="") mdi-undo
                   v-icon(color="green") mdi-check
@@ -59,27 +81,33 @@ import { mapState } from "vuex";
 export default {
   name: "Job",
   methods: {
-    getTasks: function(jobID) {
+    getTasks: function (jobID) {
       return this.tasks.filter((task) => task.job === jobID);
     },
   },
   computed: {
     ...mapState([
-      "tasks",
-      "locations",
+      "taskSys",
+      ["tasks"],
+      "location",
+      ["locations"],
       "contacts",
+      ["contacts"],
       "tools",
+      ["tools"],
       "materials",
+      ["materials"],
       "jobs",
+      ["jobs"],
     ]),
-    jobID: function() {
+    jobID: function () {
       return this.$route.params.id;
     },
-    job: function() {
-      return this.jobs.filter((job) => job.uid === this.jobID);
+    job: function () {
+      return this.jobs.jobs.filter((job) => job.id === this.jobID);
     },
-    location: function() {
-      return this.locations[this.$route.params.id];
+    location: function () {
+      return this.job.location;
     },
   },
   data: () => ({
@@ -95,7 +123,7 @@ export default {
 .tasks
   display: flex
 .job
-    width: 100%
+  width: 100%
 .location
   display: flex
   flex-wrap: wrap

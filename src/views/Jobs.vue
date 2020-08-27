@@ -2,12 +2,22 @@
 v-container(fluid)
   v-row
     v-col.jobs
-      .job.ma-4(v-for="location in locations")
-        v-badge(color="red" size="1rem" :value="getTasks(location.id).length > 0" :content="getTasks(location.id).length")
-          v-card(dark width="300" height="300" :to="'/jobs/' + location.id")
-            v-img(:src="streetViewURL + encodeURI(location.address)")
-            v-card-title {{ location.title }}
-            v-card-subtitle {{ location.address }}
+      .job.ma-4(v-for="job in jobs.jobs")
+        v-badge(
+          color="red",
+          size="1rem",
+          :value="job.tasks.length > 0",
+          :content="job.tasks.length"
+        )
+          v-card(
+            dark,
+            width="300",
+            height="300",
+            :to="'/jobs/' + job.location.id"
+          )
+            v-img(:src="streetViewURL + encodeURI(job.location.address)")
+            v-card-title {{ job.location.title }}
+            v-card-subtitle {{ job.location.address }}
 </template>
 
 <script>
@@ -17,16 +27,22 @@ export default {
   name: "Jobs",
   computed: {
     ...mapState([
-      "tasks",
-      "locations",
+      "taskSys",
+      ["tasks"],
+      "location",
+      ["locations"],
       "contacts",
+      ["contacts"],
       "tools",
+      ["tools"],
       "materials",
+      ["materials"],
       "jobs",
+      ["jobs"],
     ]),
   },
   methods: {
-    getTasks: function(index) {
+    getTasks: function (index) {
       return this.tasks.filter((task) => task.job === index);
     },
   },
