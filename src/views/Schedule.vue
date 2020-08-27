@@ -80,7 +80,7 @@ export default {
   },
   mounted() {
     this.events = this.jobs.jobs.map((j) => ({
-      name: j.location,
+      name: j.location.title,
       description: "Tasks: " + j.tasks.length,
       start: j.start.toDate(),
       end: j.end.toDate(),

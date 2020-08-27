@@ -20,11 +20,11 @@ export default class Jobs extends VuexModule {
   add(job: any) {
     return db.collection('jobs').add({
       id: uuidv4(),
-      location: job.location,
+      location: db.collection('locations').doc(job.location),
       start: job.start,
       end: job.end,
       assigned: job.assigned,
-      tasks: job.tasks,
+      tasks: job.tasks.map((t: string) => db.collection('tasks').doc(t)),
     })
   }
 

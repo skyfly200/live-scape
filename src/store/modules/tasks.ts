@@ -21,13 +21,15 @@ export default class Tasks extends VuexModule {
     return db.collection('tasks').add({
       id: uuidv4(),
       status: 'new',
-      job: task.job,
-      location: task.location,
+      job: db.collection('jobs').doc(task.job),
+      location: db.collection('locations').doc(task.location),
       title: task.title,
       description: task.description,
       notes: task.notes,
-      tools: task.tools,
-      materials: task.materials,
+      tools: task.tools.map((t: string) => db.collection('tools').doc(t)),
+      materials: task.materials.map((m: string) =>
+        db.collection('materials').doc(m),
+      ),
     })
   }
 
