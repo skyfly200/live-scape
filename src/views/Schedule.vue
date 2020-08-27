@@ -79,8 +79,8 @@ export default {
     ]),
   },
   mounted() {
-    this.events = this.jobs.jobs.map((j) => ({
-      name: j.location.title,
+    this.events = this.jobs.jobs.map((j, i) => ({
+      name: i + " - " + j.location.title,
       description: "Tasks: " + j.tasks.length,
       start: j.start.toDate(),
       end: j.end.toDate(),
@@ -100,7 +100,7 @@ export default {
         { text: "Week", value: "week" },
         { text: "Month", value: "month" },
       ],
-      intervals: { first: 5, minutes: 60, count: 15, height: 48 },
+      intervals: { first: 0, minutes: 60, count: 15, height: 48 },
     };
   },
   methods: {
