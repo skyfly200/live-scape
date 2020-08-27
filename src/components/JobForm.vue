@@ -2,52 +2,54 @@
 v-card.job-form.pa-6
   v-card-title Add a Job
   v-card-text
-    v-autocomplete(
-      label="Location",
-      clearable,
-      v-model="job.location",
-      :items="location.locations",
-      :filter="locationFilter",
-      item-text="title",
-      item-value="id"
-    )
-      template(v-slot:item="data")
-        v-list-item-content
-          v-list-item-title {{ data.item.title }}
-          v-list-item-title {{ data.item.address }}
-    v-autocomplete(
-      label="Assigned",
-      clearable,
-      chips,
-      multiple,
-      v-model="job.assigned",
-      :items="contractors"
-    )
-    .start 
-      p Start
-      DateTime(
-        :value="job.start",
-        @change:date="update('start', 'date', $event)",
-        @change:time="update('start', 'time', $event)"
+    v-form(v-model="valid")
+      v-autocomplete(
+        label="Location",
+        clearable,
+        required,
+        v-model="job.location",
+        :items="location.locations",
+        :filter="locationFilter",
+        item-text="title",
+        item-value="id"
       )
-    .end
-      p End
-      DateTime(
-        :value="job.end",
-        @change:date="update('end', 'date', $event)",
-        @change:time="update('end', 'time', $event)"
+        template(v-slot:item="data")
+          v-list-item-content
+            v-list-item-title {{ data.item.title }}
+            v-list-item-title {{ data.item.address }}
+      v-autocomplete(
+        label="Assigned",
+        clearable,
+        chips,
+        multiple,
+        v-model="job.assigned",
+        :items="contractors"
       )
+      .start 
+        p Start
+        DateTime(
+          :value="job.start",
+          @change:date="update('start', 'date', $event)",
+          @change:time="update('start', 'time', $event)"
+        )
+      .end
+        p End
+        DateTime(
+          :value="job.end",
+          @change:date="update('end', 'date', $event)",
+          @change:time="update('end', 'time', $event)"
+        )
   v-card-actions
     v-spacer
     v-btn(@click="reset", color="red", outlined) Reset
     v-btn(@click="cancel", color="red") Cancel
-    v-btn(@click="add", color="green") Add
+    v-btn(@click="add", color="green", :disabled="!valid") Add
 </template>
 
 <script>
 import Vue from "vue";
 import { mapState } from "vuex";
-import { add, format, formatISO, intervalToDuration } from "date-fns";
+import { add, format, before, formatISO, intervalToDuration } from "date-fns";
 
 import DateTime from "@/components/DateTime.vue";
 
@@ -93,18 +95,33 @@ export default {
       this.$store.dispatch("jobs/add", newJob);
       this.$emit("done");
     },
+    splitDate(date) {
+      return {
+        date: formatISO(date, { representation: "date" }),
+        time: format(date, "kk:mm"),
+      };
+    },
     compileDate(parts) {
       const dateString = parts.date + " " + parts.time;
       return new Date(dateString);
     },
     update(key, param, value) {
       this.job[key][param] = value;
-      const interval = {
-        start: this.compileDate(this.job.start),
-        end: this.compileDate(this.job.end),
-      };
-      const duration = intervalToDuration(interval);
-      this.job.duration = duration;
+      if (key === "start") {
+        // update end acording to duration
+        const newEnd = add(this.compileDate(this.job.start), this.job.duration);
+        this.job.end = this.splitDate(newEnd);
+        console.log(this.splitDate(newEnd));
+      } else if (key === "end") {
+        // update job duration
+        const interval = {
+          start: this.compileDate(this.job.start),
+          end: this.compileDate(this.job.end),
+        };
+        const duration = intervalToDuration(interval);
+        this.job.duration = duration;
+        // this.valid = before(interval.start, interval.end);
+      }
     },
     cancel() {
       this.$emit("done");
@@ -118,46 +135,39 @@ export default {
     this.blankJob = JSON.parse(JSON.stringify(this.job));
   },
   props: ["mode"],
-  data: () => ({
-    job: {
-      location: "",
-      start: {
-        date: formatISO(new Date(), { representation: "date" }),
-        time: format(new Date(), "kk:mm"),
-      },
-      end: {
-        date: formatISO(new Date(), { representation: "date" }),
-        time: format(
+  data() {
+    return {
+      job: {
+        location: "",
+        start: this.splitDate(new Date()),
+        end: this.splitDate(
           add(new Date(), {
             hours: 2,
-            minutes: 30,
-          }),
-          "kk:mm"
+          })
         ),
+        duration: {
+          hours: 2,
+        },
+        assigned: [],
+        tasks: [],
       },
-      duration: {
+      menus: {
+        start: {
+          date: false,
+          time: false,
+        },
+        end: {
+          date: false,
+          time: false,
+        },
+      },
+      defaultDuration: {
         hours: 2,
-        minutes: 30,
       },
-      assigned: [],
-      tasks: [],
-    },
-    menus: {
-      start: {
-        date: false,
-        time: false,
-      },
-      end: {
-        date: false,
-        time: false,
-      },
-    },
-    defaultDuration: {
-      hours: 2,
-      minutes: 30,
-    },
-    blankJob: {},
-    contractors: ["Gunner", "Marrie"],
-  }),
+      blankJob: {},
+      contractors: ["Gunner", "Marrie"],
+      valid: false,
+    };
+  },
 };
 </script>
