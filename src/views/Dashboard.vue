@@ -15,8 +15,12 @@ v-container.dashboard(fluid)
           h5 Work Days Left
         v-divider(vertical)
         v-col.data-box
-          v-progress-circular.gauge(:value="percentTasks" size="120" color="blue")
-            span {{ completeTasks }} / {{ tasks.length }}
+          v-progress-circular.gauge(
+            :value="percentTasks",
+            size="120",
+            color="blue"
+          )
+            span {{ completeTasks }} / {{ taskSys.tasks.length }}
           h5 Tasks Done
       v-divider
   v-card.pa-2(dark)
@@ -24,7 +28,13 @@ v-container.dashboard(fluid)
       h2 Current Tasks
     v-card-text
       v-list
-        v-list-item(v-for="task in tasks" dense three-line :to="'/jobs/' + task.job" :key="task.id")
+        v-list-item(
+          v-for="task in taskSys.tasks",
+          dense,
+          three-line,
+          :to="'/jobs/' + task.job.id",
+          :key="task.id"
+        )
           v-list-item-content
             v-list-item-title {{ task.title }}
             v-list-item-subtitle {{ task.description }}
@@ -37,18 +47,24 @@ export default {
   name: "Dashboard",
   computed: {
     ...mapState([
-      "tasks",
-      "locations",
+      "taskSys",
+      ["tasks"],
+      "location",
+      ["locations"],
       "contacts",
+      ["contacts"],
       "tools",
+      ["tools"],
       "materials",
+      ["materials"],
       "jobs",
+      ["jobs"],
     ]),
-    completeTasks: function() {
-      return this.tasks.filter((t) => t.status === "done").length;
+    completeTasks: function () {
+      return this.taskSys.tasks.filter((t) => t.status === "done").length;
     },
-    percentTasks: function() {
-      return (this.completeTasks / this.tasks.length) * 100;
+    percentTasks: function () {
+      return (this.completeTasks / this.taskSys.tasks.length) * 100;
     },
   },
   data: () => ({}),
