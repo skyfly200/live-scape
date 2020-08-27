@@ -54,7 +54,7 @@ export default class Timeclock extends VuexModule {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef(
         'entries',
-        db.collection('entries').orderBy('start', 'desc').limit(15),
+        db.collection('entries').orderBy('start', 'desc').limit(25),
       )
     }) as Function)(this.context)
   }
