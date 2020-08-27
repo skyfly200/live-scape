@@ -91,7 +91,6 @@ export default {
         tools: this.task.tools,
         materials: this.task.materials,
       };
-      console.log(newTask);
       this.$store.dispatch("taskSys/addTask", newTask);
       this.$emit("done");
     },
@@ -102,7 +101,6 @@ export default {
       this.$emit("done");
     },
     clear() {
-      console.log(this.tools);
       this.task = JSON.parse(JSON.stringify(this.blankTask));
     },
     save() {},
