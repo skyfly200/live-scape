@@ -67,6 +67,7 @@ v-app#app
     v-toolbar-title.app-title LiveScape
     v-spacer
     v-text-field(
+      v-if="false",
       solo-inverted,
       flat,
       hide-details,
