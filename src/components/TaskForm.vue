@@ -2,7 +2,7 @@
 v-card.task-form.pa-6
   v-card-title Add a Task
   v-card-text
-    v-form
+    v-form(v-model="valid")
       v-text-field(label="Title", v-model="task.title", required)
       v-text-field(label="Decription", v-model="task.description")
       v-autocomplete(

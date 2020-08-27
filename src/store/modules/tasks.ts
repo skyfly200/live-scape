@@ -18,17 +18,20 @@ export default class Tasks extends VuexModule {
 
   @Action({ rawError: true })
   add(task: any) {
+    console.log(task)
     return db.collection('tasks').add({
       id: uuidv4(),
       status: 'new',
-      job: db.collection('jobs').doc(task.job),
+      job: task.job === null ? null : db.collection('jobs').doc(task.job),
       location: db.collection('locations').doc(task.location),
       title: task.title,
       description: task.description,
       notes: task.notes,
-      tools: task.tools.map((t: string) => db.collection('tools').doc(t)),
+      tools: task.tools.map((t: string) =>
+        t === null ? null : db.collection('tools').doc(t),
+      ),
       materials: task.materials.map((m: string) =>
-        db.collection('materials').doc(m),
+        m === null ? null : db.collection('materials').doc(m),
       ),
     })
   }
