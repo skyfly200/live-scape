@@ -25,20 +25,29 @@ v-card.job-form.pa-6
     )
     .start 
       p Start
-      DateTime 
+      DateTime(
+        :value="job.start",
+        @change:date="update('start', 'date', $event)",
+        @change:time="update('start', 'time', $event)"
+      )
     .end
       p End
-      DateTime
+      DateTime(
+        :value="job.end",
+        @change:date="update('end', 'date', $event)",
+        @change:time="update('end', 'time', $event)"
+      )
   v-card-actions
     v-spacer
-    v-btn(@click="clear", color="red", outlined) Clear
+    v-btn(@click="reset", color="red", outlined) Reset
     v-btn(@click="cancel", color="red") Cancel
     v-btn(@click="add", color="green") Add
 </template>
 
 <script>
+import Vue from "vue";
 import { mapState } from "vuex";
-import { add } from "date-fns";
+import { add, format, formatISO, intervalToDuration } from "date-fns";
 
 import DateTime from "@/components/DateTime.vue";
 
@@ -85,14 +94,22 @@ export default {
       this.$emit("done");
     },
     compileDate(parts) {
-      const dateString = parts.date + parts.time;
-      console.log(dateString);
+      const dateString = parts.date + " " + parts.time;
       return new Date(dateString);
+    },
+    update(key, param, value) {
+      this.job[key][param] = value;
+      const interval = {
+        start: this.compileDate(this.job.start),
+        end: this.compileDate(this.job.end),
+      };
+      const duration = intervalToDuration(interval);
+      this.job.duration = duration;
     },
     cancel() {
       this.$emit("done");
     },
-    clear() {
+    reset() {
       this.job = JSON.parse(JSON.stringify(this.blankJob));
     },
     save() {},
@@ -105,12 +122,22 @@ export default {
     job: {
       location: "",
       start: {
-        date: "",
-        time: "",
+        date: formatISO(new Date(), { representation: "date" }),
+        time: format(new Date(), "kk:mm"),
       },
       end: {
-        date: "",
-        time: "",
+        date: formatISO(new Date(), { representation: "date" }),
+        time: format(
+          add(new Date(), {
+            hours: 2,
+            minutes: 30,
+          }),
+          "kk:mm"
+        ),
+      },
+      duration: {
+        hours: 2,
+        minutes: 30,
       },
       assigned: [],
       tasks: [],
@@ -124,6 +151,10 @@ export default {
         date: false,
         time: false,
       },
+    },
+    defaultDuration: {
+      hours: 2,
+      minutes: 30,
     },
     blankJob: {},
     contractors: ["Gunner", "Marrie"],

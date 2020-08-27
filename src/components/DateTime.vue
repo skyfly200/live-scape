@@ -27,11 +27,9 @@
         dark,
         scrollable,
         no-title,
-        full-width
+        full-width,
+        @click:date="setDate(date)"
       )
-        v-spacer
-        v-btn(text, color="primary", @click="dateMenu = false") Cancel
-        v-btn(text, color="primary", @click="$refs.dateMenu.save(date)") OK
   .time
     v-menu(
       ref="timeMenu",
@@ -58,21 +56,35 @@
         dark,
         v-model="time",
         full-width,
-        @click:minute="timeMenu = false"
+        @click:minute="setTime(time)"
       )
 </template>
 
 <script>
-import { add } from "date-fns";
+import { formatISO } from "date-fns";
 
 export default {
   name: "DateTime",
-  methods: {},
-  data: () => ({
-    date: "",
-    time: "",
-    dateMenu: false,
-    timeMenu: false,
-  }),
+  methods: {
+    setDate(date) {
+      this.$refs.dateMenu.save(date);
+      this.dateMenu = false;
+      this.$emit("change:date", date);
+    },
+    setTime(time) {
+      this.$refs.timeMenu.save(time);
+      this.timeMenu = false;
+      this.$emit("change:time", time);
+    },
+  },
+  props: ["value"],
+  data: function () {
+    return {
+      date: this.value.date,
+      time: this.value.time,
+      dateMenu: false,
+      timeMenu: false,
+    };
+  },
 };
 </script>
