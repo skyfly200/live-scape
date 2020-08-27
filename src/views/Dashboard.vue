@@ -32,7 +32,7 @@ v-container.dashboard(fluid)
           v-for="task in taskSys.tasks",
           dense,
           three-line,
-          :to="'/jobs/' + task.job.id",
+          to="/tasks",
           :key="task.id"
         )
           v-list-item-content
