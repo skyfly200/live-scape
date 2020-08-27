@@ -9,17 +9,17 @@ import {
 import { firestoreAction } from 'vuexfire'
 import { db } from '@/firebase/db'
 
-import { Location } from '@/models/location'
+//import { Location } from '@/models/location'
 
 @Module({ namespaced: true })
-export default class Locations extends VuexModule {
-  locations: Array<Location> = []
+export default class Location extends VuexModule {
+  locations: any = []
 
   @Action({ rawError: true })
   bind() {
-    firestoreAction(({ bindFirestoreRef }) => {
+    return (firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef('locations', db.collection('locations'))
-    })
+    }) as Function)(this.context)
   }
 }

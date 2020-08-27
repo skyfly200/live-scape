@@ -10,7 +10,7 @@ v-card.task-form.pa-6
         clearable,
         required,
         v-model="task.location",
-        :items="locations.locations",
+        :items="location.locations",
         :filter="locationFilter",
         item-text="title",
         item-value="id"
@@ -57,14 +57,18 @@ export default {
   name: "TaskForm",
   computed: {
     ...mapState([
-      "tasks",
-      "locations",
+      "taskSys",
+      ["tasks"],
+      "location",
       ["locations"],
       "contacts",
+      ["contacts"],
       "tools",
+      ["tools"],
       "materials",
       ["materials"],
       "jobs",
+      ["jobs"],
     ]),
   },
   methods: {

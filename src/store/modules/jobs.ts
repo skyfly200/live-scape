@@ -40,9 +40,9 @@ export default class Jobs extends VuexModule {
 
   @Action({ rawError: true })
   bind() {
-    firestoreAction(({ bindFirestoreRef }) => {
+    return (firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef('jobs', db.collection('jobs'))
-    })
+    }) as Function)(this.context)
   }
 }

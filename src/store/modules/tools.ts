@@ -17,9 +17,9 @@ export default class Tools extends VuexModule {
 
   @Action({ rawError: true })
   bind() {
-    firestoreAction(({ bindFirestoreRef }) => {
+    return (firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef('tools', db.collection('tools'))
-    })
+    }) as Function)(this.context)
   }
 }

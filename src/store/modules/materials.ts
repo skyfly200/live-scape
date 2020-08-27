@@ -17,9 +17,9 @@ export default class Materials extends VuexModule {
 
   @Action({ rawError: true })
   bind() {
-    firestoreAction(({ bindFirestoreRef }) => {
+    return (firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
       return bindFirestoreRef('materials', db.collection('materials'))
-    })
+    }) as Function)(this.context)
   }
 }

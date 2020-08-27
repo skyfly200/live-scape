@@ -149,7 +149,7 @@ export default Vue.extend({
   created() {
     this.$store.dispatch("jobs/bind");
     this.$store.dispatch("taskSys/bind");
-    this.$store.dispatch("locations/bind");
+    this.$store.dispatch("location/bind");
     this.$store.dispatch("contacts/bind");
     this.$store.dispatch("tools/bind");
     this.$store.dispatch("materials/bind");

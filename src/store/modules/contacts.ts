@@ -13,34 +13,13 @@ import { Contact } from '@/models/contact'
 
 @Module({ namespaced: true })
 export default class Contacts extends VuexModule {
-  contacts: Array<Contact> = [
-    new Contact({
-      id: 0,
-      title: 'Mr',
-      firstName: 'Dan',
-      lastName: 'Brown',
-      nickname: 'Dan',
-      homePhone: '720-555-1234',
-      cellPhone: '720-555-6543',
-      email: 'dan.brown@example.com',
-    }),
-    new Contact({
-      id: 1,
-      title: 'Mr',
-      firstName: 'Jerremy',
-      lastName: 'Mathews',
-      nickname: 'Jerry',
-      homePhone: '720-555-3854',
-      cellPhone: '720-555-9743',
-      email: 'JMathews@example.com',
-    }),
-  ]
+  contacts: Array<Contact> = []
 
   @Action({ rawError: true })
   bind() {
-    firestoreAction(({ bindFirestoreRef }) => {
+    return (firestoreAction(({ bindFirestoreRef }) => {
       // return the promise returned by `bindFirestoreRef`
-      return bindFirestoreRef('contact', db.collection('contacts'))
-    })
+      return bindFirestoreRef('contacts', db.collection('contacts'))
+    }) as Function)(this.context)
   }
 }
