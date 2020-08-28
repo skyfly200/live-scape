@@ -1,78 +1,85 @@
 <template lang="pug">
 v-container.job(fluid)
-  v-row(no-gutters)
-    v-col
-      v-card.ma-2(dark)
-        v-img(:src="streetViewURL + encodeURI(location.address)")
-        v-card-title
-        v-card-text.location
-          div
-            h3 {{ location.title }}
-            a(:href="mapsURL + encodeURI(location.address)", target="_blank")
-              p {{ location.address }}
-          div
-            v-btn(
-              :href="navigationURL + encodeURI(location.address)",
-              target="_blank",
-              color="green",
-              fab,
-              outlined
+  template(v-if="location === undefined")
+    v-row
+      v-col
+        v-card
+          v-card-title Invalid Job ID
+          v-card-subtitle {{ jobID }}
+  template(v-else)
+    v-row(no-gutters)
+      v-col
+        v-card.ma-2(dark)
+          v-img(:src="streetViewURL + encodeURI(location.address)")
+          v-card-title
+          v-card-text.location
+            div
+              h3 {{ location.title }}
+              a(:href="mapsURL + encodeURI(location.address)", target="_blank")
+                p {{ location.address }}
+            div
+              v-btn(
+                :href="navigationURL + encodeURI(location.address)",
+                target="_blank",
+                color="green",
+                fab,
+                outlined
+              )
+                v-icon mdi-navigation
+      v-col
+        v-card.ma-2(dark)
+          v-card-title {{ contacts[location.contact].lastName }}, {{ contacts[location.contact].firstName }}
+          v-card-subtitle {{ contacts[location.contact].nickname }}
+          v-card-text
+            v-btn.ma-2(
+              color="primary",
+              :href="'tel:' + contacts[location.contact].cellPhone"
             )
-              v-icon mdi-navigation
-    v-col
-      v-card.ma-2(dark)
-        v-card-title {{ contacts[location.contact].lastName }}, {{ contacts[location.contact].firstName }}
-        v-card-subtitle {{ contacts[location.contact].nickname }}
-        v-card-text
-          v-btn.ma-2(
-            color="primary",
-            :href="'tel:' + contacts[location.contact].cellPhone"
-          )
-            v-icon mdi-phone
-            span Call
-          v-btn.ma-2(
-            color="primary",
-            :href="'mailto:' + contacts[location.contact].email"
-          )
-            v-icon mdi-email
-            span Email
-          v-divider
-          br
-          h2 Notes
-          v-list 
-            v-list-item(
-              v-for="(note, i) in location.notes",
-              dense,
-              three-line,
-              :key="i"
+              v-icon mdi-phone
+              span Call
+            v-btn.ma-2(
+              color="primary",
+              :href="'mailto:' + contacts[location.contact].email"
             )
-              v-list-item-content
-                v-list-item-subtitle {{ note }}
-  v-row(no-gutters)
-    v-col(cols=12)
-      v-card.ma-2(dark)
-        v-card-title Tasks
-        v-card-text
-          v-list
-            v-list-item(
-              v-for="task in job.tasks",
-              dense,
-              three-line,
-              :key="task.id"
-            )
-              v-list-item-content
-                v-list-item-title {{ task.title }} for {{ location.name }}
-                v-list-item-subtitle {{ task.description }}
-                v-list-item-subtitle {{ location.address }}
-              v-list-item-icon
-                template(v-if="task.status === 'new'")
-                  v-icon(color="green", @click="") mdi-play
-                template(v-else-if="task.status !== 'done'")
-                  v-icon(color="yellow", @click="") mdi-pause
-                  v-icon(color="red", @click="") mdi-cancel
-                template(v-else)
-                  v-icon(@click="") mdi-undo
-                  v-icon(color="green") mdi-check
+              v-icon mdi-email
+              span Email
+            v-divider
+            br
+            h2 Notes
+            v-list 
+              v-list-item(
+                v-for="(note, i) in location.notes",
+                dense,
+                three-line,
+                :key="i"
+              )
+                v-list-item-content
+                  v-list-item-subtitle {{ note }}
+    v-row(no-gutters)
+      v-col(cols=12)
+        v-card.ma-2(dark)
+          v-card-title Tasks
+          v-card-text
+            v-list
+              v-list-item(
+                v-for="task in job.tasks",
+                dense,
+                three-line,
+                :key="task.id"
+              )
+                v-list-item-content
+                  v-list-item-title {{ task.title }} for {{ location.name }}
+                  v-list-item-subtitle {{ task.description }}
+                  v-list-item-subtitle {{ location.address }}
+                v-list-item-icon
+                  template(v-if="task.status === 'new'")
+                    v-icon(color="green", @click="") mdi-play
+                  template(v-else-if="task.status !== 'done'")
+                    v-icon(color="yellow", @click="") mdi-pause
+                    v-icon(color="red", @click="") mdi-cancel
+                  template(v-else)
+                    v-icon(@click="") mdi-undo
+                    v-icon(color="green") mdi-check
 </template>
 
 <script>
