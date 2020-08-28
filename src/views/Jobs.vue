@@ -9,22 +9,21 @@ v-container(fluid)
           :value="job.tasks.length > 0",
           :content="job.tasks.length"
         )
-          v-card(
-            dark,
-            width="300",
-            height="300",
-            :to="'/jobs/' + job.location.id"
-          )
+          v-card(dark, width="300", height="280", :to="'/jobs/' + job.id")
             v-img(:src="streetViewURL + encodeURI(job.location.address)")
             v-card-title {{ job.location.title }}
-            v-card-subtitle {{ job.location.address }}
+            v-card-subtitle {{ format(job.start.toDate(), 'PPp') }}
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { format } from "date-fns";
 
 export default {
   name: "Jobs",
+  methods: {
+    format: format,
+  },
   computed: {
     ...mapState([
       "taskSys",
@@ -40,11 +39,6 @@ export default {
       "jobs",
       ["jobs"],
     ]),
-  },
-  methods: {
-    getTasks: function (index) {
-      return this.tasks.filter((task) => task.job === index);
-    },
   },
   data: () => ({
     streetViewURL:
