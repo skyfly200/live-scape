@@ -10,13 +10,14 @@ v-container(fluid)
           v-expansion-panel-header {{ location.title }} - {{ location.address }}
           v-expansion-panel-content
             .d-flex
-              v-img(
+              v-img.street-view.shrink(
                 :src="streetViewURL + encodeURI(location.address)",
                 height="200",
                 contain
               )
-              h2 Notes:
-              p(v-for="note in location.notes") {{ note }}
+              .notes.grow.pa-4
+                h2 Notes:
+                p(v-for="note in location.notes") {{ note }}
 </template>
 
 <script>
