@@ -52,8 +52,36 @@ v-container.schedule(fluid)
           :interval-count="intervals.count",
           :interval-height="intervals.height",
           :show-interval-label="showIntervalLabel",
-          :event-color="getEventColor"
+          :event-color="getEventColor",
+          @click:event="showEvent"
         )
+        v-menu(
+          v-model="selectedOpen",
+          :close-on-content-click="false",
+          :activator="selectedElement",
+          offset-x
+        )
+          v-card(color="grey lighten-4", min-width="350px", flat)
+            v-toolbar(:color="selectedEvent.color", dark)
+              v-btn(icon)
+                v-icon mdi-pencil
+              v-toolbar-title(v-html="selectedEvent.name")
+              v-spacer
+              v-btn(icon)
+                v-icon mdi-dots-vertical
+            v-card-text
+              p(v-html="selectedEvent.details")
+              p {{ selectedEvent.job ? selectedEvent.job.location.address : '' }}
+              h5 Assigned: {{ selectedEvent.job ? selectedEvent.job.location.assigned : '' }}
+            v-card-actions
+              v-btn(text, color="secondary", @click="selectedOpen = false") Cancel
+              v-spacer
+              v-btn(
+                text,
+                v-if="selectedEvent.job",
+                color="secondary",
+                :to="'/jobs/' + selectedEvent.job.id"
+              ) View Job
 </template>
 
 <script>
@@ -80,6 +108,7 @@ export default {
   },
   mounted() {
     this.events = this.jobs.jobs.map((j, i) => ({
+      job: j,
       name: i + " - " + j.location.title,
       description: "Tasks: " + j.tasks.length,
       start: j.start.toDate(),
@@ -101,9 +130,28 @@ export default {
         { text: "Month", value: "month" },
       ],
       intervals: { first: 0, minutes: 60, count: 15, height: 48 },
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false,
     };
   },
   methods: {
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        setTimeout(() => (this.selectedOpen = true), 10);
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
+
+      nativeEvent.stopPropagation();
+    },
     addJob() {
       this.$emit("newJob");
     },
