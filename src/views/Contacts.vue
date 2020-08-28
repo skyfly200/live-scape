@@ -47,7 +47,7 @@ export default {
       {
         text: "First Name",
         align: "start",
-        value: "lastName",
+        value: "firstName",
       },
       { text: "Last Name", value: "lastName" },
       { text: "Nickname", value: "nickname" },
