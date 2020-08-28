@@ -28,23 +28,36 @@ v-container.job(fluid)
                 v-icon mdi-navigation
       v-col
         v-card.ma-2(dark)
-          v-card-title {{ contacts[location.contact].lastName }}, {{ contacts[location.contact].firstName }}
-          v-card-subtitle {{ contacts[location.contact].nickname }}
-          v-card-text
-            v-btn.ma-2(
-              color="primary",
-              :href="'tel:' + contacts[location.contact].cellPhone"
-            )
-              v-icon mdi-phone
-              span Call
-            v-btn.ma-2(
-              color="primary",
-              :href="'mailto:' + contacts[location.contact].email"
-            )
-              v-icon mdi-email
-              span Email
-            v-divider
-            br
+          template(v-if="location.contact")
+            v-card-title {{ location.contact.lastName }}, {{ location.contact.firstName }}
+            v-card-subtitle {{ location.contact.nickname }}
+            v-card-text
+              v-btn.ma-2(
+                color="primary",
+                :href="'tel:' + location.contact.cellPhone"
+              )
+                v-icon mdi-phone
+                span Call
+              v-btn.ma-2(
+                color="primary",
+                :href="'mailto:' + location.contact.email"
+              )
+                v-icon mdi-email
+                span Email
+              v-divider
+              br
+              h2 Notes
+              v-list 
+                v-list-item(
+                  v-for="(note, i) in location.notes",
+                  dense,
+                  three-line,
+                  :key="i"
+                )
+                  v-list-item-content
+                    v-list-item-subtitle {{ note }}
+          template(v-else)
+            v-card-title No Contact Info
             h2 Notes
             v-list 
               v-list-item(
@@ -87,11 +100,6 @@ import { mapState } from "vuex";
 
 export default {
   name: "Job",
-  methods: {
-    getTasks: function (jobID) {
-      return this.tasks.filter((task) => task.job === jobID);
-    },
-  },
   computed: {
     ...mapState([
       "taskSys",
@@ -111,7 +119,7 @@ export default {
       return this.$route.params.id;
     },
     job: function () {
-      return this.jobs.jobs.filter((job) => job.id === this.jobID);
+      return this.jobs.jobs.filter((job) => job.id === this.jobID)[0];
     },
     location: function () {
       return this.job.location;
