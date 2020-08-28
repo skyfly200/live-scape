@@ -59,6 +59,11 @@ v-app#app
         v-icon mdi-clock
       v-list-item-content
         v-list-item-title Timeclock
+    v-list-item(link, to="/locations", text)
+      v-list-item-icon
+        v-icon mdi-map-marker
+      v-list-item-content
+        v-list-item-title Locations
   v-app-bar#nav(app, extended, dark, color="green")
     v-avatar
       v-img.logo(

@@ -1,91 +1,100 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
-import { Auth } from "@/firebase/auth";
-import Home from "../views/Home.vue";
+import Vue from 'vue'
+import VueRouter, { RouteConfig } from 'vue-router'
+import { Auth } from '@/firebase/auth'
+import Home from '../views/Home.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes: RouteConfig[] = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
   },
   {
-    path: "/dash",
-    name: "Dashboard",
+    path: '/dash',
+    name: 'Dashboard',
     component: () =>
-      import(/* webpackChunkName: "dash" */ "../views/Dashboard.vue"),
+      import(/* webpackChunkName: "dash" */ '../views/Dashboard.vue'),
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/jobs",
-    name: "Jobs",
-    component: () => import(/* webpackChunkName: "jobs" */ "../views/Jobs.vue"),
+    path: '/jobs',
+    name: 'Jobs',
+    component: () => import(/* webpackChunkName: "jobs" */ '../views/Jobs.vue'),
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/jobs/:id",
-    name: "Job",
-    component: () => import(/* webpackChunkName: "job" */ "../views/Job.vue"),
+    path: '/jobs/:id',
+    name: 'Job',
+    component: () => import(/* webpackChunkName: "job" */ '../views/Job.vue'),
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/tasks",
-    name: "Tasks",
+    path: '/tasks',
+    name: 'Tasks',
     component: () =>
-      import(/* webpackChunkName: "tasks" */ "../views/Tasks.vue"),
+      import(/* webpackChunkName: "tasks" */ '../views/Tasks.vue'),
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/schedule",
-    name: "Schedule",
+    path: '/locations',
+    name: 'Locations',
     component: () =>
-      import(/* webpackChunkName: "schedule" */ "../views/Schedule.vue"),
+      import(/* webpackChunkName: "locations" */ '../views/Locations.vue'),
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/clock",
-    name: "Timeclock",
+    path: '/schedule',
+    name: 'Schedule',
     component: () =>
-      import(/* webpackChunkName: "timeclock" */ "../views/Timeclock.vue"),
+      import(/* webpackChunkName: "schedule" */ '../views/Schedule.vue'),
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/*",
-    name: "Error404",
+    path: '/clock',
+    name: 'Timeclock',
     component: () =>
-      import(/* webpackChunkName: "error404" */ "@/views/404.vue"),
+      import(/* webpackChunkName: "timeclock" */ '../views/Timeclock.vue'),
+    meta: {
+      requiresAuth: true,
+    },
   },
-];
+  {
+    path: '/*',
+    name: 'Error404',
+    component: () =>
+      import(/* webpackChunkName: "error404" */ '@/views/404.vue'),
+  },
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
-});
+})
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     if (Auth.currentUser !== null) {
-      next();
+      next()
     } else {
-      next("/");
+      next('/')
     }
   }
-  next();
+  next()
   // if (!auth) {
   //   try to load auth
   //   store
@@ -112,6 +121,6 @@ router.beforeEach(async (to, from, next) => {
   // } else {
   //   next();
   // }
-});
+})
 
-export default router;
+export default router
