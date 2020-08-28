@@ -64,6 +64,11 @@ v-app#app
         v-icon mdi-map-marker
       v-list-item-content
         v-list-item-title Locations
+    v-list-item(link, to="/contacts", text)
+      v-list-item-icon
+        v-icon mdi-contacts
+      v-list-item-content
+        v-list-item-title Contacts
   v-app-bar#nav(app, extended, dark, color="green")
     v-avatar
       v-img.logo(

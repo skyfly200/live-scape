@@ -46,6 +46,15 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: '/contacts',
+    name: 'Contacts',
+    component: () =>
+      import(/* webpackChunkName: "contacts" */ '../views/Contacts.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/locations',
     name: 'Locations',
     component: () =>
