@@ -2,23 +2,23 @@
 v-container(fluid)
   v-row
     v-col.contacts
-      v-expansion-panels(dark)
-        v-expansion-panel.contact.ma-4(
-          v-for="contact in contacts.contacts",
-          :key="contact.id"
+      v-card(dark, width="100%")
+        v-card-title Contacts
+          v-spacer
+          v-text-field(
+            v-model="search",
+            append-icon="mdi-magnify",
+            label="Search",
+            single-line,
+            hide-details
+          )
+        v-data-table.elevation-1(
+          :headers="headers",
+          :items="contacts.contacts",
+          :items-per-page="5",
+          dark,
+          :search="search"
         )
-          v-expansion-panel-header {{ contact.lastName }}, {{ contact.firstName }}
-          v-expansion-panel-content
-            .d-flex
-              h1 {{ contact.nickname }}
-              p {{ contact.cellPhone }}
-              v-btn.ma-2(color="primary", :href="'tel:' + contact.cellPhone")
-                v-icon mdi-phone
-                span Call
-              p {{ contact.email }}
-              v-btn.ma-2(color="primary", :href="'mailto:' + contact.email")
-                v-icon mdi-email
-                span Email
 </template>
 
 <script>
@@ -43,6 +43,19 @@ export default {
     ]),
   },
   data: () => ({
+    headers: [
+      {
+        text: "First Name",
+        align: "start",
+        value: "lastName",
+      },
+      { text: "Last Name", value: "lastName" },
+      { text: "Nickname", value: "nickname" },
+      { text: "Email", value: "email" },
+      { text: "Home Phone", sortable: false, value: "homePhone" },
+      { text: "Cell Phone", sortable: false, value: "cellPhone" },
+    ],
+    search: "",
     streetViewURL:
       "https://maps.googleapis.com/maps/api/streetview?size=300x200&fov=80&pitch=0&key=AIzaSyDPbvEAlVbD1oME8UH9b2pbTQJympA5lM8&location=",
   }),
