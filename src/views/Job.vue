@@ -91,6 +91,7 @@ v-container.job(fluid)
               v-model="tasksList",
               @start="drag = true",
               @end="drag = false",
+              @change="updateTasks($event)",
               draggable=".item"
             )
               v-list-item.item(
@@ -124,7 +125,6 @@ v-container.job(fluid)
               v-model="unscheduledTasks",
               @start="drag = true",
               @end="drag = false",
-              :move="onMove",
               draggable=".item",
               :sort="false",
               :group="{ name: 'unscheduledTasks', put: false }"
@@ -187,19 +187,16 @@ export default {
       get() {
         return this.taskSys.tasks.filter(this.scheduleFilter);
       },
-      put() {},
+      set() {},
     },
   },
   methods: {
     scheduleFilter(t) {
       return t.job === null && t.location.id === this.location.id;
     },
-    onMove(evt, originalEvent) {
-      console.log(evt);
-      // return false; — for cancel
-    },
     newTask() {},
-    updateTasks() {
+    updateTasks(e) {
+      console.log(e);
       // push updated tasks list to db
       // TODO: watch job for updates to data
     },
