@@ -7,7 +7,7 @@ v-container.dashboard(fluid)
       v-divider
       v-row
         v-col.data-box
-          h2.data-field {{ totalAll }}
+          h2.data-field {{ timeWorked }}
           h5 Worked This Week
         v-divider(vertical)
         v-col.data-box
@@ -23,7 +23,7 @@ v-container.dashboard(fluid)
             span {{ completeTasks }} / {{ taskSys.tasks.length }}
           h5 Tasks Done
       v-divider
-  v-card.pa-2(dark)
+  v-card.pa-2.my-3(dark)
     v-card-title
       h2 Active Tasks
     v-card-text
@@ -39,10 +39,60 @@ v-container.dashboard(fluid)
             v-list-item-title {{ task.title }}
             v-list-item-subtitle {{ task.description }}
             v-list-item-subtitle {{ task.notes }}
+  v-card.pa-2.my-3(dark)
+    v-card-title
+      h2 Paused Tasks
+    v-card-text
+      v-list
+        v-list-item(
+          v-for="task in pausedTasks",
+          dense,
+          three-line,
+          to="/tasks",
+          :key="task.id"
+        )
+          v-list-item-content
+            v-list-item-title {{ task.title }}
+            v-list-item-subtitle {{ task.description }}
+            v-list-item-subtitle {{ task.notes }}
+  v-card.pa-2.my-3(dark)
+    v-card-title
+      h2 Completed Tasks
+    v-card-text
+      v-list
+        v-list-item(
+          v-for="task in doneTasks",
+          dense,
+          three-line,
+          to="/tasks",
+          :key="task.id"
+        )
+          v-list-item-content
+            v-list-item-title {{ task.title }}
+            v-list-item-subtitle {{ task.description }}
+            v-list-item-subtitle {{ task.notes }}
+  v-card.pa-2(dark)
+    v-card-title
+      h2 New Tasks
+    v-card-text
+      v-list
+        v-list-item(
+          v-for="task in newTasks",
+          dense,
+          three-line,
+          to="/tasks",
+          :key="task.id"
+        )
+          v-list-item-content
+            v-list-item-title {{ task.title }}
+            v-list-item-subtitle {{ task.description }}
+            v-list-item-subtitle {{ task.notes }}
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { format, formatDistance } from "date-fns";
+
 export default {
   name: "Dashboard",
   computed: {
@@ -67,8 +117,22 @@ export default {
     percentTasks: function () {
       return (this.completeTasks / this.taskSys.tasks.length) * 100;
     },
+    newTasks() {
+      return this.taskSys.tasks.filter((t) => t.status === "new");
+    },
     activeTasks() {
       return this.taskSys.tasks.filter((t) => t.status === "active");
+    },
+    pausedTasks() {
+      return this.taskSys.tasks.filter((t) => t.status === "paused");
+    },
+    doneTasks() {
+      return this.taskSys.tasks.filter((t) => t.status === "done");
+    },
+    timeWorked() {
+      return formatDistance(0, this.totalAll * 1000, {
+        includeSeconds: true,
+      });
     },
   },
   data: () => ({}),
