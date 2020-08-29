@@ -65,22 +65,12 @@ v-container.job(fluid)
               )
                 v-icon mdi-email
                 span Email
-              v-divider
-              br
-              h2 Notes
-              v-list 
-                v-list-item(
-                  v-for="(note, i) in location.notes",
-                  dense,
-                  three-line,
-                  :key="i"
-                )
-                  v-list-item-content
-                    v-list-item-subtitle {{ note }}
           template(v-else)
             v-card-title No Contact Info
-            h2 Notes
-            v-list 
+        v-card.ma-2(dark)
+          v-card-title Notes
+          v-card-text
+            v-list(v-if="location.notes")
               v-list-item(
                 v-for="(note, i) in location.notes",
                 dense,
@@ -89,14 +79,39 @@ v-container.job(fluid)
               )
                 v-list-item-content
                   v-list-item-subtitle {{ note }}
+            h4(v-else) None
     v-row(no-gutters)
-      v-col(cols=12)
+      v-col(cols=6)
         v-card.ma-2(dark)
-          v-card-title Tasks
+          v-card-title Tasks List
           v-card-text
             v-list
               v-list-item(
                 v-for="task in job.tasks",
+                dense,
+                three-line,
+                :key="task.id"
+              )
+                v-list-item-content
+                  v-list-item-title {{ task.title }} for {{ location.name }}
+                  v-list-item-subtitle {{ task.description }}
+                  v-list-item-subtitle {{ location.address }}
+                v-list-item-icon
+                  template(v-if="task.status === 'new'")
+                    v-icon(color="green", @click="") mdi-play
+                  template(v-else-if="task.status !== 'done'")
+                    v-icon(color="yellow", @click="") mdi-pause
+                    v-icon(color="red", @click="") mdi-cancel
+                  template(v-else)
+                    v-icon(@click="") mdi-undo
+                    v-icon(color="green") mdi-check
+      v-col(cols=6)
+        v-card.ma-2(dark)
+          v-card-title Unscheduled Tasks
+          v-card-text
+            v-list
+              v-list-item(
+                v-for="task in unscheduledTasks",
                 dense,
                 three-line,
                 :key="task.id"
@@ -144,6 +159,14 @@ export default {
     },
     location: function () {
       return this.job.location;
+    },
+    unscheduledTasks() {
+      return this.taskSys.tasks.filter(this.scheduleFilter);
+    },
+  },
+  methods: {
+    scheduleFilter(t) {
+      return t.job === null && t.location.id === this.location.id;
     },
   },
   data: () => ({
