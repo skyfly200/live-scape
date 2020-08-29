@@ -87,6 +87,7 @@ v-container.job(fluid)
           v-card-text
             draggable(
               tag="v-list",
+              :group="{ name: 'tasksList', put: true }",
               v-model="tasksList",
               @start="drag = true",
               @end="drag = false",
@@ -118,8 +119,17 @@ v-container.job(fluid)
         v-card.ma-2(dark)
           v-card-title Unscheduled Tasks
           v-card-text
-            v-list
-              v-list-item(
+            draggable(
+              tag="v-list",
+              v-model="unscheduledTasks",
+              @start="drag = true",
+              @end="drag = false",
+              :move="onMove",
+              draggable=".item",
+              :sort="false",
+              :group="{ name: 'unscheduledTasks', put: false }"
+            )
+              v-list-item.item(
                 v-for="task in unscheduledTasks",
                 dense,
                 three-line,
@@ -173,15 +183,26 @@ export default {
     location: function () {
       return this.job.location;
     },
-    unscheduledTasks() {
-      return this.taskSys.tasks.filter(this.scheduleFilter);
+    unscheduledTasks: {
+      get() {
+        return this.taskSys.tasks.filter(this.scheduleFilter);
+      },
+      put() {},
     },
   },
   methods: {
     scheduleFilter(t) {
       return t.job === null && t.location.id === this.location.id;
     },
+    onMove(evt, originalEvent) {
+      console.log(evt);
+      // return false; — for cancel
+    },
     newTask() {},
+    updateTasks() {
+      // push updated tasks list to db
+      // TODO: watch job for updates to data
+    },
   },
   created() {
     this.tasksList = this.job.tasks;
