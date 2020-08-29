@@ -22,11 +22,11 @@ v-container.tasks.d-flex(fluid, no-gutter)
           v-expansion-panel-content
             v-list(avatar, dense)
               v-list-item(v-for="t in task.tools", two-line)
-                v-list-item-avatar(v-if="tools[t].image")
-                  v-img(:src="tools[t].image")
+                v-list-item-avatar(v-if="t.image")
+                  v-img(:src="t.image")
                 v-list-item-content
-                  v-list-item-title {{ tools[t].name }}
-                  v-list-item-subtitle {{ tools[t].description }}
+                  v-list-item-title {{ t.name }}
+                  v-list-item-subtitle {{ t.description }}
     v-divider
     v-card-actions
       template(v-if="task.status === 'new'")
