@@ -7,7 +7,7 @@ v-container.dashboard(fluid)
       v-divider
       v-row
         v-col.data-box
-          h2.data-field 13 Hours 22 Minutes
+          h2.data-field {{ totalAll }}
           h5 Worked This Week
         v-divider(vertical)
         v-col.data-box
@@ -25,11 +25,11 @@ v-container.dashboard(fluid)
       v-divider
   v-card.pa-2(dark)
     v-card-title
-      h2 Current Tasks
+      h2 Active Tasks
     v-card-text
       v-list
         v-list-item(
-          v-for="task in taskSys.tasks",
+          v-for="task in activeTasks",
           dense,
           three-line,
           to="/tasks",
@@ -60,11 +60,15 @@ export default {
       "jobs",
       ["jobs"],
     ]),
+    ...mapGetters("timeclock", ["totalAll"]),
     completeTasks: function () {
       return this.taskSys.tasks.filter((t) => t.status === "done").length;
     },
     percentTasks: function () {
       return (this.completeTasks / this.taskSys.tasks.length) * 100;
+    },
+    activeTasks() {
+      return this.taskSys.tasks.filter((t) => t.status === "active");
     },
   },
   data: () => ({}),
