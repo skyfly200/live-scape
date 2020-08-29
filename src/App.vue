@@ -39,6 +39,16 @@ v-app#app
         v-icon mdi-desk
       v-list-item-content
         v-list-item-title Dashboard
+    v-list-item(link, to="/clock", text)
+      v-list-item-icon
+        v-icon mdi-clock
+      v-list-item-content
+        v-list-item-title Timeclock
+    v-list-item(link, to="/schedule", text)
+      v-list-item-icon
+        v-icon mdi-calendar
+      v-list-item-content
+        v-list-item-title Schedule
     v-list-item(link, to="/jobs", text)
       v-list-item-icon
         v-icon mdi-notebook
@@ -49,16 +59,6 @@ v-app#app
         v-icon mdi-clipboard-check
       v-list-item-content
         v-list-item-title Tasks
-    v-list-item(link, to="/schedule", text)
-      v-list-item-icon
-        v-icon mdi-calendar
-      v-list-item-content
-        v-list-item-title Schedule
-    v-list-item(link, to="/clock", text)
-      v-list-item-icon
-        v-icon mdi-clock
-      v-list-item-content
-        v-list-item-title Timeclock
     v-list-item(link, to="/locations", text)
       v-list-item-icon
         v-icon mdi-map-marker
@@ -113,12 +113,6 @@ v-app#app
     v-btn(to="/dash")
       span Dash
       v-icon mdi-gauge
-    v-btn(to="/jobs", v-if="roleFilter(['admin', 'manager'])")
-      span Jobs
-      v-icon mdi-notebook
-    v-btn(to="/tasks", v-if="roleFilter(['admin', 'manager'])")
-      span Tasks
-      v-icon mdi-clipboard-check
     v-btn(to="/schedule")
       span Schedule
       v-icon mdi-calendar
