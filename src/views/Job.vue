@@ -32,14 +32,35 @@ v-container.job(fluid)
             v-card-title {{ location.contact.lastName }}, {{ location.contact.firstName }}
             v-card-subtitle {{ location.contact.nickname }}
             v-card-text
+              v-menu(offset-y)
+                template(v-slot:activator="{ on, attrs }")
+                  v-btn.ma-2(color="primary", v-bind="attrs", v-on="on")
+                    v-icon mdi-phone
+                    span Call
+                v-list(two-line)
+                  v-list-item(
+                    link,
+                    two-line,
+                    :href="'tel:' + location.contact.homePhone"
+                  )
+                    v-list-item-icon
+                      v-icon mdi-home
+                    v-list-item-content
+                      v-list-item-title Home
+                      v-list-item-subtitle {{ location.contact.homePhone }}
+                  v-list-item(
+                    link,
+                    two-line,
+                    :href="'tel:' + location.contact.cellPhone"
+                  )
+                    v-list-item-icon
+                      v-icon mdi-cellphone
+                    v-list-item-content
+                      v-list-item-title Cell
+                      v-list-item-subtitle {{ location.contact.cellPhone }}
               v-btn.ma-2(
                 color="primary",
-                :href="'tel:' + location.contact.cellPhone"
-              )
-                v-icon mdi-phone
-                span Call
-              v-btn.ma-2(
-                color="primary",
+                target="_blank",
                 :href="'mailto:' + location.contact.email"
               )
                 v-icon mdi-email
