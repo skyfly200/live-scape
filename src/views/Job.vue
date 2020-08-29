@@ -85,9 +85,15 @@ v-container.job(fluid)
         v-card.ma-2(dark)
           v-card-title Tasks List
           v-card-text
-            v-list
-              v-list-item(
-                v-for="task in job.tasks",
+            draggable(
+              tag="v-list",
+              v-model="tasksList",
+              @start="drag = true",
+              @end="drag = false",
+              draggable=".item"
+            )
+              v-list-item.item(
+                v-for="task in tasksList",
                 dense,
                 three-line,
                 :key="task.id"
@@ -105,6 +111,9 @@ v-container.job(fluid)
                   template(v-else)
                     v-icon(@click="") mdi-undo
                     v-icon(color="green") mdi-check
+              v-btn(slot="footer", @click="newTask")
+                v-icon mdi-clipboard-plus
+                span New Task
       v-col(cols=6)
         v-card.ma-2(dark)
           v-card-title Unscheduled Tasks
@@ -133,9 +142,13 @@ v-container.job(fluid)
 
 <script>
 import { mapState } from "vuex";
+import draggable from "vuedraggable";
 
 export default {
   name: "Job",
+  components: {
+    draggable,
+  },
   computed: {
     ...mapState([
       "taskSys",
@@ -168,8 +181,14 @@ export default {
     scheduleFilter(t) {
       return t.job === null && t.location.id === this.location.id;
     },
+    newTask() {},
+  },
+  created() {
+    this.tasksList = this.job.tasks;
   },
   data: () => ({
+    drag: false,
+    tasksList: [],
     streetViewURL:
       "https://maps.googleapis.com/maps/api/streetview?size=300x200&fov=80&pitch=0&key=AIzaSyDPbvEAlVbD1oME8UH9b2pbTQJympA5lM8&location=",
     navigationURL: "https://www.google.com/maps/dir/?api=1&destination=",
