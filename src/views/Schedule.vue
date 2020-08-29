@@ -105,6 +105,11 @@ export default {
       "jobs",
       ["jobs"],
     ]),
+    intervals() {
+      const earliest = 0;
+      const latest = 24;
+      return { first: 0, minutes: 60, count: 24, height: 24 };
+    },
   },
   mounted() {
     this.events = this.jobs.jobs.map((j, i) => ({
@@ -129,7 +134,6 @@ export default {
         { text: "Week", value: "week" },
         { text: "Month", value: "month" },
       ],
-      intervals: { first: 0, minutes: 60, count: 15, height: 48 },
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
