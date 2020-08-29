@@ -59,12 +59,22 @@ v-app#app
         v-icon mdi-clipboard-check
       v-list-item-content
         v-list-item-title Tasks
-    v-list-item(link, to="/locations", text)
+    v-list-item(
+      v-if="roleFilter(['admin', 'manager'])",
+      link,
+      to="/locations",
+      text
+    )
       v-list-item-icon
         v-icon mdi-map-marker
       v-list-item-content
         v-list-item-title Locations
-    v-list-item(link, to="/contacts", text)
+    v-list-item(
+      v-if="roleFilter(['admin', 'manager'])",
+      link,
+      to="/contacts",
+      text
+    )
       v-list-item-icon
         v-icon mdi-contacts
       v-list-item-content
