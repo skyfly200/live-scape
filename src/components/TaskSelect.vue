@@ -7,12 +7,8 @@ v-card.task-form.pa-6
         v-list-item-title A Task
         v-list-item-title Task description
   v-card-actions
-    v-btn(@click="save", icon, color="blue")
-      v-icon mdi-content-save
     v-spacer
-    v-btn(@click="clear", color="red", outlined) Clear
-    v-btn(@click="cancel", color="red") Cancel
-    v-btn(@click="add", color="green", :disabled="!valid") Add
+    v-btn(@click="$emit('done')", color="red") Cancel
 </template>
 
 <script>
