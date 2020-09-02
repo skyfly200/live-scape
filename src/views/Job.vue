@@ -12,11 +12,11 @@ v-container.job(fluid)
         v-card.ma-2(dark)
           v-img(:src="streetViewURL + encodeURI(location.address)")
           v-card-title
-          v-card-text.location
+          v-card-text.location.d-flex.flex-nowrap
             div
               h3 {{ location.title }}
               a(:href="mapsURL + encodeURI(location.address)", target="_blank")
-                p {{ location.address }}
+                p.text-truncate.d-inline-block.address {{ location.address }}
             div
               v-btn(
                 :href="navigationURL + encodeURI(location.address)",
@@ -256,5 +256,13 @@ export default {
   border: solid white 0.02rem
   border-radius: 5px
   background: rgba(1,1,1,0.2)
+.address
+  max-width: 30vw
+@media(max-width: 500px)
+  .address
+    max-width: 50vw
+@media(max-width: 320px)
+  .address
+    max-width: 30vw
 </style>
 
