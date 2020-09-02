@@ -102,16 +102,15 @@ v-container.job(fluid)
               v-list-item.item(
                 v-for="task in tasksList",
                 dense,
-                three-line,
+                two-line,
                 :key="task.id"
               )
                 v-list-item-avatar.handle
                   v-icon mdi-drag
                 v-list-item-content
-                  v-list-item-title {{ task.title }} for {{ location.name }}
+                  v-list-item-title {{ task.title }} for {{ location.title }}
                   v-list-item-subtitle
-                    span {{ task.description }}
-                    span {{ location.address }}
+                    p {{ task.description }}
                 v-list-item-avatar
                   template(v-if="task.status === 'new'")
                     v-icon(color="green", @click="") mdi-play
@@ -139,7 +138,7 @@ v-container.job(fluid)
               v-list-item.item(
                 v-for="task in unscheduledTasks",
                 dense,
-                three-line,
+                two-line,
                 :key="task.id"
               )
                 v-list-item-avatar.handle
@@ -147,8 +146,7 @@ v-container.job(fluid)
                 v-list-item-content
                   v-list-item-title {{ task.title }} for {{ location.name }}
                   v-list-item-subtitle
-                    span {{ task.description }}
-                    span {{ location.address }}
+                    p {{ task.description }}
 </template>
 
 <script>
