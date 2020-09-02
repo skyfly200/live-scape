@@ -1,9 +1,8 @@
 <template lang="pug">
 v-container.job(fluid)
   v-row(no-gutters)
-    v-btn.white--text(text)
-      v-icon mdi-arrow-left
-      span Jobs
+    v-sheet.pa-3.ma-2.text--center(dark, width="100%")
+      h1.title {{ location.title }} - {{ format(job.start.toDate(), 'PPpp') }}
   template(v-if="location === undefined")
     v-row
       v-col
@@ -156,6 +155,7 @@ v-container.job(fluid)
 <script>
 import { mapState } from "vuex";
 import draggable from "vuedraggable";
+import { format } from "date-fns";
 
 export default {
   name: "Job",
@@ -194,6 +194,7 @@ export default {
     },
   },
   methods: {
+    format: format,
     scheduleFilter(t) {
       return t.job === null && t.location.id === this.location.id;
     },
