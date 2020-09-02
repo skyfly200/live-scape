@@ -27,7 +27,7 @@ v-container.dashboard(fluid)
           v-divider
   v-row
     v-col
-      v-card.pa-2.my-3(dark)
+      v-card.pa-2.tasks(dark)
         v-card-title
           h2 Active Tasks
         v-card-text
@@ -44,7 +44,7 @@ v-container.dashboard(fluid)
                 v-list-item-subtitle {{ task.description }}
                 v-list-item-subtitle {{ task.notes }}
     v-col
-      v-card.pa-2.my-3(dark)
+      v-card.pa-2.tasks(dark)
         v-card-title
           h2 Paused Tasks
         v-card-text
@@ -62,7 +62,7 @@ v-container.dashboard(fluid)
                 v-list-item-subtitle {{ task.notes }}
   v-row
     v-col
-      v-card.pa-2(dark)
+      v-card.pa-2.tasks(dark)
         v-card-title
           h2 New Tasks
         v-card-text
@@ -79,7 +79,7 @@ v-container.dashboard(fluid)
                 v-list-item-subtitle {{ task.description }}
                 v-list-item-subtitle {{ task.notes }}
     v-col
-      v-card.pa-2(dark)
+      v-card.pa-2.tasks(dark)
         v-card-title
           h2 Completed Tasks
         v-card-text
@@ -160,4 +160,6 @@ export default {
     height: 100%
   .gauge
     margin: auto
+.tasks
+  height: 100%
 </style>
