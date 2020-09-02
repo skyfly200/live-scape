@@ -96,7 +96,8 @@ v-container.job(fluid)
               @start="drag = true",
               @end="drag = false",
               @change="updateTasks($event)",
-              draggable=".item"
+              draggable=".item",
+              handle=".handle"
             )
               v-list-item.item(
                 v-for="task in tasksList",
@@ -104,11 +105,14 @@ v-container.job(fluid)
                 three-line,
                 :key="task.id"
               )
+                v-list-item-avatar.handle
+                  v-icon mdi-drag
                 v-list-item-content
                   v-list-item-title {{ task.title }} for {{ location.name }}
-                  v-list-item-subtitle {{ task.description }}
-                  v-list-item-subtitle {{ location.address }}
-                v-list-item-icon
+                  v-list-item-subtitle
+                    span {{ task.description }}
+                    span {{ location.address }}
+                v-list-item-avatar
                   template(v-if="task.status === 'new'")
                     v-icon(color="green", @click="") mdi-play
                   template(v-else-if="task.status !== 'done'")
@@ -128,6 +132,7 @@ v-container.job(fluid)
               @end="drag = false",
               @change="updateUnscheduledTasks($event)",
               draggable=".item",
+              handle=".handle",
               :sort="false",
               :group="{ name: 'unscheduledTasks', put: true }"
             )
@@ -137,19 +142,13 @@ v-container.job(fluid)
                 three-line,
                 :key="task.id"
               )
+                v-list-item-avatar.handle
+                  v-icon mdi-drag
                 v-list-item-content
                   v-list-item-title {{ task.title }} for {{ location.name }}
-                  v-list-item-subtitle {{ task.description }}
-                  v-list-item-subtitle {{ location.address }}
-                v-list-item-icon
-                  template(v-if="task.status === 'new'")
-                    v-icon(color="green", @click="") mdi-play
-                  template(v-else-if="task.status !== 'done'")
-                    v-icon(color="yellow", @click="") mdi-pause
-                    v-icon(color="red", @click="") mdi-cancel
-                  template(v-else)
-                    v-icon(@click="") mdi-undo
-                    v-icon(color="green") mdi-check
+                  v-list-item-subtitle
+                    span {{ task.description }}
+                    span {{ location.address }}
 </template>
 
 <script>
