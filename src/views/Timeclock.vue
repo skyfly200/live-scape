@@ -210,9 +210,6 @@ export default {
       this.startTime = "";
       this.endTime = "";
     },
-    selectTask() {
-      console.log("Select Task");
-    },
   },
 };
 </script>

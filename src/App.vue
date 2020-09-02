@@ -118,7 +118,7 @@ v-app#app
     @newTask="setDialog('task')",
     @startTask="setDialog('select')",
     @newJob="setDialog('job')",
-    @startClock="startClock(); selectTask()",
+    @startClock="startClock(); setDialog('select')",
     @stopClock="stopClock(active)"
   )
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
@@ -190,9 +190,6 @@ export default Vue.extend({
         type: type,
       };
       this.drawer = false;
-    },
-    selectTask() {
-      console.log("Select Task");
     },
   },
   data: () => ({
