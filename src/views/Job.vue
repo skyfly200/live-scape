@@ -83,7 +83,7 @@ v-container.job(fluid)
             h4(v-else) None
     v-row(no-gutters)
       v-sheet.pa-3.ma-2(dark, width="100%")
-        h2.text-center {{ format(job.start.toDate(), 'PPpp') }}
+        h2.text-center {{ format(job.start.toDate(), 'PPp') }}
     v-row(no-gutters)
       v-col(cols=6)
         v-card.ma-2(dark, min-height="200px")
