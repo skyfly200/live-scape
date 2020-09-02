@@ -252,4 +252,9 @@ export default {
     flex-shrink: inherit
   .notes
     flex-grow: inherit
+.item:hover, .item:active
+  border: solid white 0.02rem
+  border-radius: 5px
+  background: rgba(1,1,1,0.2)
 </style>
+
