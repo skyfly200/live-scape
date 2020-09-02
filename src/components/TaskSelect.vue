@@ -1,12 +1,24 @@
 <template lang="pug">
-v-card.task-form.pa-6
-  v-card-title Select a Task
+v-card.task-select.pa-6
+  v-card-title Select Your Task
   v-card-text
     v-list
-      v-list-item(link, @click="$emit('done')")
-        v-list-item-title A Task
-        v-list-item-title Task description
+      v-list-item(
+        link,
+        v-for="task in tasks",
+        :key="task.id",
+        @click="selectTask(task)"
+      )
+        v-list-item-title {{ task.title }}
+        v-list-item-title {{ task.description }}
+        v-list-item-icon
+          v-icon {{ toIcon(task.status) }}
   v-card-actions
+    v-tooltip(bottom)
+      template(v-slot:activator="{ on, attrs }")
+        v-btn(icon, @click="all = !all", v-bind="attrs", v-on="on")
+          v-icon mdi-eye-plus
+      span Show All
     v-spacer
     v-btn(@click="$emit('done')", color="red") Cancel
 </template>
@@ -15,7 +27,7 @@ v-card.task-form.pa-6
 import { mapState } from "vuex";
 
 export default {
-  name: "TaskForm",
+  name: "TaskSelect",
   computed: {
     ...mapState([
       "taskSys",
@@ -31,6 +43,9 @@ export default {
       "jobs",
       ["jobs"],
     ]),
+    tasks() {
+      return this.taskSys.tasks.filter((t) => this.isSelectable(t.status));
+    },
   },
   methods: {
     locationFilter(item, queryText, itemText) {
@@ -45,8 +60,32 @@ export default {
     toRef(collection, id) {
       return db.collection(collection).doc(id);
     },
+    toIcon(status) {
+      const mapping = {
+        new: "mdi-new-box",
+        active: "mdi-bell-ring",
+        paused: "mdi-pause-octogon",
+        done: "mdi-check",
+      };
+      return mapping[status];
+    },
+    isSelectable(status) {
+      const mapping = {
+        new: true,
+        active: true,
+        paused: true,
+        done: false,
+      };
+      return mapping[status];
+    },
+    selectTask(task) {
+      console.log(task);
+      this.$emit("done");
+    },
   },
   props: ["mode"],
-  data: () => ({}),
+  data: () => ({
+    all: false,
+  }),
 };
 </script>
