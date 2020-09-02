@@ -1,8 +1,5 @@
 <template lang="pug">
 v-container.job(fluid)
-  v-row(no-gutters)
-    v-sheet.pa-3.ma-2.text--center(dark, width="100%")
-      h1.title {{ location.title }} - {{ format(job.start.toDate(), 'PPpp') }}
   template(v-if="location === undefined")
     v-row
       v-col
@@ -84,6 +81,9 @@ v-container.job(fluid)
                 v-list-item-content
                   v-list-item-subtitle {{ note }}
             h4(v-else) None
+    v-row(no-gutters)
+      v-sheet.pa-3.ma-2(dark, width="100%")
+        h2.text-center {{ format(job.start.toDate(), 'PPpp') }}
     v-row(no-gutters)
       v-col(cols=6)
         v-card.ma-2(dark, min-height="200px")
