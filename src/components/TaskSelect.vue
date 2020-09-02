@@ -3,7 +3,7 @@ v-card.task-form.pa-6
   v-card-title Select a Task
   v-card-text
     v-list
-      v-list-item(link, @click="$emit('selectTask', 'test')")
+      v-list-item(link, @click="$emit('done')")
         v-list-item-title A Task
         v-list-item-title Task description
   v-card-actions
