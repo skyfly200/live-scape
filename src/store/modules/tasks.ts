@@ -42,7 +42,8 @@ export default class Tasks extends VuexModule {
       .collection('tasks')
       .doc(payload.id)
       .update({
-        job: db.collection('jobs').doc(payload.job),
+        job:
+          payload.job === null ? null : db.collection('jobs').doc(payload.job),
       })
   }
 

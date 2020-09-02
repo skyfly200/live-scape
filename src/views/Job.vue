@@ -1,5 +1,9 @@
 <template lang="pug">
 v-container.job(fluid)
+  v-row(no-gutters)
+    v-btn.white--text(text)
+      v-icon mdi-arrow-left
+      span Jobs
   template(v-if="location === undefined")
     v-row
       v-col
@@ -31,7 +35,8 @@ v-container.job(fluid)
           template(v-if="location.contact")
             v-card-title {{ location.contact.lastName }}, {{ location.contact.firstName }}
             v-card-subtitle {{ location.contact.nickname }}
-            v-card-text
+            v-card-actions
+              v-spacer
               v-menu(offset-y)
                 template(v-slot:activator="{ on, attrs }")
                   v-btn.ma-2(color="primary", v-bind="attrs", v-on="on")
@@ -82,7 +87,7 @@ v-container.job(fluid)
             h4(v-else) None
     v-row(no-gutters)
       v-col(cols=6)
-        v-card.ma-2(dark)
+        v-card.ma-2(dark, min-height="200px")
           v-card-title Tasks List
           v-card-text
             draggable(
@@ -114,7 +119,7 @@ v-container.job(fluid)
                     v-icon(@click="") mdi-undo
                     v-icon(color="green") mdi-check
       v-col(cols=6)
-        v-card.ma-2(dark)
+        v-card.ma-2(dark, min-height="200px")
           v-card-title Unscheduled Tasks
           v-card-text
             draggable(
@@ -122,9 +127,10 @@ v-container.job(fluid)
               v-model="unscheduledTasks",
               @start="drag = true",
               @end="drag = false",
+              @change="updateUnscheduledTasks($event)",
               draggable=".item",
               :sort="false",
-              :group="{ name: 'unscheduledTasks', put: false }"
+              :group="{ name: 'unscheduledTasks', put: true }"
             )
               v-list-item.item(
                 v-for="task in unscheduledTasks",
@@ -199,9 +205,19 @@ export default {
         });
       this.$store.dispatch("jobs/setTasks", {
         tasks: this.tasksList.map((t) => t.id),
-        id: e.added.element.id,
+        id: this.jobID,
       });
-      // TODO: watch job for updates to data
+    },
+    updateUnscheduledTasks(e) {
+      if (e.added)
+        this.$store.dispatch("taskSys/setJob", {
+          job: null,
+          id: e.added.element.id,
+        });
+      this.$store.dispatch("jobs/setTasks", {
+        tasks: this.tasksList.map((t) => t.id),
+        id: this.jobID,
+      });
     },
   },
   created() {
