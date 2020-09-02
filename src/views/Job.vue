@@ -85,7 +85,7 @@ v-container.job(fluid)
       v-sheet.pa-3.ma-2(dark, width="100%")
         h2.text-center {{ format(job.start.toDate(), 'PPp') }}
     v-row(no-gutters)
-      v-col(cols=6)
+      v-col
         v-card.ma-2(dark, min-height="200px")
           v-card-title Tasks List
           v-card-text
@@ -117,7 +117,7 @@ v-container.job(fluid)
                   template(v-else)
                     v-icon(@click="") mdi-undo
                     v-icon(color="green") mdi-check
-      v-col(cols=6)
+      v-col
         v-card.ma-2(dark, min-height="200px")
           v-card-title Unscheduled Tasks
           v-card-text
