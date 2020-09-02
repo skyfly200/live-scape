@@ -26,8 +26,8 @@ v-container.job(fluid)
                 outlined
               )
                 v-icon mdi-navigation
-      v-col
-        v-card.ma-2(dark)
+      v-col.data-col
+        v-card.contact.ma-2(dark)
           template(v-if="location.contact")
             v-card-title {{ location.contact.lastName }}, {{ location.contact.firstName }}
             v-card-subtitle {{ location.contact.nickname }}
@@ -67,7 +67,7 @@ v-container.job(fluid)
                 span Email
           template(v-else)
             v-card-title No Contact Info
-        v-card.ma-2(dark)
+        v-card.notes.ma-2(dark)
           v-card-title Notes
           v-card-text
             v-list(v-if="location.notes")
@@ -113,9 +113,6 @@ v-container.job(fluid)
                   template(v-else)
                     v-icon(@click="") mdi-undo
                     v-icon(color="green") mdi-check
-              v-btn(slot="footer", @click="newTask")
-                v-icon mdi-clipboard-plus
-                span New Task
       v-col(cols=6)
         v-card.ma-2(dark)
           v-card-title Unscheduled Tasks
@@ -194,10 +191,16 @@ export default {
     scheduleFilter(t) {
       return t.job === null && t.location.id === this.location.id;
     },
-    newTask() {},
     updateTasks(e) {
-      console.log(e);
-      // push updated tasks list to db
+      if (e.added)
+        this.$store.dispatch("taskSys/setJob", {
+          job: this.jobID,
+          id: e.added.element.id,
+        });
+      this.$store.dispatch("jobs/setTasks", {
+        tasks: this.tasksList.map((t) => t.id),
+        id: e.added.element.id,
+      });
       // TODO: watch job for updates to data
     },
   },
@@ -225,4 +228,11 @@ export default {
   flex-wrap: wrap
   width: 100%
   justify-content: space-between
+.data-col
+  display: flex
+  flex-direction: column
+  .contact
+    flex-shrink: inherit
+  .notes
+    flex-grow: inherit
 </style>

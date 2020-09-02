@@ -29,6 +29,16 @@ export default class Jobs extends VuexModule {
   }
 
   @Action({ rawError: true })
+  setTasks(payload: any) {
+    return db
+      .collection('jobs')
+      .doc(payload.id)
+      .update({
+        tasks: payload.tasks.map((t: string) => db.collection('tasks').doc(t)),
+      })
+  }
+
+  @Action({ rawError: true })
   update(payload: any) {
     return db.collection('jobs').doc(payload.id).update(payload.update)
   }

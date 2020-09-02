@@ -11,7 +11,7 @@ v-container.tasks.d-flex(fluid, no-gutter)
       p {{ task.description }}
       v-btn.ma-2(
         v-if="task.job !== null",
-        :to="'/jobs/' + task.job",
+        :to="'/jobs/' + task.job.id",
         text,
         small
       ) View Job Info
