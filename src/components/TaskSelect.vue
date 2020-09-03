@@ -79,7 +79,12 @@ export default {
       return mapping[status];
     },
     selectTask(task) {
-      console.log(task);
+      this.$store.dispatch("taskSys/update", {
+        id: task.id,
+        update: {
+          status: "active",
+        },
+      });
       this.$emit("done");
     },
   },
