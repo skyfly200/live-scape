@@ -48,6 +48,15 @@ export default class Tasks extends VuexModule {
   }
 
   @Action({ rawError: true })
+  log(payload: any) {
+    return db
+      .collection('tasks')
+      .doc(payload.id)
+      .collection('logs')
+      .add(payload.log)
+  }
+
+  @Action({ rawError: true })
   update(payload: any) {
     return db.collection('tasks').doc(payload.id).update(payload.update)
   }

@@ -86,6 +86,14 @@ export default {
           status: status,
         },
       });
+      this.$store.dispatch("taskSys/log", {
+        id: task.id,
+        log: {
+          timestamp: new Date(),
+          status: status,
+          user: this.user === undefined ? null : this.user,
+        },
+      });
     },
   },
   data: () => ({}),

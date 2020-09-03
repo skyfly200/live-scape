@@ -24,12 +24,14 @@ v-card.task-select.pa-6
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "TaskSelect",
   computed: {
     ...mapState([
+      "auth",
+      ["status", "raw", "user"],
       "taskSys",
       ["tasks"],
       "location",
@@ -43,6 +45,7 @@ export default {
       "jobs",
       ["jobs"],
     ]),
+    ...mapGetters("auth", ["isLoggedIn"]),
     tasks() {
       return this.taskSys.tasks.filter((t) => this.isSelectable(t.status));
     },
@@ -83,6 +86,15 @@ export default {
         id: task.id,
         update: {
           status: "active",
+        },
+      });
+      // TODO: use server timestamp here
+      this.$store.dispatch("taskSys/log", {
+        id: task.id,
+        log: {
+          timestamp: new Date(),
+          status: "active",
+          user: this.user === undefined ? null : this.user,
         },
       });
       this.$emit("done");
