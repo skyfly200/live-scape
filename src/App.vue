@@ -5,6 +5,7 @@ v-app#app
     TaskForm(v-else-if="dialog.type === 'task'", @done="clearDialog")
     JobForm(v-else-if="dialog.type === 'job'", @done="clearDialog")
     TaskSelect(v-else-if="dialog.type === 'select'", @done="clearDialog")
+    TaskEnd(v-else-if="dialog.type === 'end'", @done="clearDialog")
   v-navigation-drawer(app, dark, right, two-line, v-model="drawer")
     v-list-item(link)
       template(v-if="isLoggedIn")
@@ -119,7 +120,7 @@ v-app#app
     @startTask="setDialog('select')",
     @newJob="setDialog('job')",
     @startClock="startClock(); setDialog('select')",
-    @stopClock="stopClock(active)"
+    @stopClock="stopClock(active); setDialog('end')"
   )
   v-bottom-navigation(app, shift, grow, dark, color="light-green")
     v-btn(to="/dash")
@@ -139,6 +140,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 import TaskForm from "@/components/TaskForm.vue";
 import TaskSelect from "@/components/TaskSelect.vue";
+import TaskEnd from "@/components/TaskEnd.vue";
 import JobForm from "@/components/JobForm.vue";
 import ActionBar from "@/components/ActionBar.vue";
 import ActionBtn from "@/components/ActionBtn.vue";
@@ -151,6 +153,7 @@ export default Vue.extend({
     ActionBtn,
     TaskForm,
     TaskSelect,
+    TaskEnd,
     JobForm,
   },
   computed: {
