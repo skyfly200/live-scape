@@ -113,12 +113,18 @@ v-container.job(fluid)
                     p {{ task.description }}
                 v-list-item-avatar
                   template(v-if="task.status === 'new'")
-                    v-icon(color="green", @click="") mdi-play
+                    v-icon(
+                      color="green",
+                      @click="setTaskStatus(task, 'active')"
+                    ) mdi-play
                   template(v-else-if="task.status !== 'done'")
-                    v-icon(color="yellow", @click="") mdi-pause
-                    v-icon(color="red", @click="") mdi-cancel
+                    v-icon(
+                      color="yellow",
+                      @click="setTaskStatus(task, 'paused')"
+                    ) mdi-pause
+                    v-icon(color="red", @click="setTaskStatus(task, 'new')") mdi-cancel
                   template(v-else)
-                    v-icon(@click="") mdi-undo
+                    v-icon(@click="setTaskStatus(task, 'active')") mdi-undo
                     v-icon(color="green") mdi-check
       v-col
         v-card.ma-2(dark, min-height="200px")
@@ -194,6 +200,14 @@ export default {
     format: format,
     scheduleFilter(t) {
       return t.job === null && t.location.id === this.location.id;
+    },
+    setTaskStatus(task, status) {
+      this.$store.dispatch("taskSys/update", {
+        id: task.id,
+        update: {
+          status: status,
+        },
+      });
     },
     updateTasks(e) {
       if (e.added)

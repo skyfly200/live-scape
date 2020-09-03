@@ -30,28 +30,28 @@ v-container.tasks.d-flex(fluid, no-gutter)
     v-divider
     v-card-actions
       template(v-if="task.status === 'new'")
-        v-btn(@click="task.status = 'active'", icon)
+        v-btn(@click="setTaskStatus(task, 'active')", icon)
           v-icon(color="green") mdi-play
       template(v-else-if="task.status !== 'done'")
-        v-btn(@click="task.status = 'new'", icon)
+        v-btn(@click="setTaskStatus(task, 'new')", icon)
           v-icon(color="red") mdi-cancel
         v-spacer
         v-btn(
           v-if="task.status === 'paused'",
-          @click="task.status = 'active'",
+          @click="setTaskStatus(task, 'active')",
           icon
         )
           v-icon(color="yellow") mdi-play
-        v-btn(v-else, @click="task.status = 'paused'", icon)
+        v-btn(v-else, @click="setTaskStatus(task, 'paused')", icon)
           v-icon(color="yellow") mdi-pause
         v-btn(
           :disabled="task.status === 'paused'",
-          @click="task.status = 'done'",
+          @click="setTaskStatus(task, 'done')",
           icon
         )
           v-icon(color="green") mdi-check
       template(v-else)
-        v-btn(@click="task.status = 'active'", icon)
+        v-btn(@click="setTaskStatus(task, 'active')", icon)
           v-icon mdi-undo
         v-spacer
         v-icon(color="green") mdi-check
@@ -77,6 +77,16 @@ export default {
       "jobs",
       ["jobs"],
     ]),
+  },
+  methods: {
+    setTaskStatus(task, status) {
+      this.$store.dispatch("taskSys/update", {
+        id: task.id,
+        update: {
+          status: status,
+        },
+      });
+    },
   },
   data: () => ({}),
 };
