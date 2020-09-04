@@ -88,7 +88,7 @@ v-app#app
       text
     )
       v-list-item-icon
-        v-icon mdi-person
+        v-icon mdi-account
       v-list-item-content
         v-list-item-title Clients
     v-list-item(
@@ -98,7 +98,7 @@ v-app#app
       text
     )
       v-list-item-icon
-        v-icon mdi-person
+        v-icon mdi-account-hard-hat
       v-list-item-content
         v-list-item-title Contractors
   v-app-bar#nav(app, extended, dark, color="green")
