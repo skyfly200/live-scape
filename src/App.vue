@@ -64,16 +64,6 @@ v-app#app
     v-list-item(
       v-if="roleFilter(['admin', 'manager'])",
       link,
-      to="/locations",
-      text
-    )
-      v-list-item-icon
-        v-icon mdi-map-marker
-      v-list-item-content
-        v-list-item-title Locations
-    v-list-item(
-      v-if="roleFilter(['admin', 'manager'])",
-      link,
       to="/contacts",
       text
     )
@@ -81,6 +71,16 @@ v-app#app
         v-icon mdi-contacts
       v-list-item-content
         v-list-item-title Contacts
+    v-list-item(
+      v-if="roleFilter(['admin', 'manager'])",
+      link,
+      to="/locations",
+      text
+    )
+      v-list-item-icon
+        v-icon mdi-map-marker
+      v-list-item-content
+        v-list-item-title Locations
     v-list-item(
       v-if="roleFilter(['admin', 'manager'])",
       link,
