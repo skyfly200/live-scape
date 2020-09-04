@@ -1,21 +1,19 @@
 <template lang="pug">
 v-card.task-end.pa-6
-  v-card-title Select Task Completed
-  v-card-text
-    v-data-table.elevation-1(
-      v-model="completed",
-      :headers="headers",
-      :items="tasks",
-      item-key="id",
-      show-select
-    )
-    v-list
-      v-list-item(v-for="task in tasks", :key="task.id")
-        v-list-item-title {{ task.title }}
-        v-list-item-title {{ task.description }}
+  v-card-title Select Completed Tasks
+  v-data-table.elevation-1(
+    v-model="completed",
+    :headers="headers",
+    :items="tasks",
+    item-key="id",
+    show-select,
+    disable-pagination,
+    hide-default-footer,
+    flat
+  )
   v-card-actions
     v-spacer
-    v-btn(@click="wrapUpTasks", color="red") Done
+    v-btn(@click="wrapUpTasks", color="green") Done
 </template>
 
 <script>
@@ -74,6 +72,25 @@ export default {
       return mapping[status];
     },
     wrapUpTasks() {
+      for (let task of this.tasks) {
+        const done = this.completed.includes(task);
+        const status = done ? "done" : "paused";
+        this.$store.dispatch("taskSys/update", {
+          id: task.id,
+          update: {
+            status: status,
+          },
+        });
+        // TODO: use server timestamp here
+        this.$store.dispatch("taskSys/log", {
+          id: task.id,
+          log: {
+            timestamp: new Date(),
+            status: status,
+            user: this.user === undefined ? null : this.user,
+          },
+        });
+      }
       this.$emit("done");
     },
   },
