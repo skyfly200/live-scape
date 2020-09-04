@@ -81,6 +81,26 @@ v-app#app
         v-icon mdi-contacts
       v-list-item-content
         v-list-item-title Contacts
+    v-list-item(
+      v-if="roleFilter(['admin', 'manager'])",
+      link,
+      to="/client",
+      text
+    )
+      v-list-item-icon
+        v-icon mdi-person
+      v-list-item-content
+        v-list-item-title Clients
+    v-list-item(
+      v-if="roleFilter(['admin', 'manager'])",
+      link,
+      to="/contractors",
+      text
+    )
+      v-list-item-icon
+        v-icon mdi-person
+      v-list-item-content
+        v-list-item-title Contractors
   v-app-bar#nav(app, extended, dark, color="green")
     v-avatar
       v-img.logo(

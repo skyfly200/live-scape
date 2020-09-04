@@ -64,6 +64,24 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: '/clients',
+    name: 'Clients',
+    component: () =>
+      import(/* webpackChunkName: "clients" */ '../views/Clients.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/contractors',
+    name: 'Contractors',
+    component: () =>
+      import(/* webpackChunkName: "contractors" */ '../views/Contractors.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/schedule',
     name: 'Schedule',
     component: () =>
