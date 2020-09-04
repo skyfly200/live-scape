@@ -84,7 +84,7 @@ v-app#app
     v-list-item(
       v-if="roleFilter(['admin', 'manager'])",
       link,
-      to="/client",
+      to="/clients",
       text
     )
       v-list-item-icon
