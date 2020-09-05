@@ -11,6 +11,8 @@ import Location from './modules/location'
 import Contacts from './modules/contacts'
 import Tools from './modules/tools'
 import Materials from './modules/materials'
+import Clients from './modules/clients'
+import Contractors from './modules/contractors'
 
 Vue.use(Vuex)
 
@@ -24,6 +26,8 @@ export default new Vuex.Store({
     contacts: Contacts,
     tools: Tools,
     materials: Materials,
+    clients: Clients,
+    contractors: Contractors,
   },
   state: {},
   mutations: {
