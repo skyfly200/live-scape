@@ -1,10 +1,10 @@
 <template lang="pug">
 v-container(fluid)
   v-row
-    v-col.locations
-      h1.page-title Locations
+    v-col.contractors
+      h1.page-title Contractors
       v-data-iterator(
-        :items="location.locations",
+        :items="contractors.contractors",
         :items-per-page.sync="itemsPerPage",
         :sort-desc="sortDesc",
         :search="search",
@@ -40,22 +40,10 @@ v-container(fluid)
               lg="3"
             )
               v-card(dark)
-                v-img.street-view(
-                  :src="streetViewURL + encodeURI(item.address)",
-                  contain
-                )
                 v-card-title {{ item.title }}
-                v-card-subtitle {{ item.address }}
                 v-divider
                 v-card-text
-                  h2 Notes:
-                  v-expansion-panels.notes
-                    v-expansion-panel.note(
-                      v-for="(note, i) in item.notes",
-                      :key="i"
-                    )
-                      v-expansion-panel-header.text-truncate {{ note }}
-                      v-expansion-panel-content {{ note }}
+                  span {{ item }}
 </template>
 
 <script>
