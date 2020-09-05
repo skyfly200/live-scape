@@ -77,6 +77,10 @@ export default {
       ["materials"],
       "jobs",
       ["jobs"],
+      "clients",
+      ["clients"],
+      "contractors",
+      ["contractors"],
     ]),
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
