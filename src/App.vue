@@ -1,8 +1,8 @@
 <template lang="pug">
 v-app#app
   v-dialog(v-model="dialog.state", width="500")
-    Login(v-if="dialog.type === 'login'", @success="clearDialog")
-    TaskForm(v-else-if="dialog.type === 'task'", @done="clearDialog")
+    Login(v-show="dialog.type === 'login'", @success="clearDialog")
+    TaskForm(v-if="dialog.type === 'task'", @done="clearDialog")
     JobForm(v-else-if="dialog.type === 'job'", @done="clearDialog")
     TaskSelect(v-else-if="dialog.type === 'select'", @done="clearDialog")
     TaskEnd(v-else-if="dialog.type === 'end'", @done="clearDialog")
