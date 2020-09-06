@@ -19,8 +19,8 @@ v-app#app
         v-list-item-content
           v-list-item-title(text) Welcome {{ user.displayName }}
       template(v-else)
-      v-list-item-content(@click="setDialog('login')")
-        v-list-item-title(text) Login or Register
+        v-list-item-content(@click="setDialog('login')")
+          v-list-item-title(text) Login or Register
     v-divider
     v-list-item
       v-list-item-icon
