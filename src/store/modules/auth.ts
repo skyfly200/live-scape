@@ -29,18 +29,16 @@ export default class Auth extends VuexModule {
   @Mutation
   setAuth(payload: any) {
     this.status = payload.status
-    let user = {
-      ...payload.user,
-    }
-    this.user = user
+    this.raw = payload.user
+    this.user = payload.user
       ? new User({
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          phone: user.phoneNumber,
-          photoURL: user.photoURL,
-          providers: user.providerData,
-          active: user.emailVerified,
+          uid: payload.user.uid,
+          name: payload.user.displayName,
+          email: payload.user.email,
+          phone: payload.user.phoneNumber,
+          photoURL: payload.user.photoURL,
+          providers: payload.user.providerData,
+          active: payload.user.emailVerified,
         })
       : null
     this.error = payload.error
@@ -125,7 +123,7 @@ export default class Auth extends VuexModule {
   }
 
   get isLoggedIn() {
-    return FirebaseAuth.currentUser !== null
+    return this.user !== null
   }
   get getUser() {
     return this.user

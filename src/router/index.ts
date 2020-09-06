@@ -116,8 +116,6 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     await store.dispatch('auth/syncAuth')
-    console.log(Auth.currentUser)
-
     if (Auth.currentUser !== null) {
       next()
     } else {

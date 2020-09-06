@@ -11,13 +11,13 @@ v-app#app
       template(v-if="isLoggedIn")
         v-list-item-avatar(color="purple")
           v-img(
-            v-if="!!raw.additionalUserInfo.profile.picture",
-            :src="raw.additionalUserInfo.profile.picture",
+            v-if="!!user.photoURL",
+            :src="user.photoURL",
             :alt="user.displayName"
           )
           span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
         v-list-item-content
-          v-list-item-title(text) Welcome {{ raw.additionalUserInfo.profile.given_name }}
+          v-list-item-title(text) Welcome {{ user.name }}
       template(v-else)
         v-list-item-content(@click="setDialog('login')")
           v-list-item-title(text) Login or Register
@@ -122,8 +122,8 @@ v-app#app
       template(v-if="isLoggedIn")
         v-avatar(color="purple")
           v-img(
-            v-if="!!raw.additionalUserInfo.profile.picture",
-            :src="raw.additionalUserInfo.profile.picture",
+            v-if="!!user.photoURL",
+            :src="user.photoURL",
             :alt="user.displayName"
           )
           span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
@@ -177,7 +177,7 @@ export default Vue.extend({
     JobForm,
   },
   computed: {
-    ...mapState("auth", ["status", "raw", "user"]),
+    ...mapState("auth", ["status", "raw", "user", "error"]),
     ...mapGetters("auth", ["isLoggedIn"]),
     ...mapState("timeclock", ["entries"]),
     running() {
