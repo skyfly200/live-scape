@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import store from '../store'
 import { Auth } from '@/firebase/auth'
 import Home from '../views/Home.vue'
 
@@ -109,12 +110,14 @@ const routes: RouteConfig[] = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes,
 })
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((route) => route.meta.requiresAuth)) {
+    await store.dispatch('auth/syncAuth')
+    console.log(Auth.currentUser)
+
     if (Auth.currentUser !== null) {
       next()
     } else {

@@ -17,7 +17,7 @@ v-app#app
           )
           span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
         v-list-item-content
-          v-list-item-title(text) Welcome {{ user.displayName }}
+          v-list-item-title(text) Welcome {{ raw.additionalUserInfo.profile.given_name }}
       template(v-else)
         v-list-item-content(@click="setDialog('login')")
           v-list-item-title(text) Login or Register
@@ -187,7 +187,7 @@ export default Vue.extend({
       return this.entries.filter((e: any) => e.end === undefined)[0];
     },
   },
-  created() {
+  beforeCreate() {
     this.$store.dispatch("jobs/bind");
     this.$store.dispatch("taskSys/bind");
     this.$store.dispatch("location/bind");
@@ -195,6 +195,7 @@ export default Vue.extend({
     this.$store.dispatch("tools/bind");
     this.$store.dispatch("materials/bind");
     this.$store.dispatch("timeclock/bind");
+    //this.$store.dispatch("auth/syncAuth");
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),

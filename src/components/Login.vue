@@ -1,10 +1,10 @@
 <template lang="pug">
-  v-card.login
-    v-card-title Login or Register below
-    v-card-text
-      #firebaseui-auth-container
-      #loader(v-if="loading")
-        v-progress-circular(indeterminate)
+v-card.login
+  v-card-title Login or Register below
+  v-card-text
+    #firebaseui-auth-container
+    #loader(v-if="loading")
+      v-progress-circular(indeterminate)
 </template>
 
 <script>
@@ -15,7 +15,7 @@ var firebaseui = require("firebaseui");
 
 export default {
   name: "Login",
-  data: function() {
+  data: function () {
     return {
       loading: true,
       ui: null,
@@ -47,18 +47,19 @@ export default {
     ...mapGetters("auth", ["isLoggedIn"]),
   },
   methods: {
-    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
+      // let isNew = authResult.additionalUserInfo.isNewUser;
       this.$store.commit("auth/setAuth", {
         status: "success",
-        raw: authResult,
+        user: authResult.user,
         error: null,
       });
       this.$emit("success", authResult);
-      return false;
+      return true;
     },
-    uiShown: function() {
+    uiShown: function () {
       // The widget is rendered. Hide the loader.
       this.loading = false;
     },
