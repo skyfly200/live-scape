@@ -65,12 +65,8 @@ export default {
     },
   },
   mounted() {
-    let mode = this.$route.query.mode;
-    let redirectURL = this.$route.query.redirectURL;
-    // Initialize the FirebaseUI Widget using Firebase.
-    this.ui = new firebaseui.auth.AuthUI(Auth);
-    // The start method will wait until the DOM is loaded.
-    this.ui.start("#firebaseui-auth-container", this.uiConfig);
+    //let redirectURL = this.$route.query.redirectURL;
+    this.$store.dispatch("auth/init", this.uiConfig);
   },
 };
 </script>

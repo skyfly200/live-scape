@@ -18,6 +18,7 @@ v-app#app
           span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
         v-list-item-content
           v-list-item-title(text) Welcome {{ user.name }}
+          v-list-item-subtitle(link, @click="signOut") Sign Out
       template(v-else)
         v-list-item-content(@click="setDialog('login')")
           v-list-item-title(text) Login or Register
@@ -195,7 +196,7 @@ export default Vue.extend({
     this.$store.dispatch("tools/bind");
     this.$store.dispatch("materials/bind");
     this.$store.dispatch("timeclock/bind");
-    //this.$store.dispatch("auth/syncAuth");
+    this.$store.dispatch("auth/syncAuth");
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
@@ -214,6 +215,9 @@ export default Vue.extend({
         type: type,
       };
       this.drawer = false;
+    },
+    signOut() {
+      this.$store.dispatch("auth/signOut");
     },
   },
   data: () => ({

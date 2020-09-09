@@ -6,24 +6,31 @@ import {
   Action,
 } from 'vuex-module-decorators'
 
-import { firestoreAction } from 'vuexfire'
-import { db } from '@/firebase/db'
+// import { firestoreAction } from 'vuexfire'
+// import { db } from '@/firebase/db'
+// import { Auth as FirebaseAuth } from '@/firebase/auth'
 
 import router from '../../router'
 import firebase from 'firebase'
 import { User } from '@/models/user'
-import { Auth as FirebaseAuth } from '@/firebase/auth'
+var firebaseui = require('firebaseui')
 
 @Module({ namespaced: true })
 export default class Auth extends VuexModule {
   status: string | null = null
   raw: object | null = null
+  ui: any = null
   user: User | null = null
   error: string | null = null
 
   @Mutation
   setStatus(status: string | null) {
     this.status = status
+  }
+
+  @Mutation
+  setUI(instance: any) {
+    this.ui = instance
   }
 
   @Mutation
@@ -45,8 +52,26 @@ export default class Auth extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async signOutAction() {
+  async init(config: any) {
+    let ui
+    // check for existing firebaseui auth instance
+    if (firebaseui.auth.AuthUI.getInstance()) {
+      // retrive the existing instance
+      ui = firebaseui.auth.AuthUI.getInstance()
+    } else {
+      // Initialize the FirebaseUI Widget using Firebase.
+      ui = new firebaseui.auth.AuthUI(firebase.auth())
+    }
+    // The start method will wait until the DOM is loaded.
+    const inst = ui.start('#firebaseui-auth-container', config)
+    // store the ui instance
+    this.context.commit('setUI', inst)
+  }
+
+  @Action({ rawError: true })
+  async signOut() {
     let t = this
+    console.log(this.ui)
     t.context.commit('setAuth', {
       status: 'success',
       token: null,
@@ -90,35 +115,6 @@ export default class Auth extends VuexModule {
           resolve(false)
         }
       })
-    })
-  }
-
-  @Action({ rawError: true })
-  signInAction(payload: { email: string; password: string }) {
-    this.context.commit('setStatus', 'loading')
-    let t = this
-    return new Promise((resolve, reject) => {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(payload.email, payload.password)
-        .then((response) => {
-          t.context.commit('setAuth', {
-            status: 'success',
-            user: response.user,
-            token: null,
-            error: null,
-          })
-          resolve()
-        })
-        .catch((error) => {
-          t.context.commit('setAuth', {
-            status: 'failure',
-            user: null,
-            token: null,
-            error: error,
-          })
-          reject(error)
-        })
     })
   }
 
