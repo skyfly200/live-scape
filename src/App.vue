@@ -121,13 +121,22 @@ v-app#app
     v-spacer
     .largeMenu
       template(v-if="isLoggedIn")
-        v-avatar(color="purple")
-          v-img(
-            v-if="!!user.photoURL",
-            :src="user.photoURL",
-            :alt="user.displayName"
-          )
-          span(v-else) {{ user.displayName.charAt(0).toUpperCase() }}
+        v-menu(open-on-hover, bottom, offset-y)
+          template(v-slot:activator="{ on, attrs }")
+            v-avatar(color="purple", v-bind="attrs", v-on="on")
+              v-img(
+                v-if="!!user.photoURL",
+                :src="user.photoURL",
+                :alt="user.displayName"
+              )
+              span(v-else) {{ user.name.charAt(0).toUpperCase() }}
+          v-list
+            v-list-item
+              v-list-item-title Welcome {{ user.name }}
+            v-list-item(link, to="/profile")
+              v-list-item-title Profile
+            v-list-item(link, @click="signOut")
+              v-list-item-title Sign Out
       template(v-else)
         v-btn(@click.stop="setDialog('login')", text) Login
     v-app-bar-nav-icon(@click="drawer = !drawer")
