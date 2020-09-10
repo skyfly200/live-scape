@@ -21,7 +21,7 @@ v-app#app
           v-list-item-subtitle(link, @click="signOut") Sign Out
       template(v-else)
         v-list-item-content(@click="setDialog('login')")
-          v-list-item-title(text) Login or Register
+          v-list-item-title(text) Sign In
     v-divider
     v-list-item
       v-list-item-icon
@@ -138,12 +138,18 @@ v-app#app
             v-list-item(link, @click="signOut")
               v-list-item-title Sign Out
       template(v-else)
-        v-btn(@click.stop="setDialog('login')", text) Login
+        v-btn(@click.stop="setDialog('login')", text) Sign In
     v-app-bar-nav-icon(@click="drawer = !drawer")
     template(v-slot:extension)
       ActionBar
   v-main(dark)
-    router-view(@newJob="setDialog('job')")
+    router-view(
+      @newJob="setDialog('job')",
+      @signIn="setDialog('login')",
+      @newTask="setDialog('task')",
+      @startTask="setDialog('select')",
+      @stopClock="setDialog('end')"
+    )
   ActionBtn(
     :role="role",
     @newTask="setDialog('task')",
