@@ -88,6 +88,9 @@ v-container.job(fluid)
       v-col
         v-card.ma-2(dark, min-height="200px")
           v-card-title Tasks List
+            v-spacer
+            v-btn(icon, dark, @click="$emit('newTask')") 
+              v-icon mdi-plus-circle
           v-card-text
             draggable(
               tag="v-list",
