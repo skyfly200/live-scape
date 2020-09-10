@@ -1,6 +1,6 @@
 <template lang="pug">
 v-container.schedule(fluid)
-  v-row
+  v-row(width="100%")
     v-col
       v-select(
         v-model="type",
@@ -11,8 +11,11 @@ v-container.schedule(fluid)
         outlined,
         dense
       )
-    v-col
+    v-col.cal-btns
       v-btn(outlined, dark, @click="addJob") Add A Job
+      v-spacer
+      v-btn(icon, text, dark, @click="updateEvents")
+        v-icon mdi-refresh
   v-row
     v-col.controls
       v-btn(
@@ -61,7 +64,7 @@ v-container.schedule(fluid)
           :activator="selectedElement",
           offset-x
         )
-          v-card(color="grey lighten-4", min-width="350px", flat)
+          v-card(color="grey lighten-4", min-width="350px", text)
             v-toolbar(:color="selectedEvent.color", dark)
               v-btn(icon)
                 v-icon mdi-pencil
@@ -112,15 +115,7 @@ export default {
     },
   },
   mounted() {
-    this.events = this.jobs.jobs.map((j, i) => ({
-      job: j,
-      name: i + " - " + j.location.title,
-      description: "Tasks: " + j.tasks.length,
-      start: j.start.toDate(),
-      end: j.end.toDate(),
-      timed: true,
-      color: "purple",
-    }));
+    this.updateEvents();
   },
   data() {
     return {
@@ -140,6 +135,17 @@ export default {
     };
   },
   methods: {
+    updateEvents() {
+      this.events = this.jobs.jobs.map((j, i) => ({
+        job: j,
+        name: i + " - " + j.location.title,
+        description: "Tasks: " + j.tasks.length,
+        start: j.start.toDate(),
+        end: j.end.toDate(),
+        timed: true,
+        color: "purple",
+      }));
+    },
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
@@ -178,4 +184,7 @@ export default {
   position: relative
 .calendar
   height: 60vh
+.cal-btns
+  display: flex
+  flex-direction: row
 </style>

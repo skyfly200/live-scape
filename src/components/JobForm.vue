@@ -109,6 +109,8 @@ export default {
       this.job[key][param] = value;
       if (key === "start") {
         // update end acording to duration
+        // TODO: use set to update minutes to
+        // TODO: update end date with start
         const newEnd = add(this.compileDate(this.job.start), this.job.duration);
         this.job.end = this.splitDate(newEnd);
         console.log(this.splitDate(newEnd));
