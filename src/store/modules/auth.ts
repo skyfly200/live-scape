@@ -82,7 +82,7 @@ export default class Auth extends VuexModule {
       .auth()
       .signOut()
       .then((response) => {
-        if (router.currentRoute.name !== 'auth') router.push('auth')
+        if (router.currentRoute.name !== 'home') router.push('/')
       })
       .catch((error) => {
         t.context.commit('setAuth', {
