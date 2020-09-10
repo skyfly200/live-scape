@@ -151,6 +151,7 @@ v-app#app
       @stopClock="setDialog('end')"
     )
   ActionBtn(
+    v-if="isLoggedIn",
     :role="role",
     @newTask="setDialog('task')",
     @startTask="setDialog('select')",
