@@ -83,6 +83,15 @@ const routes: RouteConfig[] = [
     },
   },
   {
+    path: '/admin',
+    name: 'Admin',
+    component: () =>
+      import(/* webpackChunkName: "admin" */ '../views/Admin.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/schedule',
     name: 'Schedule',
     component: () =>

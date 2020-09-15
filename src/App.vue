@@ -42,6 +42,11 @@ v-app#app
         v-icon mdi-gauge
       v-list-item-content
         v-list-item-title Dashboard
+    v-list-item(link, v-if="roleFilter(['admin'])", to="/admin", text)
+      v-list-item-icon
+        v-icon mdi-account-cog
+      v-list-item-content
+        v-list-item-title Admin
     v-list-item(link, to="/schedule", text)
       v-list-item-icon
         v-icon mdi-calendar
@@ -164,6 +169,9 @@ v-app#app
     v-btn(to="/dash")
       span Dash
       v-icon mdi-gauge
+    v-btn(to="/admin", v-if="roleFilter(['admin'])")
+      span Admin
+      v-icon mdi-account-cog
     v-btn(to="/schedule")
       span Schedule
       v-icon mdi-calendar
