@@ -39,19 +39,20 @@ v-app#app
     v-divider
     v-list-item(link, to="/dash", text)
       v-list-item-icon
-        v-icon mdi-desk
+        v-icon mdi-gauge
       v-list-item-content
         v-list-item-title Dashboard
-    v-list-item(link, to="/clock", text)
-      v-list-item-icon
-        v-icon mdi-clock
-      v-list-item-content
-        v-list-item-title Timeclock
     v-list-item(link, to="/schedule", text)
       v-list-item-icon
         v-icon mdi-calendar
       v-list-item-content
         v-list-item-title Schedule
+    v-list-item(link, to="/clock", text)
+      v-list-item-icon
+        v-icon mdi-clock
+      v-list-item-content
+        v-list-item-title Timeclock
+    v-divider
     v-list-item(link, to="/jobs", text)
       v-list-item-icon
         v-icon mdi-notebook
