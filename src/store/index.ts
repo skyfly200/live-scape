@@ -11,6 +11,7 @@ import Location from './modules/location'
 import Contacts from './modules/contacts'
 import Tools from './modules/tools'
 import Materials from './modules/materials'
+import Users from './modules/clients'
 import Clients from './modules/clients'
 import Contractors from './modules/contractors'
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     contacts: Contacts,
     tools: Tools,
     materials: Materials,
+    users: Users,
     clients: Clients,
     contractors: Contractors,
   },
