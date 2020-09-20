@@ -23,20 +23,6 @@ v-app#app
         v-list-item-content(@click="setDialog('login')")
           v-list-item-title(text) Sign In
     v-divider
-    v-list-item
-      v-list-item-icon
-        v-icon mdi-account-star
-      v-list-item-content
-        v-select(
-          :items="roles",
-          v-model.lazy="role",
-          label="User Role",
-          dense,
-          outlined,
-          hide-details,
-          hide-selected
-        )
-    v-divider
     v-list-item(link, to="/dash", text)
       v-list-item-icon
         v-icon mdi-gauge
