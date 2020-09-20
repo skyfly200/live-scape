@@ -15,7 +15,7 @@ var firebaseui = require("firebaseui");
 
 export default {
   name: "Login",
-  data: function () {
+  data: function() {
     return {
       loading: true,
       ui: null,
@@ -31,7 +31,6 @@ export default {
           // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         ],
         // Terms of service url.
         tosUrl:
@@ -47,7 +46,7 @@ export default {
     ...mapGetters("auth", ["isLoggedIn"]),
   },
   methods: {
-    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
       // let isNew = authResult.additionalUserInfo.isNewUser;
@@ -59,7 +58,7 @@ export default {
       this.$emit("success", authResult);
       return true;
     },
-    uiShown: function () {
+    uiShown: function() {
       // The widget is rendered. Hide the loader.
       this.loading = false;
     },
