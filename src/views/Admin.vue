@@ -19,6 +19,14 @@ v-container(fluid)
           dark,
           :search="search"
         )
+          template( v-slot:item.photoURL="{ item }")
+            v-avatar(color="purple")
+              v-img(
+                v-if="!!item.photoURL",
+                :src="item.photoURL",
+                :alt="item.displayName"
+              )
+              span(v-else) {{ item.displayName.charAt(0).toUpperCase() }}
           template( v-slot:item.role="{ item }")
             template(v-if="editing === item.id")
               v-select(v-model="role" :items="roles" @click:append-outer="save" dense width="50px" append-outer-icon="mdi-content-save")
@@ -60,12 +68,15 @@ export default {
     roles: ["new", "contractor", "client", "manager", "admin"],
     headers: [
       {
-        text: "Name",
+        text: "Avatar",
         align: "start",
-        value: "name",
+        sortable: false,
+        filterable: false,
+        value: "photoURL",
       },
+      { text: "Name", value: "displayName" },
       { text: "Email", value: "email" },
-      { text: "Role", value: "role" },
+      { text: "Role", align: "end", value: "role" },
     ],
     search: "",
   }),
