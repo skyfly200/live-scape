@@ -36,12 +36,32 @@ v-container(fluid)
 </template>
 
 <script>
+import { Auth } from "@/firebase/auth";
 import { mapState } from "vuex";
 
 export default {
   name: "Admin",
   computed: {
     ...mapState(["users", ["users"]]),
+  },
+  beforeMount() {
+    Auth.currentUser
+      .getIdTokenResult()
+      .then((idTokenResult) => {
+        console.log("Role: ", idTokenResult.claims.role);
+        // Confirm the user is an Admin.
+        if (
+          !!idTokenResult.claims.role &&
+          idTokenResult.claims.role === "admin"
+        ) {
+          // Show admin UI.
+        } else {
+          // Show regular user UI.
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     edit(item) {
@@ -55,7 +75,7 @@ export default {
       this.$http
         .get(baseURI + "?uid=" + this.editing + "&role=" + this.role)
         .then((result) => {
-          console.log(this.editing, this.role, result);
+          console.log(this.editing, this.role);
         });
       // clear role edit state
       this.editing = null;
