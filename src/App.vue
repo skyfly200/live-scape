@@ -169,6 +169,9 @@ v-app#app
 <script lang="ts">
 import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
+
+import { Auth as FirebaseAuth } from "@/firebase/auth";
+
 import Login from "@/components/Login.vue";
 import TaskForm from "@/components/TaskForm.vue";
 import TaskSelect from "@/components/TaskSelect.vue";
@@ -199,8 +202,11 @@ export default Vue.extend({
       return this.entries.filter((e: any) => e.end === undefined)[0];
     },
   },
-  beforeCreate() {
-    this.$store.dispatch("auth/syncAuth");
+  beforeMount() {
+    const t = this;
+    this.$store.dispatch("auth/syncAuth").then(() => {
+      t.getRole();
+    });
     try {
       this.$store.dispatch("jobs/bind");
       this.$store.dispatch("taskSys/bind");
@@ -218,6 +224,18 @@ export default Vue.extend({
     ...mapActions("timeclock", ["startClock", "stopClock"]),
     roleFilter(roles: Array<string>) {
       return roles.reduce((acc, role) => acc || role === this.role, false);
+    },
+    getRole() {
+      FirebaseAuth.currentUser
+        .getIdTokenResult()
+        .then((idTokenResult: any) => {
+          if (!!idTokenResult.claims.role) {
+            this.role = idTokenResult.claims.role;
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     },
     clearDialog() {
       this.dialog = {
@@ -237,8 +255,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    role: "admin",
-    roles: ["admin", "manager", "contractor"],
+    role: "",
     dialog: {
       state: false,
       type: "",

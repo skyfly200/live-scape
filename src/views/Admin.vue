@@ -36,7 +36,6 @@ v-container(fluid)
 </template>
 
 <script>
-import { Auth } from "@/firebase/auth";
 import { mapState } from "vuex";
 
 export default {
