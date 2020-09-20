@@ -165,7 +165,7 @@ v-app#app
     @startClock="startClock(); setDialog('select')",
     @stopClock="stopClock(active); setDialog('end')"
   )
-  v-bottom-navigation(app, shift, grow, dark, color="light-green")
+  v-bottom-navigation(v-if="isLoggedIn" app, shift, grow, dark, color="light-green")
     v-btn(to="/dash")
       span Dash
       v-icon mdi-gauge
@@ -215,14 +215,18 @@ export default Vue.extend({
   },
   beforeCreate() {
     this.$store.dispatch("auth/syncAuth");
-    this.$store.dispatch("jobs/bind");
-    this.$store.dispatch("taskSys/bind");
-    this.$store.dispatch("location/bind");
-    this.$store.dispatch("contacts/bind");
-    this.$store.dispatch("tools/bind");
-    this.$store.dispatch("materials/bind");
-    this.$store.dispatch("timeclock/bind");
-    this.$store.dispatch("users/bind");
+    try {
+      this.$store.dispatch("jobs/bind");
+      this.$store.dispatch("taskSys/bind");
+      this.$store.dispatch("location/bind");
+      this.$store.dispatch("contacts/bind");
+      this.$store.dispatch("tools/bind");
+      this.$store.dispatch("materials/bind");
+      this.$store.dispatch("timeclock/bind");
+      this.$store.dispatch("users/bind");
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
