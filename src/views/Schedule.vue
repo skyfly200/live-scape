@@ -107,6 +107,8 @@ export default {
       ["materials"],
       "jobs",
       ["jobs"],
+      "users",
+      ["users"],
     ]),
     intervals() {
       const earliest = 0;

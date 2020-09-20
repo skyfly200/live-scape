@@ -27,22 +27,7 @@ import { mapState } from "vuex";
 export default {
   name: "Admin",
   computed: {
-    ...mapState([
-      "users",
-      ["users"],
-      "taskSys",
-      ["tasks"],
-      "location",
-      ["locations"],
-      "contacts",
-      ["contacts"],
-      "tools",
-      ["tools"],
-      "materials",
-      ["materials"],
-      "jobs",
-      ["jobs"],
-    ]),
+    ...mapState(["users", ["users"]]),
   },
   data: () => ({
     headers: [

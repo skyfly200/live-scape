@@ -12,8 +12,8 @@ import Contacts from "./modules/contacts";
 import Tools from "./modules/tools";
 import Materials from "./modules/materials";
 import Users from "./modules/users";
-import Clients from "./modules/clients";
-import Contractors from "./modules/contractors";
+// import Clients from "./modules/clients";
+// import Contractors from "./modules/contractors";
 
 Vue.use(Vuex);
 
@@ -28,8 +28,6 @@ export default new Vuex.Store({
     tools: Tools,
     materials: Materials,
     users: Users,
-    clients: Clients,
-    contractors: Contractors,
   },
   state: {},
   mutations: {

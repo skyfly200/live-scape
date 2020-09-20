@@ -214,6 +214,7 @@ export default Vue.extend({
     },
   },
   beforeCreate() {
+    this.$store.dispatch("auth/syncAuth");
     this.$store.dispatch("jobs/bind");
     this.$store.dispatch("taskSys/bind");
     this.$store.dispatch("location/bind");
@@ -221,7 +222,7 @@ export default Vue.extend({
     this.$store.dispatch("tools/bind");
     this.$store.dispatch("materials/bind");
     this.$store.dispatch("timeclock/bind");
-    this.$store.dispatch("auth/syncAuth");
+    this.$store.dispatch("users/bind");
   },
   methods: {
     ...mapActions("timeclock", ["startClock", "stopClock"]),
