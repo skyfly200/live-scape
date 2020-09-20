@@ -88,6 +88,7 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "admin" */ "../views/Admin.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["admin"],
     },
   },
   {
@@ -125,7 +126,29 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     if (Auth.currentUser === null) await store.dispatch("auth/syncAuth");
     if (Auth.currentUser !== null) {
-      next();
+      if (to.matched.some((route) => !!route.meta.roleAccess)) {
+        Auth.currentUser
+          .getIdTokenResult()
+          .then((idTokenResult: any) => {
+            console.log("Role: ", idTokenResult.claims.role);
+            // Confirm the user is an Admin.
+            if (
+              !!idTokenResult.claims.role &&
+              to.matched.some((route) =>
+                route.meta.roleAccess.includes(idTokenResult.claims.role)
+              )
+            ) {
+              next();
+            } else {
+              next("/dash");
+            }
+          })
+          .catch((error: any) => {
+            console.log(error);
+          });
+      } else {
+        next();
+      }
     } else {
       next("/");
     }

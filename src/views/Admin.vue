@@ -44,25 +44,6 @@ export default {
   computed: {
     ...mapState(["users", ["users"]]),
   },
-  beforeMount() {
-    Auth.currentUser
-      .getIdTokenResult()
-      .then((idTokenResult) => {
-        console.log("Role: ", idTokenResult.claims.role);
-        // Confirm the user is an Admin.
-        if (
-          !!idTokenResult.claims.role &&
-          idTokenResult.claims.role === "admin"
-        ) {
-          // Show admin UI.
-        } else {
-          // Show regular user UI.
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
   methods: {
     edit(item) {
       this.editing = item.uid;
