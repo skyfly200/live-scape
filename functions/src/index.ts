@@ -108,6 +108,7 @@ exports.setRole = functions.https.onRequest(async (req, res) => {
   });
   // Send back a response
   res.status(200);
+  res.send(writeResult);
 });
 // [END setRole]
 

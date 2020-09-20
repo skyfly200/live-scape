@@ -53,7 +53,7 @@ export default {
       const baseURI =
         "https://us-central1-landscaping-business-manager.cloudfunctions.net/setRole";
       this.$http
-        .get(baseURI + "?uid='" + this.editing + "'&role='" + this.role + "'")
+        .get(baseURI + "?uid=" + this.editing + "&role=" + this.role)
         .then((result) => {
           console.log(this.editing, this.role, result);
         });
