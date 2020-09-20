@@ -130,7 +130,6 @@ router.beforeEach(async (to, from, next) => {
         Auth.currentUser
           .getIdTokenResult()
           .then((idTokenResult: any) => {
-            console.log("Role: ", idTokenResult.claims.role);
             // Confirm the user is an Admin.
             if (
               !!idTokenResult.claims.role &&
