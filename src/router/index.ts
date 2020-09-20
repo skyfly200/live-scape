@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import store from "../store";
+
 import { Auth } from "@/firebase/auth";
 
 Vue.use(VueRouter);
@@ -18,6 +19,7 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "dash" */ "../views/Dashboard.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["manager", "contractor", "admin"],
     },
   },
   {
@@ -26,6 +28,7 @@ const routes: RouteConfig[] = [
     component: () => import(/* webpackChunkName: "jobs" */ "../views/Jobs.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["manager", "contractor", "admin"],
     },
   },
   {
@@ -34,6 +37,7 @@ const routes: RouteConfig[] = [
     component: () => import(/* webpackChunkName: "job" */ "../views/Job.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["manager", "contractor", "admin"],
     },
   },
   {
@@ -43,6 +47,7 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "tasks" */ "../views/Tasks.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["manager", "contractor", "admin"],
     },
   },
   {
@@ -98,6 +103,7 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "schedule" */ "../views/Schedule.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["manager", "contractor", "admin"],
     },
   },
   {
@@ -107,6 +113,7 @@ const routes: RouteConfig[] = [
       import(/* webpackChunkName: "timeclock" */ "../views/Timeclock.vue"),
     meta: {
       requiresAuth: true,
+      roleAccess: ["manager", "contractor", "admin"],
     },
   },
   {
