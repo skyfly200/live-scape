@@ -37,15 +37,18 @@ export default {
   },
   methods: {
     edit(item) {
-      this.editing = item.id;
+      this.editing = item.uid;
       this.role = item.role;
     },
     save() {
       // call setRole cloud function
-      // const baseURI = "https://us-central1-landscaping-business-manager.cloudfunctions.net/setRole";
-      // this.$http.get(baseURI + "?id='" + this.editing + "'&role='" + this.role + "'").then((result) => {
-      // console.log(this.editing, this.role, result);
-      // });
+      const baseURI =
+        "https://us-central1-landscaping-business-manager.cloudfunctions.net/setRole";
+      this.$http
+        .get(baseURI + "?uid='" + this.editing + "'&role='" + this.role + "'")
+        .then((result) => {
+          console.log(this.editing, this.role, result);
+        });
       // clear role edit state
       this.editing = null;
       this.role = "";

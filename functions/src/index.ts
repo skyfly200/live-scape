@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import "firebase-functions";
+//import "firebase-functions";
 import * as nodemailer from "nodemailer";
 
 // import { User } from "../../src/models/user";
@@ -35,7 +35,7 @@ const APP_NAME = "LiveScape - Earth Accents Landscaping";
  * Sends a welcome email to new user.
  */
 // [START onCreateTrigger]
-exports.newUser = functions.auth.user().onCreate((user) => {
+exports.newUser = functions.auth.user().onCreate(async (user) => {
   // [END onCreateTrigger]
   // [START eventAttributes]
   const email = user.email; // The email of the user.
@@ -57,9 +57,14 @@ exports.newUser = functions.auth.user().onCreate((user) => {
   };
 
   // Add a new document in collection "users" with uid key
-  db.collection("users")
+  await db
+    .collection("users")
     .doc(user.uid)
     .set(profile);
+
+  // Set admin privilege on the user corresponding to uid.
+  // The new custom claims will propagate to the user's ID token the next time a new one is issued.
+  await admin.auth().setCustomUserClaims(user.uid, { role: "new" });
 
   return sendWelcomeEmail(email, displayName);
 });
@@ -70,12 +75,13 @@ exports.newUser = functions.auth.user().onCreate((user) => {
  * Send an account deleted email confirmation to users who delete their accounts.
  */
 // [START onDeleteTrigger]
-exports.deleteUser = functions.auth.user().onDelete((user) => {
+exports.deleteUser = functions.auth.user().onDelete(async (user) => {
   // [END onDeleteTrigger]
   const email = user.email;
   const displayName = user.displayName;
 
-  db.collection("users")
+  await db
+    .collection("users")
     .doc(user.uid)
     .update({ active: false });
 
@@ -87,8 +93,8 @@ exports.deleteUser = functions.auth.user().onDelete((user) => {
 // Take a user uid and a role to apply to it
 exports.setRole = functions.https.onRequest(async (req, res) => {
   // Grab the parameters
-  const uid = req.query.uid;
-  const role = req.query.role;
+  const uid = req.query.uid ? req.query.uid.toString() : "";
+  const role = req.query.role ? req.query.role.toString() : "";
   // Push the new role into Cloud Firestore using the Firebase Admin SDK.
   const writeResult = await db
     .collection("users")
@@ -96,12 +102,9 @@ exports.setRole = functions.https.onRequest(async (req, res) => {
     .update({ role: role });
   // Set admin privilege on the user corresponding to uid.
   // The new custom claims will propagate to the user's ID token the next time a new one is issued.
-  const claimResult = await admin
-    .auth()
-    .setCustomUserClaims(uid, { role: role });
+  await admin.auth().setCustomUserClaims(uid, { role: role });
   functions.logger.info("Role Set Results", {
     writeResult: writeResult,
-    claimResult: claimResult,
   });
   // Send back a response
   res.status(200);
