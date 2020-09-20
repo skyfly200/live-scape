@@ -72,7 +72,14 @@ export default {
       ["materials"],
       "jobs",
       ["jobs"],
+      "users",
+      ["users"],
     ]),
+    contractors() {
+      this.users.users.filter((user) =>
+        ["contractor", "manager"].includes(user.role)
+      );
+    },
   },
   methods: {
     locationFilter(item, queryText, itemText) {
@@ -167,7 +174,6 @@ export default {
         hours: 2,
       },
       blankJob: {},
-      contractors: ["Gunner", "Marrie"],
       valid: false,
     };
   },
