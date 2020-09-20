@@ -192,8 +192,8 @@ export default Vue.extend({
     JobForm,
   },
   computed: {
-    ...mapState("auth", ["status", "raw", "user", "error"]),
-    ...mapGetters("auth", ["isLoggedIn"]),
+    ...mapState("auth", ["status", "raw", "user", "error", "token"]),
+    ...mapGetters("auth", ["isLoggedIn", "role"]),
     ...mapState("timeclock", ["entries"]),
     running() {
       return this.entries.filter((e: any) => e.end === undefined).length > 0;
@@ -203,10 +203,7 @@ export default Vue.extend({
     },
   },
   beforeMount() {
-    const t = this;
-    this.$store.dispatch("auth/syncAuth").then(() => {
-      t.getRole();
-    });
+    this.$store.dispatch("auth/syncAuth");
     try {
       this.$store.dispatch("jobs/bind");
       this.$store.dispatch("taskSys/bind");
@@ -224,18 +221,6 @@ export default Vue.extend({
     ...mapActions("timeclock", ["startClock", "stopClock"]),
     roleFilter(roles: Array<string>) {
       return roles.reduce((acc, role) => acc || role === this.role, false);
-    },
-    getRole() {
-      FirebaseAuth.currentUser
-        .getIdTokenResult()
-        .then((idTokenResult: any) => {
-          if (!!idTokenResult.claims.role) {
-            this.role = idTokenResult.claims.role;
-          }
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
     },
     clearDialog() {
       this.dialog = {
@@ -255,7 +240,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    role: "",
     dialog: {
       state: false,
       type: "",
