@@ -21,10 +21,10 @@ v-container(fluid)
         )
           template( v-slot:item.role="{ item }")
             template(v-if="editing === item.id")
-              v-select(:value="item.role" :items="roles" @click:append-outer="save" dense width="20rem" append-outer-icon="mdi-content-save")
+              v-select(v-model="role" :items="roles" @click:append-outer="save" dense width="50px" append-outer-icon="mdi-content-save")
             template(v-else)
               span {{ item.role }}
-              v-icon.role-btn(@click="edit(item.id)" link) mdi-pencil
+              v-icon.role-btn(@click="edit(item)" link) mdi-pencil
 </template>
 
 <script>
@@ -36,11 +36,15 @@ export default {
     ...mapState(["users", ["users"]]),
   },
   methods: {
-    edit(id) {
-      this.editing = id;
+    edit(item) {
+      this.editing = item.id;
+      this.role = item.role;
     },
     save() {
+      console.log(this.editing, this.role);
+      // clear edit data
       this.editing = null;
+      this.role = "";
     },
   },
   data: () => ({
