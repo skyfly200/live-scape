@@ -136,8 +136,6 @@ router.beforeEach(async (to, from, next) => {
       if (to.matched.some((route) => !!route.meta.roleAccess)) {
         // Confirm the user has a matching role
         const role = store.state.auth.token.claims.role;
-        console.log(role);
-
         if (to.matched.some((route) => route.meta.roleAccess.includes(role))) {
           next();
         } else {
