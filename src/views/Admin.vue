@@ -41,8 +41,12 @@ export default {
       this.role = item.role;
     },
     save() {
-      console.log(this.editing, this.role);
-      // clear edit data
+      // call setRole cloud function
+      // const baseURI = "https://jsonplaceholder.typicode.com/setRole";
+      // this.$http.get(baseURI + "?id='" + this.editing + "'&role='" + this.role + "'").then((result) => {
+      // console.log(this.editing, this.role, result);
+      // });
+      // clear role edit state
       this.editing = null;
       this.role = "";
     },
