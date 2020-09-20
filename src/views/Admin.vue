@@ -42,7 +42,7 @@ export default {
     },
     save() {
       // call setRole cloud function
-      // const baseURI = "https://jsonplaceholder.typicode.com/setRole";
+      // const baseURI = "https://us-central1-landscaping-business-manager.cloudfunctions.net/setRole";
       // this.$http.get(baseURI + "?id='" + this.editing + "'&role='" + this.role + "'").then((result) => {
       // console.log(this.editing, this.role, result);
       // });
