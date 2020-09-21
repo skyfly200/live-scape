@@ -207,19 +207,13 @@ export default Vue.extend({
       if (this.$route.query.mode && this.$route.query.mode === "select") this.setDialog('login')
     }
   },
-  beforeMount() {
-    this.$store.dispatch("auth/syncAuth");
-    try {
-      this.$store.dispatch("jobs/bind");
-      this.$store.dispatch("taskSys/bind");
-      this.$store.dispatch("location/bind");
-      this.$store.dispatch("contacts/bind");
-      this.$store.dispatch("tools/bind");
-      this.$store.dispatch("materials/bind");
-      this.$store.dispatch("timeclock/bind");
-      this.$store.dispatch("users/bind");
-    } catch (error) {
-      console.error(error);
+  async beforeMount() {
+    await this.$store.dispatch("auth/syncAuth");
+    const t = this;
+    if (this.isLoggedIn) {
+      let binds = ["jobs", "taskSys", "location", "contacts", "tools", "materials", "timeclock", "users"].map(function(m: any) {
+        t.$store.dispatch(m + "/bind");
+      });
     }
   },
   methods: {
