@@ -4,7 +4,7 @@ v-container(fluid)
     v-col.clients
       h1.page-title Clients
       v-data-iterator(
-        :items="clients.clients",
+        :items="clients",
         :items-per-page.sync="itemsPerPage",
         :sort-desc="sortDesc",
         :search="search",
@@ -65,11 +65,12 @@ export default {
       ["materials"],
       "jobs",
       ["jobs"],
-      "clients",
-      ["clients"],
-      "contractors",
-      ["contractors"],
+      "users",
+      ["users"],
     ]),
+    clients() {
+      return [];
+    },
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },

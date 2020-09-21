@@ -4,7 +4,7 @@ v-container(fluid)
     v-col.contractors
       h1.page-title Contractors
       v-data-iterator(
-        :items="contractors.contractors",
+        :items="contractors",
         :items-per-page.sync="itemsPerPage",
         :sort-desc="sortDesc",
         :search="search",
@@ -65,11 +65,12 @@ export default {
       ["materials"],
       "jobs",
       ["jobs"],
-      "clients",
-      ["clients"],
-      "contractors",
-      ["contractors"],
+      "users",
+      ["users"],
     ]),
+    contractors() {
+      return [];
+    },
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage);
     },
