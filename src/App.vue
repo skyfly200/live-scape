@@ -202,6 +202,11 @@ export default Vue.extend({
       return this.entries.filter((e: any) => e.end === undefined)[0];
     },
   },
+  watch: {
+    $route(to, from) {
+      if (this.$route.query.mode && this.$route.query.mode === "select") this.setDialog('login')
+    }
+  },
   beforeMount() {
     this.$store.dispatch("auth/syncAuth");
     try {
