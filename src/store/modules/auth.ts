@@ -77,7 +77,6 @@ export default class Auth extends VuexModule {
   @Action({ rawError: true })
   async signOut() {
     let t = this;
-    console.log(this.ui);
     t.context.commit("setAuth", {
       status: "success",
       token: null,
