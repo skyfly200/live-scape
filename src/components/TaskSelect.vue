@@ -1,18 +1,17 @@
 <template lang="pug">
 v-card.task-select.pa-6
-  v-card-title Select Your Task
+  v-card-title Select Your Task(s)
   v-card-text
-    v-list
-      v-list-item(
-        link,
-        v-for="task in tasks",
-        :key="task.id",
-        @click="selectTask(task)"
-      )
-        v-list-item-title {{ task.title }}
-        v-list-item-title {{ task.description }}
-        v-list-item-icon
-          v-icon {{ toIcon(task.status) }}
+    v-data-table.elevation-1(
+      v-model="selected",
+      :headers="headers",
+      :items="tasks",
+      item-key="id",
+      show-select,
+      disable-pagination,
+      hide-default-footer,
+      flat
+    )
   v-card-actions
     v-tooltip(bottom)
       template(v-slot:activator="{ on, attrs }")
@@ -20,7 +19,7 @@ v-card.task-select.pa-6
           v-icon mdi-eye-plus
       span Show All
     v-spacer
-    v-btn(@click="$emit('done')", color="red") Cancel
+    v-btn(@click="startTasks", color="green") Done
 </template>
 
 <script>
@@ -81,6 +80,10 @@ export default {
       };
       return mapping[status];
     },
+    startTasks() {
+      this.selected.map(t => this.selectTask(t));
+      this.$emit("done");
+    },
     selectTask(task) {
       this.$store.dispatch("taskSys/update", {
         id: task.id,
@@ -97,12 +100,23 @@ export default {
           user: this.user === undefined ? null : this.user,
         },
       });
-      this.$emit("done");
     },
   },
   props: ["mode"],
   data: () => ({
     all: false,
+    selected: [],
+    headers: [
+      {
+        text: "Title",
+        align: "start",
+        value: "title",
+      },
+      {
+        text: "Status",
+        value: "status",
+      },
+    ],
   }),
 };
 </script>
